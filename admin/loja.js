@@ -315,8 +315,20 @@ async function loadStoreSettings() {
 
         const data =
             snapshot.data();
+        const storeLogoPreview =
+    document.getElementById(
+        "store-logo-preview"
+    );
 
+if (
+    storeLogoPreview &&
+    data.logoUrl
+) {
 
+    storeLogoPreview.src =
+        data.logoUrl;
+
+}
         storeName.value =
             data.name || "Vellor Shoes";
 
