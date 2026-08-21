@@ -1,0 +1,524 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>Loja | Vellor Shoes</title>
+
+    <link
+        rel="stylesheet"
+        href="admin.css"
+    >
+
+</head>
+
+<body>
+
+    <!-- ==================================================
+         SIDEBAR
+    ================================================== -->
+
+    <aside class="admin-sidebar">
+
+        <div class="admin-sidebar-logo">
+
+            <img
+                src="../assets/logo.png"
+                alt="Vellor Shoes"
+            >
+
+        </div>
+
+
+        <nav class="admin-sidebar-nav">
+
+            <div class="admin-nav-section">
+
+                <span class="admin-nav-label">
+                    CATÁLOGO
+                </span>
+
+                <a
+                    href="produtos.html"
+                    class="admin-nav-item"
+                >
+                    ◇
+                    <span>Produtos</span>
+                </a>
+
+                <a
+                    href="menu.html"
+                    class="admin-nav-item"
+                >
+                    ☰
+                    <span>Menu da Loja</span>
+                </a>
+
+            </div>
+
+
+            <div class="admin-nav-section">
+
+                <span class="admin-nav-label">
+                    OPERAÇÃO
+                </span>
+
+                <a
+                    href="estoque.html"
+                    class="admin-nav-item"
+                >
+                    ▤
+                    <span>Estoque</span>
+                </a>
+
+                <a
+                    href="vendas.html"
+                    class="admin-nav-item"
+                >
+                    ▣
+                    <span>Vendas</span>
+                </a>
+
+            </div>
+
+
+            <div class="admin-nav-section">
+
+                <span class="admin-nav-label">
+                    LOJA
+                </span>
+
+                <a
+                    href="loja.html"
+                    class="admin-nav-item active"
+                >
+                    ♧
+                    <span>Loja</span>
+                </a>
+
+            </div>
+
+
+            <div class="admin-nav-section">
+
+                <span class="admin-nav-label">
+                    SISTEMA
+                </span>
+
+                <a
+                    href="#"
+                    class="admin-nav-item"
+                >
+                    ⚙
+                    <span>Configurações</span>
+                </a>
+
+            </div>
+
+        </nav>
+
+    </aside>
+
+
+
+    <!-- ==================================================
+         CONTEÚDO
+    ================================================== -->
+
+    <main class="admin-main">
+
+        <header class="admin-header">
+
+            <div>
+
+                <h1>
+                    Loja
+                </h1>
+
+                <p>
+                    Configure as informações que representam sua loja.
+                </p>
+
+            </div>
+
+
+            <div class="admin-user">
+
+                <div>
+
+                    <strong>
+                        Administrador
+                    </strong>
+
+                    <span>
+                        Vellor Shoes
+                    </span>
+
+                </div>
+
+                <div class="admin-user-avatar">
+                    A
+                </div>
+
+            </div>
+
+        </header>
+
+
+
+        <!-- ==================================================
+             INFORMAÇÕES DA LOJA
+        ================================================== -->
+
+        <section class="admin-panel">
+
+            <div class="admin-panel-header">
+
+                <div>
+
+                    <span class="admin-panel-label">
+                        IDENTIDADE
+                    </span>
+
+                    <h2>
+                        Informações da loja
+                    </h2>
+
+                </div>
+
+            </div>
+
+
+            <div
+                style="
+                    padding: 30px;
+                "
+            >
+
+                <div
+                    style="
+                        display:grid;
+                        grid-template-columns:repeat(2,minmax(0,1fr));
+                        gap:20px;
+                    "
+                >
+
+                    <!-- NOME -->
+
+                    <div>
+
+                        <label
+                            for="store-name"
+                            style="
+                                display:block;
+                                margin-bottom:8px;
+                                font-size:13px;
+                                color:#aaa;
+                            "
+                        >
+                            Nome da loja
+                        </label>
+
+                        <input
+                            type="text"
+                            id="store-name"
+                            value="Vellor Shoes"
+                            placeholder="Nome da loja"
+                            style="
+                                width:100%;
+                                box-sizing:border-box;
+                                padding:14px 15px;
+                                border:1px solid #303036;
+                                border-radius:8px;
+                                background:#18181c;
+                                color:#fff;
+                                outline:none;
+                            "
+                        >
+
+                    </div>
+
+
+
+                    <!-- E-MAIL -->
+
+                    <div>
+
+                        <label
+                            for="store-email"
+                            style="
+                                display:block;
+                                margin-bottom:8px;
+                                font-size:13px;
+                                color:#aaa;
+                            "
+                        >
+                            E-mail
+                        </label>
+
+                        <input
+                            type="email"
+                            id="store-email"
+                            placeholder="contato@vellorshoes.com.br"
+                            style="
+                                width:100%;
+                                box-sizing:border-box;
+                                padding:14px 15px;
+                                border:1px solid #303036;
+                                border-radius:8px;
+                                background:#18181c;
+                                color:#fff;
+                                outline:none;
+                            "
+                        >
+
+                    </div>
+
+
+
+                    <!-- WHATSAPP -->
+
+                    <div>
+
+                        <label
+                            for="store-whatsapp"
+                            style="
+                                display:block;
+                                margin-bottom:8px;
+                                font-size:13px;
+                                color:#aaa;
+                            "
+                        >
+                            WhatsApp
+                        </label>
+
+                        <input
+                            type="tel"
+                            id="store-whatsapp"
+                            placeholder="(11) 99999-9999"
+                            style="
+                                width:100%;
+                                box-sizing:border-box;
+                                padding:14px 15px;
+                                border:1px solid #303036;
+                                border-radius:8px;
+                                background:#18181c;
+                                color:#fff;
+                                outline:none;
+                            "
+                        >
+
+                    </div>
+
+
+
+                    <!-- INSTAGRAM -->
+
+                    <div>
+
+                        <label
+                            for="store-instagram"
+                            style="
+                                display:block;
+                                margin-bottom:8px;
+                                font-size:13px;
+                                color:#aaa;
+                            "
+                        >
+                            Instagram
+                        </label>
+
+                        <input
+                            type="text"
+                            id="store-instagram"
+                            placeholder="@vellorshoes"
+                            style="
+                                width:100%;
+                                box-sizing:border-box;
+                                padding:14px 15px;
+                                border:1px solid #303036;
+                                border-radius:8px;
+                                background:#18181c;
+                                color:#fff;
+                                outline:none;
+                            "
+                        >
+
+                    </div>
+
+                </div>
+
+
+
+                <!-- DESCRIÇÃO -->
+
+                <div
+                    style="
+                        margin-top:20px;
+                    "
+                >
+
+                    <label
+                        for="store-description"
+                        style="
+                            display:block;
+                            margin-bottom:8px;
+                            font-size:13px;
+                            color:#aaa;
+                        "
+                    >
+                        Descrição da loja
+                    </label>
+
+                    <textarea
+                        id="store-description"
+                        rows="5"
+                        placeholder="Descreva brevemente a Vellor Shoes..."
+                        style="
+                            width:100%;
+                            box-sizing:border-box;
+                            padding:14px 15px;
+                            border:1px solid #303036;
+                            border-radius:8px;
+                            background:#18181c;
+                            color:#fff;
+                            outline:none;
+                            resize:vertical;
+                        "
+                    ></textarea>
+
+                </div>
+
+
+
+                <!-- LOGO -->
+
+                <div
+                    style="
+                        margin-top:30px;
+                        padding-top:30px;
+                        border-top:1px solid #29292e;
+                    "
+                >
+
+                    <label
+                        style="
+                            display:block;
+                            margin-bottom:12px;
+                            font-size:13px;
+                            color:#aaa;
+                        "
+                    >
+                        Logo da loja
+                    </label>
+
+
+                    <div
+                        style="
+                            display:flex;
+                            align-items:center;
+                            gap:25px;
+                            flex-wrap:wrap;
+                        "
+                    >
+
+                        <div
+                            style="
+                                width:220px;
+                                height:90px;
+                                display:flex;
+                                align-items:center;
+                                justify-content:center;
+                                background:#0b0b0d;
+                                border:1px solid #303036;
+                                border-radius:10px;
+                                padding:15px;
+                            "
+                        >
+
+                            <img
+                                src="../assets/logo.png"
+                                alt="Logo Vellor Shoes"
+                                style="
+                                    max-width:100%;
+                                    max-height:100%;
+                                    object-fit:contain;
+                                "
+                            >
+
+                        </div>
+
+
+                        <div>
+
+                            <strong
+                                style="
+                                    display:block;
+                                    color:#fff;
+                                    margin-bottom:6px;
+                                "
+                            >
+                                Logo atual
+                            </strong>
+
+                            <span
+                                style="
+                                    color:#777;
+                                    font-size:12px;
+                                "
+                            >
+                                A logo oficial da Vellor Shoes.
+                            </span>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+
+
+                <!-- SALVAR -->
+
+                <div
+                    style="
+                        display:flex;
+                        justify-content:flex-end;
+                        margin-top:30px;
+                    "
+                >
+
+                    <button
+                        type="button"
+                        id="save-store-button"
+                        style="
+                            border:0;
+                            border-radius:8px;
+                            padding:13px 24px;
+                            background:#007BFF;
+                            color:#fff;
+                            font-weight:600;
+                            cursor:pointer;
+                        "
+                    >
+                        Salvar alterações
+                    </button>
+
+                </div>
+
+            </div>
+
+        </section>
+
+    </main>
+
+</body>
+
+</html>
