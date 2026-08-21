@@ -1837,18 +1837,45 @@ async function renderPaymentBrick() {
 
         try {
 
-            const response = await fetch(
-                "/api/process_payment",
-                {
-                    method: "POST",
+            const checkout = getCheckout();
 
-                    headers: {
-                        "Content-Type": "application/json"
-                    },
+const orderNumber =
+    "VEL-" +
+    Date.now()
+        .toString()
+        .slice(-8);
 
-                    body: JSON.stringify(formData)
-                }
-            );
+const paymentData = {
+    ...formData,
+
+    external_reference: orderNumber,
+
+    description:
+        "Pedido Vellor Shoes " + orderNumber
+};
+
+console.log(
+    "Número do pedido:",
+    orderNumber
+);
+
+console.log(
+    "Dados enviados ao Mercado Pago:",
+    paymentData
+);
+
+const response = await fetch(
+    "/api/process_payment",
+    {
+        method: "POST",
+
+        headers: {
+            "Content-Type": "application/json"
+        },
+
+        body: JSON.stringify(paymentData)
+    }
+);
 
             const data = await response.json();
 
