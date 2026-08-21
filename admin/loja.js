@@ -107,6 +107,34 @@ const changeLogoButton =
     document.getElementById(
         "change-logo-button"
     );
+const faviconFile =
+    document.getElementById(
+        "favicon-file"
+    );
+
+const changeFaviconButton =
+    document.getElementById(
+        "change-favicon-button"
+    );
+/* =========================================================
+   ALTERAR FAVICON
+========================================================= */
+
+if (
+    changeFaviconButton &&
+    faviconFile
+) {
+
+    changeFaviconButton.addEventListener(
+        "click",
+        () => {
+
+            faviconFile.click();
+
+        }
+    );
+
+}
 
 
 /* =========================================================
@@ -276,7 +304,187 @@ if (logoFile) {
     );
 
 }
+/* =========================================================
+   ENVIAR FAVICON
+========================================================= */
 
+if (faviconFile) {
+
+    faviconFile.addEventListener(
+        "change",
+        async () => {
+
+            const file =
+                faviconFile.files[0];
+
+
+            if (!file) {
+
+                return;
+
+            }
+
+
+            try {
+
+                if (changeFaviconButton) {
+
+                    changeFaviconButton.disabled =
+                        true;
+
+                    changeFaviconButton.textContent =
+                        "Enviando...";
+
+                }
+
+
+                const formData =
+                    new FormData();
+
+
+                formData.append(
+                    "file",
+                    file
+                );
+
+
+                formData.append(
+                    "upload_preset",
+                    "vellor_products"
+                );
+
+
+                formData.append(
+                    "folder",
+                    "vellor-shoes/store"
+                );
+
+
+                const uploadResponse =
+                    await fetch(
+                        "https://api.cloudinary.com/v1_1/mvxldxuz/image/upload",
+                        {
+                            method: "POST",
+                            body: formData
+                        }
+                    );
+
+
+                const uploadData =
+                    await uploadResponse.json();
+
+
+                if (!uploadData.secure_url) {
+
+                    throw new Error(
+                        "Não foi possível enviar a favicon."
+                    );
+
+                }
+
+
+                /* =================================================
+                   SALVAR FAVICON NO FIREBASE
+                ================================================= */
+
+                const settingsRef =
+                    doc(
+                        db,
+                        "store_settings",
+                        "general"
+                    );
+
+
+                await setDoc(
+                    settingsRef,
+                    {
+
+                        faviconUrl:
+                            uploadData.secure_url,
+
+                        updatedAt:
+                            new Date()
+
+                    },
+                    {
+                        merge: true
+                    }
+                );
+
+
+                /* =================================================
+                   ATUALIZAR PREVIEW
+                ================================================= */
+
+                const faviconPreview =
+                    document.getElementById(
+                        "favicon-preview"
+                    );
+
+                const faviconEmpty =
+                    document.getElementById(
+                        "favicon-empty"
+                    );
+
+
+                if (faviconPreview) {
+
+                    faviconPreview.src =
+                        uploadData.secure_url;
+
+                    faviconPreview.style.display =
+                        "block";
+
+                }
+
+
+                if (faviconEmpty) {
+
+                    faviconEmpty.style.display =
+                        "none";
+
+                }
+
+
+                alert(
+                    "Favicon enviada e salva com sucesso!"
+                );
+
+
+            } catch (error) {
+
+                console.error(
+                    "Erro ao enviar favicon:",
+                    error
+                );
+
+
+                alert(
+                    "Não foi possível enviar a favicon."
+                );
+
+
+            } finally {
+
+                if (changeFaviconButton) {
+
+                    changeFaviconButton.disabled =
+                        false;
+
+                    changeFaviconButton.textContent =
+                        "Alterar favicon";
+
+                }
+
+
+                faviconFile.value = "";
+
+            }
+
+        }
+    );
+
+}
 
 /* =========================================================
    CARREGAR CONFIGURAÇÕES
