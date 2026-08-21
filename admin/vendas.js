@@ -722,6 +722,32 @@ salesTable.addEventListener("click", (event) => {
 
 </section>
 
+<!-- CLIENTE -->
+<section class="order-detail-section">
+
+    <div class="order-section-title">
+        Dados do cliente
+    </div>
+
+    <div class="order-address">
+
+        <strong>
+            ${customer.name || "Nome não informado"}
+        </strong>
+
+        <span>
+            E-mail:
+            ${customer.email || "-"}
+        </span>
+
+        <span>
+            Telefone:
+            ${customer.phone || "-"}
+        </span>
+
+    </div>
+
+</section>
 
                 <!-- ENDEREÇO -->
 
@@ -819,7 +845,21 @@ salesTable.addEventListener("click", (event) => {
                             <div class="order-history-content">
 
                                 <strong>
-                                    ${getStatusLabel(history.status)}
+                                    ${
+    history.status === "aguardando_pagamento"
+        ? "Aguardando pagamento"
+        : history.status === "pago"
+            ? "Pagamento confirmado"
+            : history.status === "em_preparacao"
+                ? "Pedido em preparação"
+                : history.status === "enviado"
+                    ? "Pedido enviado"
+                    : history.status === "concluido"
+                        ? "Pedido concluído"
+                        : history.status === "cancelado"
+                            ? "Pedido cancelado"
+                            : history.status
+}
                                 </strong>
 
                                 <span>
