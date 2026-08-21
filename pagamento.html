@@ -1882,6 +1882,13 @@ console.log(
     "Resposta do backend:",
     JSON.stringify(data, null, 2)
 );
+            if (!response.ok) {
+    throw new Error(
+        data.error ||
+        data.message ||
+        "Erro ao processar pagamento."
+    );
+}
 
 /*
  * Salvar o pedido no Firestore
