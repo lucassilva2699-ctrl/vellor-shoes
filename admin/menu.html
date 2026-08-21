@@ -1,0 +1,559 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Menu da Loja | Vellor Shoes</title>
+
+    <link rel="icon" href="../assets/logo.png">
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+    <link
+        href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap"
+        rel="stylesheet"
+    >
+
+    <link rel="stylesheet" href="admin.css">
+</head>
+
+<body class="admin-dashboard-page">
+
+    <!-- =====================================================
+         SIDEBAR
+    ====================================================== -->
+
+    <aside class="admin-sidebar">
+
+        <div class="admin-sidebar-brand">
+            <img src="../assets/logo.png" alt="Vellor Shoes">
+        </div>
+
+       <nav class="admin-navigation">
+
+    <!-- PRINCIPAL -->
+    <div class="admin-nav-section">
+
+        <div class="admin-nav-title">
+            PRINCIPAL
+        </div>
+
+        <a
+            href="dashboard.html"
+            class="admin-nav-link"
+        >
+            <span class="admin-nav-icon">▦</span>
+            <span>Dashboard</span>
+        </a>
+
+    </div>
+
+
+    <!-- CATÁLOGO -->
+    <div class="admin-nav-section">
+
+        <div class="admin-nav-title">
+            CATÁLOGO
+        </div>
+
+        <a
+            href="produtos.html"
+            class="admin-nav-link"
+        >
+            <span class="admin-nav-icon">◈</span>
+            <span>Produtos</span>
+        </a>
+
+        <a
+            href="menu.html"
+            class="admin-nav-link active"
+        >
+            <span class="admin-nav-icon">☰</span>
+            <span>Menu da Loja</span>
+        </a>
+
+    </div>
+
+
+    <!-- OPERAÇÃO -->
+    <div class="admin-nav-section">
+
+        <div class="admin-nav-title">
+            OPERAÇÃO
+        </div>
+
+        <a
+            href="estoque.html"
+            class="admin-nav-link"
+        >
+            <span class="admin-nav-icon">▤</span>
+            <span>Estoque</span>
+        </a>
+
+        <a
+            href="vendas.html"
+            class="admin-nav-link"
+        >
+            <span class="admin-nav-icon">▣</span>
+            <span>Vendas</span>
+        </a>
+
+    </div>
+
+
+    <!-- LOJA -->
+    <div class="admin-nav-section">
+
+        <div class="admin-nav-title">
+            LOJA
+        </div>
+
+        <a
+            href="#"
+            class="admin-nav-link"
+        >
+            <span class="admin-nav-icon">⌂</span>
+            <span>Loja</span>
+        </a>
+
+    </div>
+
+
+    <!-- SISTEMA -->
+    <div class="admin-nav-section">
+
+        <div class="admin-nav-title">
+            SISTEMA
+        </div>
+
+        <a
+            href="#"
+            class="admin-nav-link"
+        >
+            <span class="admin-nav-icon">⚙</span>
+            <span>Configurações</span>
+        </a>
+
+    </div>
+
+</nav>
+        <div class="admin-sidebar-bottom">
+
+            <a href="../index.html" class="admin-nav-link">
+                Voltar para a loja
+            </a>
+
+            <button
+                type="button"
+                class="admin-logout-button"
+                id="admin-logout-button"
+            >
+                Sair da conta
+            </button>
+
+        </div>
+
+    </aside>
+
+
+    <!-- =====================================================
+         CONTEÚDO PRINCIPAL
+    ====================================================== -->
+
+    <main class="admin-main">
+
+        <!-- TOPBAR -->
+
+        <header class="admin-topbar">
+
+            <div>
+                <span class="admin-topbar-label">
+                    CONFIGURAÇÃO DA LOJA
+                </span>
+
+                <h1>
+                    Menu da Loja
+                </h1>
+            </div>
+
+            <div class="admin-user-area">
+
+                <div class="admin-user-avatar">
+                    V
+                </div>
+
+                <div>
+                    <strong>
+                        Administrador
+                    </strong>
+
+                    <span>
+                        Painel Vellor Shoes
+                    </span>
+                </div>
+
+            </div>
+
+        </header>
+
+
+        <!-- =================================================
+             INTRODUÇÃO
+        ================================================== -->
+
+        <section class="menu-page-intro">
+
+            <div>
+
+                <span class="menu-page-eyebrow">
+                    ESTRUTURA DE NAVEGAÇÃO
+                </span>
+
+                <h2>
+                    Organize o menu da Vellor Shoes
+                </h2>
+
+                <p>
+                    Crie categorias, subcategorias e níveis adicionais
+                    para definir como os clientes encontrarão os produtos
+                    dentro da loja.
+                </p>
+
+            </div>
+
+            <button
+                type="button"
+                class="menu-add-button"
+                id="add-menu-item-button"
+            >
+                + Adicionar item
+            </button>
+            <button
+    type="button"
+    class="menu-add-button"
+    id="add-home-banner-button"
+>
+    + Banner da Home
+</button>
+
+        </section>
+
+
+        <!-- =================================================
+             ESTRUTURA DO MENU
+        ================================================== -->
+
+        <section class="admin-content-panel menu-structure-panel">
+
+            <div class="admin-panel-header">
+
+                <div>
+
+                    <span class="admin-panel-kicker">
+                        MENU ATUAL
+                    </span>
+
+                    <h3>
+                        Estrutura da loja
+                    </h3>
+
+                </div>
+
+                <span class="menu-status">
+                    Configuração
+                </span>
+
+            </div>
+
+
+            <!-- ÁRVORE SERÁ INSERIDA PELO JAVASCRIPT -->
+
+            <div
+                id="store-menu-tree"
+                class="store-menu-tree"
+            >
+
+                <div class="menu-empty-state">
+
+                    <div class="menu-empty-icon">
+                        +
+                    </div>
+
+                    <h3>
+                        Nenhum item configurado
+                    </h3>
+
+                    <p>
+                        Comece adicionando uma categoria para
+                        construir o menu da sua loja.
+                    </p>
+
+                    <button
+                        type="button"
+                        class="menu-empty-button"
+                        id="empty-add-menu-button"
+                    >
+                        Adicionar primeira categoria
+                    </button>
+
+                </div>
+
+            </div>
+
+        </section>
+
+<!-- =====================================================
+     MODAL — ADICIONAR ITEM AO MENU
+====================================================== -->
+
+<div
+    class="menu-modal-overlay"
+    id="menu-modal"
+    hidden
+>
+
+    <div class="menu-modal">
+
+        <div class="menu-modal-header">
+
+            <div>
+                <span class="menu-modal-eyebrow">
+                    CONFIGURAR MENU
+                </span>
+
+                <h2>
+                    Adicionar item
+                </h2>
+            </div>
+
+            <button
+                type="button"
+                class="menu-modal-close"
+                id="close-menu-modal"
+                aria-label="Fechar"
+            >
+                ×
+            </button>
+
+        </div>
+
+
+        <form id="menu-item-form">
+
+            <div class="menu-form-group">
+
+                <label for="menu-item-name">
+                    Nome do item
+                </label>
+
+                <input
+                    type="text"
+                    id="menu-item-name"
+                    name="name"
+                    placeholder="Ex.: Tênis"
+                    autocomplete="off"
+                    required
+                >
+
+            </div>
+
+
+            <div class="menu-form-group">
+
+                <label for="menu-item-parent">
+                    Onde este item ficará?
+                </label>
+
+                <select
+                    id="menu-item-parent"
+                    name="parent"
+                >
+
+                    <option value="">
+                        Categoria principal
+                    </option>
+
+                </select>
+
+                <small>
+                    Deixe como "Categoria principal" para criar
+                    o primeiro nível do menu.
+                </small>
+
+            </div>
+
+
+            <div class="menu-modal-actions">
+
+                <button
+                    type="button"
+                    class="menu-cancel-button"
+                    id="cancel-menu-item"
+                >
+                    Cancelar
+                </button>
+
+                <button
+                    type="submit"
+                    class="menu-save-button"
+                >
+                    Salvar item
+                </button>
+
+            </div>
+
+        </form>
+
+    </div>
+
+</div>
+        <!-- =================================================
+             EXPLICAÇÃO DA ESTRUTURA
+        ================================================== -->
+
+        <section class="menu-info-grid">
+
+            <div class="menu-info-card">
+
+                <span class="menu-info-number">
+                    01
+                </span>
+
+                <h3>
+                    Categoria
+                </h3>
+
+                <p>
+                    Primeiro nível da navegação. Exemplo:
+                    Masculino, Feminino ou Acessórios.
+                </p>
+
+            </div>
+
+
+            <div class="menu-info-card">
+
+                <span class="menu-info-number">
+                    02
+                </span>
+
+                <h3>
+                    Subcategoria
+                </h3>
+
+                <p>
+                    Organiza os produtos dentro de uma categoria.
+                    Exemplo: Tênis, Chuteiras ou Sandálias.
+                </p>
+
+            </div>
+
+
+            <div class="menu-info-card">
+
+                <span class="menu-info-number">
+                    03
+                </span>
+
+                <h3>
+                    Nível adicional
+                </h3>
+
+                <p>
+                    Permite criar estruturas como Marcas →
+                    Nike, Adidas, Mizuno e outras.
+                </p>
+
+            </div>
+
+        </section>
+
+    </main>
+
+
+    <!-- =====================================================
+         FIREBASE / ADMIN
+    ====================================================== -->
+    <div
+    class="menu-modal-overlay"
+    id="home-banner-modal"
+    hidden
+>
+    <div class="menu-modal">
+
+        <div class="menu-modal-header">
+
+            <div>
+                <span class="menu-modal-eyebrow">
+                    PÁGINA PRINCIPAL
+                </span>
+
+                <h2>
+                    Banner da Home
+                </h2>
+            </div>
+
+            <button
+                type="button"
+                class="menu-modal-close"
+                id="close-home-banner-modal"
+            >
+                ×
+            </button>
+
+        </div>
+
+        <div class="menu-form-group">
+
+            <label for="home-banner-file">
+                Imagem do banner
+            </label>
+
+            <input
+                type="file"
+                id="home-banner-file"
+                accept="image/png,image/jpeg,image/webp"
+            >
+
+            <small>
+                Essa imagem será exibida no Hero da página principal.
+            </small>
+
+        </div>
+
+        <div
+            id="home-banner-preview"
+            style="margin-top:20px;"
+        ></div>
+
+        <div class="menu-modal-actions">
+
+            <button
+                type="button"
+                class="menu-cancel-button"
+                id="cancel-home-banner"
+            >
+                Cancelar
+            </button>
+
+            <button
+                type="button"
+                class="menu-save-button"
+                id="save-home-banner"
+            >
+                Salvar banner
+            </button>
+
+        </div>
+
+    </div>
+</div>
+
+    <script type="module" src="admin.js"></script>
+
+</body>
+
+</html>

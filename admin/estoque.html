@@ -1,0 +1,413 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Estoque | Vellor Shoes</title>
+
+    <link rel="stylesheet" href="admin.css">
+
+    <link
+        rel="preconnect"
+        href="https://fonts.googleapis.com"
+    >
+
+    <link
+        rel="preconnect"
+        href="https://fonts.gstatic.com"
+        crossorigin
+    >
+
+    <link
+        href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap"
+        rel="stylesheet"
+    >
+</head>
+
+<body>
+
+    <div class="admin-layout">
+
+  <!-- SIDEBAR -->
+<aside class="admin-sidebar">
+
+    <div class="admin-sidebar-logo">
+        <img
+            src="../assets/logo.png"
+            alt="Vellor Shoes"
+        >
+    </div>
+
+
+    <nav class="admin-navigation">
+
+        <!-- PRINCIPAL -->
+        <div class="admin-nav-section">
+
+            <div class="admin-nav-title">
+                PRINCIPAL
+            </div>
+
+            <a
+                href="dashboard.html"
+                class="admin-nav-link"
+            >
+                <span>▦</span>
+                <span>Dashboard</span>
+            </a>
+
+        </div>
+
+
+        <!-- CATÁLOGO -->
+        <div class="admin-nav-section">
+
+            <div class="admin-nav-title">
+                CATÁLOGO
+            </div>
+
+            <a
+                href="produtos.html"
+                class="admin-nav-link"
+            >
+                <span>◈</span>
+                <span>Produtos</span>
+            </a>
+
+            <a
+                href="menu.html"
+                class="admin-nav-link"
+            >
+                <span>☰</span>
+                <span>Menu da Loja</span>
+            </a>
+
+        </div>
+
+
+        <!-- OPERAÇÃO -->
+        <div class="admin-nav-section">
+
+            <div class="admin-nav-title">
+                OPERAÇÃO
+            </div>
+
+            <a
+                href="estoque.html"
+                class="admin-nav-link active"
+            >
+                <span>▤</span>
+                <span>Estoque</span>
+            </a>
+
+            <a
+                href="vendas.html"
+                class="admin-nav-link"
+            >
+                <span>▣</span>
+                <span>Vendas</span>
+            </a>
+
+        </div>
+
+
+        <!-- LOJA -->
+        <div class="admin-nav-section">
+
+            <div class="admin-nav-title">
+                LOJA
+            </div>
+
+            <a
+                href="#"
+                class="admin-nav-link"
+            >
+                <span>⌂</span>
+                <span>Loja</span>
+            </a>
+
+        </div>
+
+
+        <!-- SISTEMA -->
+        <div class="admin-nav-section">
+
+            <div class="admin-nav-title">
+                SISTEMA
+            </div>
+
+            <a
+                href="#"
+                class="admin-nav-link"
+            >
+                <span>⚙</span>
+                <span>Configurações</span>
+            </a>
+
+        </div>
+
+    </nav>
+
+</aside>
+
+
+        <!-- CONTEÚDO -->
+        <main class="admin-main">
+
+            <header class="admin-header">
+
+                <div>
+                    <h1>Estoque</h1>
+
+                    <p>
+                        Controle de estoque dos produtos da loja.
+                    </p>
+                </div>
+
+            </header>
+
+
+            <!-- RESUMO -->
+            <section class="stock-summary">
+
+                <div class="stock-summary-card">
+
+                    <div class="stock-summary-label">
+                        PRODUTOS
+                    </div>
+
+                    <div
+                        class="stock-summary-value"
+                        id="total-products"
+                    >
+                        0
+                    </div>
+
+                </div>
+
+
+                <div class="stock-summary-card">
+
+                    <div class="stock-summary-label">
+                        EM ESTOQUE
+                    </div>
+
+                    <div
+                        class="stock-summary-value"
+                        id="products-in-stock"
+                    >
+                        0
+                    </div>
+
+                </div>
+
+
+                <div class="stock-summary-card">
+
+                    <div class="stock-summary-label">
+                        ESTOQUE BAIXO
+                    </div>
+
+                    <div
+                        class="stock-summary-value"
+                        id="products-low-stock"
+                    >
+                        0
+                    </div>
+
+                </div>
+
+
+                <div class="stock-summary-card">
+
+                    <div class="stock-summary-label">
+                        SEM ESTOQUE
+                    </div>
+
+                    <div
+                        class="stock-summary-value"
+                        id="products-out-stock"
+                    >
+                        0
+                    </div>
+
+                </div>
+
+            </section>
+
+
+            <!-- ESTOQUE -->
+            <section class="admin-card stock-card">
+
+                <div class="stock-card-header">
+
+                    <div>
+
+                        <h2>
+                            Produtos em estoque
+                        </h2>
+
+                        <p>
+                            Consulte a quantidade disponível por produto e tamanho.
+                        </p>
+
+                    </div>
+
+
+                    <div class="stock-actions">
+
+                        <input
+                            type="text"
+                            id="stock-search"
+                            class="stock-search"
+                            placeholder="Buscar produto..."
+                        >
+
+                    </div>
+
+                </div>
+
+
+                <div class="stock-table-wrapper">
+
+                    <table class="stock-table">
+
+                        <thead>
+
+                            <tr>
+
+                                <th>
+                                    Produto
+                                </th>
+
+                                <th>
+                                    SKU
+                                </th>
+
+                                <th>
+                                    Categoria
+                                </th>
+
+                                <th>
+                                    Estoque
+                                </th>
+
+                                <th>
+                                    Status
+                                </th>
+
+                                <th>
+                                    Ação
+                                </th>
+
+                            </tr>
+
+                        </thead>
+
+
+                        <tbody id="stock-products">
+
+                            <tr>
+
+                                <td
+                                    colspan="6"
+                                    class="stock-loading"
+                                >
+                                    Carregando estoque...
+                                </td>
+
+                            </tr>
+
+                        </tbody>
+
+                    </table>
+
+                </div>
+
+            </section>
+
+        </main>
+
+    </div>
+
+
+    <!-- MODAL DE ESTOQUE -->
+
+    <div
+        class="stock-modal"
+        id="stock-modal"
+    >
+
+        <div class="stock-modal-overlay"></div>
+
+
+        <div class="stock-modal-content">
+
+            <div class="stock-modal-header">
+
+                <div>
+
+                    <h2 id="stock-modal-title">
+                        Editar estoque
+                    </h2>
+
+                    <p id="stock-modal-subtitle">
+                        Gerencie o estoque por tamanho.
+                    </p>
+
+                </div>
+
+
+                <button
+                    type="button"
+                    class="stock-modal-close"
+                    id="stock-modal-close"
+                >
+                    ×
+                </button>
+
+            </div>
+
+
+            <div
+                class="stock-modal-body"
+                id="stock-modal-body"
+            >
+
+                <!-- O estoque por tamanho será inserido pelo JavaScript -->
+
+            </div>
+
+
+            <div class="stock-modal-footer">
+
+                <button
+                    type="button"
+                    class="admin-button secondary"
+                    id="stock-modal-cancel"
+                >
+                    Cancelar
+                </button>
+
+                <button
+                    type="button"
+                    class="admin-button primary"
+                    id="stock-modal-save"
+                >
+                    Salvar estoque
+                </button>
+
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <!-- FIREBASE -->
+
+    <script type="module" src="estoque.js"></script>
+
+</body>
+</html>

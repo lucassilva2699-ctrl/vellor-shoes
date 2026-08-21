@@ -1,0 +1,592 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>Vellor Shoes — Dashboard</title>
+
+    <link
+        rel="preconnect"
+        href="https://fonts.googleapis.com"
+    >
+
+    <link
+        rel="preconnect"
+        href="https://fonts.gstatic.com"
+        crossorigin
+    >
+
+    <link
+        href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap"
+        rel="stylesheet"
+    >
+
+    <link
+        rel="stylesheet"
+        href="admin.css"
+    >
+
+</head>
+
+<body class="admin-dashboard-page">
+
+
+    <!-- =====================================================
+         SIDEBAR
+         ===================================================== -->
+
+    <aside class="admin-sidebar">
+
+        <div class="admin-sidebar-logo">
+
+            <img
+                src="../assets/logo.png"
+                alt="Vellor Shoes"
+            >
+
+        </div>
+
+
+        <nav class="admin-navigation">
+
+    <!-- PRINCIPAL -->
+    <div class="admin-nav-section">
+
+        <div class="admin-nav-title">
+            PRINCIPAL
+        </div>
+
+        <a
+            href="dashboard.html"
+            class="admin-nav-link active"
+        >
+            <span class="admin-nav-icon">▦</span>
+            <span>Dashboard</span>
+        </a>
+
+    </div>
+
+
+    <!-- CATÁLOGO -->
+    <div class="admin-nav-section">
+
+        <div class="admin-nav-title">
+            CATÁLOGO
+        </div>
+
+        <a
+            href="produtos.html"
+            class="admin-nav-link"
+        >
+            <span class="admin-nav-icon">◈</span>
+            <span>Produtos</span>
+        </a>
+
+        <a
+            href="menu.html"
+            class="admin-nav-link"
+        >
+            <span class="admin-nav-icon">☰</span>
+            <span>Menu da Loja</span>
+        </a>
+
+    </div>
+
+
+    <!-- OPERAÇÃO -->
+    <div class="admin-nav-section">
+
+        <div class="admin-nav-title">
+            OPERAÇÃO
+        </div>
+
+        <a
+            href="estoque.html"
+            class="admin-nav-link"
+        >
+            <span class="admin-nav-icon">▤</span>
+            <span>Estoque</span>
+        </a>
+
+        <a
+            href="vendas.html"
+            class="admin-nav-link"
+        >
+            <span class="admin-nav-icon">▣</span>
+            <span>Vendas</span>
+        </a>
+
+    </div>
+
+
+    <!-- LOJA -->
+    <div class="admin-nav-section">
+
+        <div class="admin-nav-title">
+            LOJA
+        </div>
+
+        <a
+            href="#"
+            class="admin-nav-link"
+        >
+            <span class="admin-nav-icon">⌂</span>
+            <span>Loja</span>
+        </a>
+
+    </div>
+
+
+    <!-- SISTEMA -->
+    <div class="admin-nav-section">
+
+        <div class="admin-nav-title">
+            SISTEMA
+        </div>
+
+        <a
+            href="#"
+            class="admin-nav-link"
+        >
+            <span class="admin-nav-icon">⚙</span>
+            <span>Configurações</span>
+        </a>
+
+    </div>
+
+</nav>
+
+        <div class="admin-sidebar-bottom">
+
+            <a
+                href="../index.html"
+                class="admin-store-link"
+            >
+                ← Voltar para a loja
+            </a>
+
+            <button
+                type="button"
+                id="admin-logout-button"
+                class="admin-logout-button"
+            >
+                Sair da conta
+            </button>
+
+        </div>
+
+    </aside>
+
+
+
+    <!-- =====================================================
+         CONTEÚDO PRINCIPAL
+         ===================================================== -->
+
+    <main class="admin-main">
+
+
+        <!-- HEADER -->
+
+        <header class="admin-topbar">
+            <div class="admin-topbar-heading">
+                <span class="admin-page-label">VISÃO GERAL</span>
+                <h1>Dashboard</h1>
+                <p class="admin-topbar-subtitle">
+                    Acompanhe sua loja e gerencie o catálogo da Vellor Shoes.
+                </p>
+            </div>
+
+            <div class="admin-user-area">
+                <div class="admin-user-info">
+                    <span class="admin-user-name">Administrador</span>
+                    <span class="admin-user-role">Vellor Shoes</span>
+                </div>
+                <div class="admin-user-avatar">A</div>
+            </div>
+        </header>
+
+
+
+        <!-- =================================================
+             CARDS
+             ================================================= -->
+
+        <section class="admin-stats-grid">
+
+
+            <article class="admin-stat-card">
+
+                <div class="admin-stat-header">
+
+                    <span>
+                        PRODUTOS
+                    </span>
+
+                    <span class="admin-stat-icon">
+                        ◈
+                    </span>
+
+                </div>
+
+                <strong id="total-products">
+                    0
+                </strong>
+
+                <p>
+                    Produtos cadastrados
+                </p>
+
+            </article>
+
+
+            <article class="admin-stat-card">
+
+                <div class="admin-stat-header">
+
+                    <span>
+                        PRODUTOS ATIVOS
+                    </span>
+
+                    <span class="admin-stat-icon">
+                        ✓
+                    </span>
+
+                </div>
+
+                <strong id="active-products">
+                    0
+                </strong>
+
+                <p>
+                    Disponíveis na loja
+                </p>
+
+            </article>
+
+
+            <article class="admin-stat-card">
+
+                <div class="admin-stat-header">
+
+                    <span>
+                        ESTOQUE BAIXO
+                    </span>
+
+                    <span class="admin-stat-icon warning">
+                        !
+                    </span>
+
+                </div>
+
+                <strong id="low-stock-products">
+                    0
+                </strong>
+
+                <p>
+                    Produtos para verificar
+                </p>
+
+            </article>
+
+
+            <article class="admin-stat-card">
+
+                <div class="admin-stat-header">
+
+                    <span>
+                        PEDIDOS
+                    </span>
+
+                    <span class="admin-stat-icon">
+                        ▣
+                    </span>
+
+                </div>
+
+                <strong id="total-orders">
+                    0
+                </strong>
+
+                <p>
+                    Pedidos realizados
+                </p>
+
+            </article>
+
+
+        </section>
+
+
+
+        <!-- =================================================
+             CONTEÚDO INFERIOR
+             ================================================= -->
+
+        <section class="admin-content-grid">
+
+
+            <!-- PEDIDOS RECENTES -->
+
+            <article class="admin-panel">
+
+                <div class="admin-panel-header">
+
+                    <div>
+
+                        <span class="admin-panel-label">
+                            VENDAS
+                        </span>
+
+                        <h2>
+                            Pedidos recentes
+                        </h2>
+
+                    </div>
+
+                    <a
+                        href="#"
+                        class="admin-panel-action"
+                    >
+                        Ver todos
+                    </a>
+
+                </div>
+
+
+                <div
+                    id="recent-orders"
+                    class="admin-empty-state"
+                >
+
+                    <div class="admin-empty-icon">
+                        ▣
+                    </div>
+
+                    <h3>
+                        Nenhum pedido ainda
+                    </h3>
+
+                    <p>
+                        Os pedidos dos seus clientes aparecerão aqui.
+                    </p>
+
+                </div>
+
+            </article>
+
+
+
+            <!-- PRODUTOS -->
+
+            <article class="admin-panel">
+
+                <div class="admin-panel-header">
+
+                    <div>
+
+                        <span class="admin-panel-label">
+                            CATÁLOGO
+                        </span>
+
+                        <h2>
+                            Produtos recentes
+                        </h2>
+
+                    </div>
+
+                    <a
+                        href="#"
+                        class="admin-panel-action"
+                    >
+                        Ver produtos
+                    </a>
+
+                </div>
+
+
+                <div
+                    id="recent-products"
+                    class="admin-empty-state"
+                >
+
+                    <div class="admin-empty-icon">
+                        ◈
+                    </div>
+
+                    <h3>
+                        Nenhum produto cadastrado
+                    </h3>
+
+                    <p>
+                        Cadastre seu primeiro produto para começar.
+                    </p>
+
+                </div>
+
+            </article>
+
+
+        </section>
+
+
+
+        <!-- =================================================
+             ATALHOS
+             ================================================= -->
+
+        <section class="admin-panel admin-quick-actions">
+
+            <div class="admin-panel-header">
+
+                <div>
+
+                    <span class="admin-panel-label">
+                        AÇÕES RÁPIDAS
+                    </span>
+
+                    <h2>
+                        Gerenciar loja
+                    </h2>
+
+                </div>
+
+            </div>
+
+
+            <div class="admin-actions-grid">
+                <a href="#" class="admin-action-card">
+                    <span class="admin-action-icon">+</span>
+                    <div>
+                        <strong>Novo produto</strong>
+                        <p>Cadastre produtos no catálogo.</p>
+                    </div>
+                </a>
+
+                <a href="menu.html" class="admin-action-card">
+                    <span class="admin-action-icon">☷</span>
+                    <div>
+                        <strong>Menu da Loja</strong>
+                        <p>Organize categorias e marcas.</p>
+                    </div>
+                </a>
+
+                <a href="#" class="admin-action-card">
+                    <span class="admin-action-icon">□</span>
+                    <div>
+                        <strong>Estoque</strong>
+                        <p>Confira produtos e disponibilidade.</p>
+                    </div>
+                </a>
+
+                <a href="#" class="admin-action-card">
+                    <span class="admin-action-icon">★</span>
+                    <div>
+                        <strong>Destaques</strong>
+                        <p>Escolha os produtos em destaque.</p>
+                    </div>
+                </a>
+            </div>
+
+                </a>
+
+
+                <a
+                    href="#"
+                    class="admin-action-card"
+                >
+
+                    <span class="admin-action-icon">
+                        ◇
+                    </span>
+
+                    <div>
+
+                        <strong>
+                            Nova marca
+                        </strong>
+
+                        <p>
+                            Cadastre uma marca.
+                        </p>
+
+                    </div>
+
+                </a>
+
+
+                <a
+                    href="#"
+                    class="admin-action-card"
+                >
+
+                    <span class="admin-action-icon">
+                        ▤
+                    </span>
+
+                    <div>
+
+                        <strong>
+                            Nova categoria
+                        </strong>
+
+                        <p>
+                            Organize seu catálogo.
+                        </p>
+
+                    </div>
+
+                </a>
+
+
+                <a
+                    href="#"
+                    class="admin-action-card"
+                >
+
+                    <span class="admin-action-icon">
+                        ★
+                    </span>
+
+                    <div>
+
+                        <strong>
+                            Gerenciar destaques
+                        </strong>
+
+                        <p>
+                            Escolha os produtos em destaque.
+                        </p>
+
+                    </div>
+
+                </a>
+
+            </div>
+
+        </section>
+
+
+    </main>
+
+
+
+    <!-- =====================================================
+         FIREBASE / ADMIN
+         ===================================================== -->
+
+    <script
+        type="module"
+        src="admin.js"
+    ></script>
+
+</body>
+
+</html>

@@ -1,0 +1,1683 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <meta
+        name="description"
+        content="Carrinho de compras | Vellor Shoes"
+    >
+
+    <title>Carrinho | Vellor Shoes</title>
+
+
+    <!-- GOOGLE FONT -->
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+
+    <link
+        rel="preconnect"
+        href="https://fonts.gstatic.com"
+        crossorigin
+    >
+
+    <link
+        href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap"
+        rel="stylesheet"
+    >
+
+
+    <!-- CSS -->
+
+    <link
+        rel="stylesheet"
+        href="style.css"
+    >
+    <style>
+/* ==================================================
+   MENU DINÂMICO
+================================================== */
+
+.navigation-item {
+    position: relative;
+    display: flex;
+    align-items: center;
+}
+
+.navigation-item > a {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    white-space: nowrap;
+}
+
+.navigation-arrow {
+    font-size: 10px;
+    opacity: .7;
+}
+
+.navigation-dropdown {
+    position: absolute;
+    top: 100%;
+    left: 50%;
+    transform: translateX(-50%);
+
+    min-width: 230px;
+    padding: 10px;
+
+    background: #111114;
+    border: 1px solid rgba(255,255,255,.1);
+    border-radius: 12px;
+
+    box-shadow: 0 18px 45px rgba(0,0,0,.35);
+
+    opacity: 0;
+    visibility: hidden;
+    pointer-events: none;
+
+    transition:
+        opacity .18s,
+        visibility .18s,
+        transform .18s;
+
+    z-index: 9999;
+}
+
+.navigation-item:hover > .navigation-dropdown,
+.navigation-item:focus-within > .navigation-dropdown {
+    opacity: 1;
+    visibility: visible;
+    pointer-events: auto;
+    transform:
+        translateX(-50%)
+        translateY(0);
+}
+
+.navigation-dropdown .navigation-item {
+    display: block;
+}
+
+.navigation-dropdown .navigation-item > a {
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+    padding: 11px 12px;
+    border-radius: 8px;
+}
+
+.navigation-dropdown .navigation-item > a:hover {
+    background: rgba(255,255,255,.07);
+}
+
+.navigation-dropdown .navigation-dropdown {
+    top: -10px;
+    left: 100%;
+    transform: none;
+}
+
+.navigation-dropdown .navigation-item:hover > .navigation-dropdown,
+.navigation-dropdown .navigation-item:focus-within > .navigation-dropdown {
+    transform: translateY(0);
+}
+</style>
+
+</head>
+
+
+<body>
+
+
+    <!-- ==================================================
+         HEADER
+    ================================================== -->
+
+    <header class="header">
+
+        <div class="container header-content">
+
+
+            <!-- LOGO -->
+
+            <a
+                href="index.html"
+                class="logo"
+            >
+
+                <img
+                    src="assets/logo.png"
+                    alt="Vellor Shoes"
+                >
+
+            </a>
+
+
+            <!-- NAVEGAÇÃO -->
+
+            <nav class="navigation" id="store-navigation">
+
+    <a href="index.html" class="active" data-home-link>
+        Início
+    </a>
+
+    <span class="navigation-loading">
+        Carregando menu...
+    </span>
+
+</nav>
+
+
+            <!-- AÇÕES -->
+
+            <div class="header-actions">
+<button
+    type="button"
+    class="icon-button mobile-menu-toggle"
+    id="mobile-menu-toggle"
+    aria-label="Abrir menu"
+>
+    ☰
+</button>
+               <button
+    type="button"
+    class="icon-button search-toggle"
+    id="search-toggle"
+    aria-label="Pesquisar"
+>
+    🔍
+</button>
+
+
+            <a
+    href="acompanhar.html"
+    class="icon-button"
+    aria-label="Acompanhar pedido"
+    title="Acompanhar pedido"
+>
+    ♙
+</a>
+
+                <button
+                    class="icon-button cart-button"
+                    type="button"
+                    aria-label="Carrinho"
+                    onclick="window.location.href='carrinho.html'"
+                >
+
+                    🛒
+
+                    <span class="cart-count">
+                        0
+                    </span>
+
+                </button>
+
+            </div>
+
+        </div>
+
+    </header>
+
+
+    <!-- ==================================================
+         CARRINHO
+    ================================================== -->
+
+    <main class="cart-page">
+
+        <div class="container">
+
+
+            <!-- TÍTULO -->
+
+            <div class="cart-header">
+
+                <span class="section-label">
+                    VELLOR SHOES
+                </span>
+
+                <h1>
+                    Seu carrinho
+                </h1>
+
+                <p>
+                    Confira os produtos selecionados antes de continuar.
+                </p>
+
+            </div>
+
+
+            <!-- CONTEÚDO -->
+
+            <div
+                class="cart-layout"
+                id="cart-layout"
+            >
+
+
+                <!-- PRODUTOS -->
+
+                <section class="cart-products">
+
+                    <div
+                        id="cart-items"
+                    >
+                    </div>
+
+                </section>
+
+
+                <!-- RESUMO -->
+
+                <aside class="cart-summary">
+
+                    <h2>
+                        Resumo do pedido
+                    </h2>
+
+
+                    <div class="summary-row">
+
+                        <span>
+                            Produtos
+                        </span>
+
+                        <strong id="cart-subtotal">
+                            R$ 0,00
+                        </strong>
+
+                    </div>
+
+
+                    <div class="summary-row">
+
+                        <span>
+                            Frete
+                        </span>
+
+                        <span>
+                            A calcular
+                        </span>
+
+                    </div>
+
+
+                    <div class="summary-divider">
+                    </div>
+
+
+                    <div class="summary-total">
+
+                        <span>
+                            Total
+                        </span>
+
+                        <strong id="cart-total">
+                            R$ 0,00
+                        </strong>
+
+                    </div>
+
+
+                    <a
+    href="checkout.html"
+    class="cart-checkout-button"
+    id="checkout-button"
+>
+    CONTINUAR PARA PAGAMENTO
+</a>
+
+
+                    <a
+                        href="index.html"
+                        class="continue-shopping"
+                    >
+
+                        ← Continuar comprando
+
+                    </a>
+
+                </aside>
+
+            </div>
+
+
+            <!-- CARRINHO VAZIO -->
+
+            <div
+                class="cart-empty"
+                id="cart-empty"
+            >
+
+                <div class="cart-empty-icon">
+                    🛒
+                </div>
+
+                <h2>
+                    Seu carrinho está vazio
+                </h2>
+
+                <p>
+                    Adicione produtos para começar sua compra.
+                </p>
+
+                <a
+                    href="index.html"
+                    class="cart-empty-button"
+                >
+
+                    VOLTAR PARA A LOJA
+
+                </a>
+
+            </div>
+
+        </div>
+
+    </main>
+
+
+    <!-- ==================================================
+         FOOTER
+    ================================================== -->
+
+    <footer class="footer">
+
+        <div class="container">
+
+            <img
+                src="assets/logo.png"
+                alt="Vellor Shoes"
+                class="footer-logo"
+            >
+
+            <p>
+                ESTILO • QUALIDADE • PRESENÇA
+            </p>
+
+            <span>
+                © 2026 Vellor Shoes. Todos os direitos reservados.
+            </span>
+
+        </div>
+
+    </footer>
+
+
+    <!-- ==================================================
+         CARRINHO — JAVASCRIPT
+    ================================================== -->
+<script type="module">
+    import {
+        initializeApp
+    } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
+
+    import {
+        getFirestore,
+        collection,
+        query,
+        where,
+        getDocs
+    } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
+
+    const firebaseConfig = {
+        apiKey: "AIzaSyDQdaiVEWUeIFQOMXzI9DluqDkl8ZeMS5o",
+        authDomain: "vellor-shoes.firebaseapp.com",
+        projectId: "vellor-shoes",
+        storageBucket: "vellor-shoes.firebasestorage.app",
+        messagingSenderId: "455357493198",
+        appId: "1:455357493198:web:f36451b846420b4dfde83f"
+    };
+
+    const app =
+        initializeApp(firebaseConfig);
+
+    const db =
+        getFirestore(app);
+
+    window.vellorFirebase = {
+    db,
+    collection,
+    query,
+    where,
+    getDocs
+};
+window.dispatchEvent(
+    new Event("vellorFirebaseReady")
+);
+    
+</script>
+    <script>
+        /* ==================================================
+   BUSCA DE PRODUTOS
+================================================== */
+
+window.vellorSearchProducts = async function (term) {
+
+    const searchTerm =
+        String(term || "")
+            .trim()
+            .toLowerCase();
+
+    if (!searchTerm) {
+        return [];
+    }
+
+    try {
+const {
+    db,
+    collection,
+    query,
+    where,
+    getDocs
+} = window.vellorFirebase;
+
+const productsRef =
+    collection(db, "products");
+        const productsQuery =
+            query(
+                productsRef,
+                where("active", "==", true)
+            );
+
+        const result =
+            await getDocs(productsQuery);
+
+        const products = [];
+
+        result.forEach((snapshot) => {
+
+            const product =
+                snapshot.data();
+
+            const name =
+                String(product.name || "")
+                    .toLowerCase();
+
+            const brand =
+                String(product.brand || "")
+                    .toLowerCase();
+
+            const sku =
+                String(product.sku || "")
+                    .toLowerCase();
+
+            if (
+                name.includes(searchTerm) ||
+                brand.includes(searchTerm) ||
+                sku.includes(searchTerm)
+            ) {
+
+                products.push({
+                    id: snapshot.id,
+                    ...product
+                });
+
+            }
+
+        });
+
+        return products;
+        
+
+    } catch (error) {
+
+        console.error(
+            "Erro na busca de produtos:",
+            error
+        );
+
+        return [];
+    }
+};
+document.addEventListener("DOMContentLoaded", () => {
+
+    const searchToggle =
+        document.getElementById("search-toggle");
+
+    if (!searchToggle) {
+        return;
+    }
+
+    const searchPanel =
+        document.createElement("div");
+
+    searchPanel.id = "search-panel";
+
+    searchPanel.innerHTML = `
+        <div class="search-panel-content">
+
+            <button
+                type="button"
+                id="search-close"
+                class="search-close"
+                aria-label="Fechar pesquisa"
+            >
+                ×
+            </button>
+
+            <input
+                type="search"
+                id="store-search"
+                placeholder="Buscar produtos..."
+                autocomplete="off"
+            >
+
+            <div
+                id="search-results"
+                class="search-results"
+            ></div>
+
+        </div>
+    `;
+    
+
+    
+
+    document.body.appendChild(searchPanel);
+
+    const searchInput =
+        document.getElementById("store-search");
+
+    const searchResults =
+        document.getElementById("search-results");
+
+    const searchClose =
+        document.getElementById("search-close");
+
+
+    searchToggle.addEventListener(
+        "click",
+        () => {
+
+            searchPanel.classList.add(
+                "search-open"
+            );
+
+            searchInput.focus();
+        }
+    );
+
+
+    searchClose.addEventListener(
+        "click",
+        () => {
+
+            searchPanel.classList.remove(
+                "search-open"
+            );
+
+            searchInput.value = "";
+            searchResults.innerHTML = "";
+        }
+    );
+        searchResults.addEventListener(
+        "click",
+        (event) => {
+
+            const result =
+                event.target.closest(
+                    ".search-result"
+                );
+
+            if (!result) {
+                return;
+            }
+
+            const id =
+                result.dataset.id;
+
+            if (!id) {
+                return;
+            }
+
+            window.location.href =
+                `produto.html?id=${encodeURIComponent(id)}`;
+
+        }
+    );
+        let searchTimeout;
+
+    searchInput.addEventListener(
+        "input",
+        () => {
+
+            clearTimeout(searchTimeout);
+
+            const term =
+                searchInput.value.trim();
+
+            if (!term) {
+
+                searchResults.innerHTML = "";
+
+                return;
+            }
+
+            searchResults.innerHTML =
+                `<div class="search-loading">
+                    Buscando...
+                </div>`;
+
+            searchTimeout = setTimeout(
+                async () => {
+
+                    const products =
+                        await window.vellorSearchProducts(term);
+
+                    console.log(
+                        "Resultados da busca:",
+                        products
+                    );
+
+                    if (!products.length) {
+
+                        searchResults.innerHTML =
+                            `<div class="search-empty">
+                                Nenhum produto encontrado.
+                            </div>`;
+
+                        return;
+                    }
+
+                    searchResults.innerHTML =
+                        products
+                            .slice(0, 8)
+                            .map(product => {
+
+                                const price =
+                                    Number(product.price || 0)
+                                        .toLocaleString(
+                                            "pt-BR",
+                                            {
+                                                style: "currency",
+                                                currency: "BRL"
+                                            }
+                                        );
+
+                                return `
+                                    <div
+                                        class="search-result"
+                                        data-id="${product.id}"
+                                    >
+
+                                        <div class="search-result-image">
+                                            ${
+                                                product.image
+                                                    ? `<img
+                                                        src="${product.image}"
+                                                        alt="${product.name || ""}"
+                                                    >`
+                                                    : ""
+                                            }
+                                        </div>
+
+                                        <div class="search-result-info">
+
+                                            <strong>
+                                                ${product.name || "Produto"}
+                                            </strong>
+
+                                            <span>
+                                                ${product.brand || ""}
+                                            </span>
+
+                                            <b>
+                                                ${price}
+                                            </b>
+
+                                        </div>
+
+                                    </div>
+                                `;
+                            })
+                            .join("");
+
+                },
+                300
+            );
+        }
+    );
+    
+
+
+    document.addEventListener(
+        "keydown",
+        (event) => {
+
+            if (event.key === "Escape") {
+
+                searchPanel.classList.remove(
+                    "search-open"
+                );
+
+                searchInput.value = "";
+                searchResults.innerHTML = "";
+            }
+        }
+    );
+
+});
+
+        
+
+        /* ==================================================
+           ELEMENTOS
+        ================================================== */
+
+        const cartItems =
+            document.getElementById(
+                "cart-items"
+            );
+
+
+        const cartSubtotal =
+            document.getElementById(
+                "cart-subtotal"
+            );
+
+
+        const cartTotal =
+            document.getElementById(
+                "cart-total"
+            );
+
+
+        const cartEmpty =
+            document.getElementById(
+                "cart-empty"
+            );
+
+
+        const cartLayout =
+            document.getElementById(
+                "cart-layout"
+            );
+
+
+        const checkoutButton =
+            document.getElementById(
+                "checkout-button"
+            );
+
+
+        /* ==================================================
+           FORMATAÇÃO DE PREÇO
+        ================================================== */
+
+        function formatPrice(price) {
+
+            return new Intl.NumberFormat(
+                "pt-BR",
+                {
+                    style: "currency",
+                    currency: "BRL"
+                }
+            ).format(price);
+
+        }
+
+
+        /* ==================================================
+           PEGAR CARRINHO
+        ================================================== */
+
+        function getCart() {
+
+            return JSON.parse(
+                localStorage.getItem(
+                    "vellorCart"
+                )
+            ) || [];
+
+        }
+
+
+        /* ==================================================
+           SALVAR CARRINHO
+        ================================================== */
+
+        function saveCart(cart) {
+
+            localStorage.setItem(
+                "vellorCart",
+                JSON.stringify(cart)
+            );
+
+        }
+
+
+        /* ==================================================
+           CONTADOR
+        ================================================== */
+
+        function updateCartCount() {
+
+            const cart =
+                getCart();
+
+
+            const total =
+                cart.reduce(
+                    (sum, item) =>
+                        sum +
+                        Number(
+                            item.quantity || 0
+                        ),
+                    0
+                );
+
+
+            document
+                .querySelectorAll(
+                    ".cart-count"
+                )
+                .forEach(
+                    counter => {
+
+                        counter.textContent =
+                            total;
+
+                    }
+                );
+
+        }
+
+
+        /* ==================================================
+           RENDERIZAR CARRINHO
+        ================================================== */
+
+        function renderCart() {
+
+            const cart =
+                getCart();
+
+
+            cartItems.innerHTML =
+                "";
+
+
+            /* CARRINHO VAZIO */
+
+            if (cart.length === 0) {
+
+                cartLayout.style.display =
+                    "none";
+
+                cartEmpty.style.display =
+                    "flex";
+
+                updateCartCount();
+
+                return;
+
+            }
+
+
+            cartLayout.style.display =
+                "grid";
+
+            cartEmpty.style.display =
+                "none";
+
+
+            let subtotal = 0;
+
+
+            cart.forEach(
+                (item, index) => {
+
+                    const price =
+                        Number(
+                            item.price || 0
+                        );
+
+
+                    const quantity =
+                        Number(
+                            item.quantity || 1
+                        );
+
+
+                    const itemSubtotal =
+                        price * quantity;
+
+
+                    subtotal +=
+                        itemSubtotal;
+
+
+                    const article =
+                        document.createElement(
+                            "article"
+                        );
+
+
+                    article.className =
+                        "cart-item";
+
+
+                    article.innerHTML = `
+
+                        <div class="cart-item-image">
+
+                            ${
+                                item.image
+                                    ? `
+                                        <img
+                                            src="${item.image}"
+                                            alt="${item.name}"
+                                        >
+                                    `
+                                    : `
+                                        <div class="cart-item-placeholder">
+                                            PRODUTO
+                                        </div>
+                                    `
+                            }
+
+                        </div>
+
+
+                        <div class="cart-item-info">
+
+                            <span class="cart-item-brand">
+
+                                ${item.brand || ""}
+
+                            </span>
+
+
+                            <h2>
+
+                                ${item.name || "Produto"}
+
+                            </h2>
+
+
+                            <span class="cart-item-size">
+
+                                Tamanho:
+                                <strong>
+                                    ${item.size}
+                                </strong>
+
+                            </span>
+
+
+                            <strong class="cart-item-price">
+
+                                ${formatPrice(price)}
+
+                            </strong>
+
+                        </div>
+
+
+                        <div class="cart-item-actions">
+
+                            <div class="cart-quantity">
+
+                                <button
+                                    type="button"
+                                    data-action="minus"
+                                    data-index="${index}"
+                                >
+                                    −
+                                </button>
+
+
+                                <span>
+
+                                    ${quantity}
+
+                                </span>
+
+
+                                <button
+                                    type="button"
+                                    data-action="plus"
+                                    data-index="${index}"
+                                >
+                                    +
+                                </button>
+
+                            </div>
+
+
+                            <strong class="cart-item-subtotal">
+
+                                ${formatPrice(itemSubtotal)}
+
+                            </strong>
+
+
+                            <button
+                                type="button"
+                                class="cart-remove"
+                                data-action="remove"
+                                data-index="${index}"
+                            >
+
+                                Remover
+
+                            </button>
+
+                        </div>
+
+                    `;
+
+
+                    cartItems.appendChild(
+                        article
+                    );
+
+                }
+            );
+
+
+            cartSubtotal.textContent =
+                formatPrice(subtotal);
+
+
+            cartTotal.textContent =
+                formatPrice(subtotal);
+
+
+            updateCartCount();
+
+        }
+
+
+        /* ==================================================
+           AÇÕES DOS PRODUTOS
+        ================================================== */
+
+        cartItems.addEventListener(
+            "click",
+            event => {
+
+                const button =
+                    event.target.closest(
+                        "button"
+                    );
+
+
+                if (!button) {
+                    return;
+                }
+
+
+                const action =
+                    button.dataset.action;
+
+
+                const index =
+                    Number(
+                        button.dataset.index
+                    );
+
+
+                const cart =
+                    getCart();
+
+
+                const item =
+                    cart[index];
+
+
+                if (!item) {
+                    return;
+                }
+
+
+                /* DIMINUIR */
+
+                if (
+                    action === "minus"
+                ) {
+
+                    if (
+                        item.quantity > 1
+                    ) {
+
+                        item.quantity--;
+
+                    }
+
+                }
+
+
+                /* AUMENTAR */
+
+                if (
+                    action === "plus"
+                ) {
+
+                    item.quantity++;
+
+                }
+
+
+                /* REMOVER */
+
+                if (
+                    action === "remove"
+                ) {
+
+                    cart.splice(
+                        index,
+                        1
+                    );
+
+                }
+
+
+                saveCart(cart);
+
+                renderCart();
+
+            }
+        );
+
+
+        /* ==================================================
+           CHECKOUT
+        ================================================== */
+
+        checkoutButton.addEventListener(
+            "click",
+            () => {
+
+                const cart =
+                    getCart();
+
+
+                if (
+                    cart.length === 0
+                ) {
+
+                    return;
+
+                }
+
+
+                alert(
+                    "O checkout será conectado na próxima etapa."
+                );
+
+            }
+        );
+
+
+        /* ==================================================
+           INICIAR
+        ================================================== */
+
+               renderCart();
+
+/* ==================================================
+   MENU DA LOJA + MENU MOBILE
+================================================== */
+
+const mobileMenuToggle =
+    document.getElementById(
+        "mobile-menu-toggle"
+    );
+
+const storeNavigation =
+    document.getElementById(
+        "store-navigation"
+    );
+
+let storeMenuItems = [];
+
+
+/* ==================================================
+   ESCAPAR HTML
+================================================== */
+
+function escapeHTML(value) {
+
+    return String(value ?? "")
+        .replace(/&/g, "&amp;")
+        .replace(/</g, "&lt;")
+        .replace(/>/g, "&gt;")
+        .replace(/"/g, "&quot;")
+        .replace(/'/g, "&#039;");
+
+}
+
+
+/* ==================================================
+   PEGAR FILHOS DO MENU
+================================================== */
+
+function getMenuChildren(parentId) {
+
+    return storeMenuItems
+        .filter(
+            item =>
+                String(item.parentId || "") ===
+                String(parentId || "")
+        )
+        .sort(
+            (a, b) =>
+                Number(a.order || 0) -
+                Number(b.order || 0)
+        );
+
+}
+
+
+/* ==================================================
+   CRIAR ITEM DO MENU
+================================================== */
+
+function buildMenuItem(
+    item,
+    isRoot = false
+) {
+
+    const children =
+        getMenuChildren(item.id);
+
+    const wrapper =
+        document.createElement("div");
+
+    wrapper.className =
+        "navigation-item";
+
+    const link =
+        document.createElement("a");
+
+    const itemName =
+    String(item.name || "")
+        .trim()
+        .toLowerCase();
+
+link.href =
+    (
+        isRoot &&
+        ["masculino", "feminino"].includes(itemName)
+    )
+        ? `categoria.html?menu=${encodeURIComponent(item.id)}&all=1`
+        : `categoria.html?menu=${encodeURIComponent(item.id)}`;
+    link.textContent =
+        item.name || "Categoria";
+
+    if (item.target) {
+        link.target =
+            item.target;
+    }
+
+    wrapper.appendChild(link);
+
+
+    /* ==================================================
+       SUBMENU
+    ================================================== */
+
+    if (children.length > 0) {
+
+        link.innerHTML =
+            `
+                ${escapeHTML(item.name || "Categoria")}
+                <span class="navigation-arrow">⌄</span>
+            `;
+
+        const dropdown =
+            document.createElement("div");
+
+        dropdown.className =
+            "navigation-dropdown";
+
+        children.forEach(
+            child => {
+
+                dropdown.appendChild(
+                    buildMenuItem(
+                        child,
+                        false
+                    )
+                );
+
+            }
+        );
+
+        wrapper.appendChild(
+            dropdown
+        );
+
+    }
+
+    return wrapper;
+
+}
+
+
+/* ==================================================
+   CARREGAR MENU DO FIREBASE
+================================================== */
+
+async function loadStoreMenu() {
+
+    if (!storeNavigation) {
+        return;
+    }
+
+    try {
+
+        const {
+            db,
+            collection,
+            query,
+            where,
+            getDocs
+        } = window.vellorFirebase;
+
+
+        const menuRef =
+            collection(
+                db,
+                "store_menu"
+            );
+
+
+        const menuQuery =
+            query(
+                menuRef,
+                where(
+                    "active",
+                    "==",
+                    true
+                )
+            );
+
+
+        const snapshot =
+            await getDocs(
+                menuQuery
+            );
+
+
+        storeMenuItems = [];
+
+
+        snapshot.forEach(
+            docSnapshot => {
+
+                storeMenuItems.push({
+                    id: docSnapshot.id,
+                    ...docSnapshot.data()
+                });
+
+            }
+        );
+
+
+        /* ==================================================
+           LIMPAR MENU
+        ================================================== */
+
+        storeNavigation.innerHTML = "";
+
+
+        /* ==================================================
+           INÍCIO
+        ================================================== */
+
+        const homeLink =
+            document.createElement("a");
+
+        homeLink.href =
+            "index.html";
+
+        homeLink.textContent =
+            "Início";
+
+        storeNavigation.appendChild(
+            homeLink
+        );
+
+
+        /* ==================================================
+           CATEGORIAS PRINCIPAIS
+        ================================================== */
+
+        const rootItems =
+            storeMenuItems
+                .filter(
+                    item =>
+                        !item.parentId
+                )
+                .sort(
+                    (a, b) => {
+
+                        const order = {
+                            "Masculino": 1,
+                            "Feminino": 2,
+                            "Acessórios": 3,
+                            "Promoções": 4
+                        };
+
+                        return (
+                            (order[a.name] || 99) -
+                            (order[b.name] || 99)
+                        );
+
+                    }
+                );
+
+
+        rootItems.forEach(
+            item => {
+
+                storeNavigation.appendChild(
+                    buildMenuItem(
+                        item,
+                        true
+                    )
+                );
+
+            }
+        );
+
+
+        /* ==================================================
+           PROMOÇÕES
+           CASO NÃO ESTEJA NO FIREBASE
+        ================================================== */
+
+        const hasPromocoes =
+            rootItems.some(
+                item =>
+                    String(
+                        item.name || ""
+                    ).toLowerCase() ===
+                    "promoções"
+            );
+
+
+        if (!hasPromocoes) {
+
+            const promocoes =
+                document.createElement("a");
+
+            promocoes.href =
+                "index.html#promocoes";
+
+            promocoes.textContent =
+                "Promoções";
+
+            storeNavigation.appendChild(
+                promocoes
+            );
+
+        }
+
+
+    } catch (error) {
+
+        console.error(
+            "Erro ao carregar menu da loja:",
+            error
+        );
+
+        /*
+         * Caso o Firebase falhe,
+         * mantém um menu básico.
+         */
+
+        storeNavigation.innerHTML = `
+            <a href="index.html">
+                Início
+            </a>
+
+            <a href="index.html#masculino">
+                Masculino
+            </a>
+
+            <a href="index.html#feminino">
+                Feminino
+            </a>
+
+            <a href="index.html#acessorios">
+                Acessórios
+            </a>
+
+            <a href="index.html#promocoes">
+                Promoções
+            </a>
+        `;
+
+    }
+
+}
+
+
+/* ==================================================
+   BOTÃO HAMBÚRGUER
+================================================== */
+
+if (
+    mobileMenuToggle &&
+    storeNavigation
+) {
+
+    mobileMenuToggle.addEventListener(
+        "click",
+        () => {
+
+            const isOpen =
+                document.body.classList.toggle(
+                    "mobile-menu-open"
+                );
+
+
+            mobileMenuToggle.setAttribute(
+                "aria-expanded",
+                String(isOpen)
+            );
+
+
+            mobileMenuToggle.setAttribute(
+                "aria-label",
+                isOpen
+                    ? "Fechar menu"
+                    : "Abrir menu"
+            );
+
+
+            mobileMenuToggle.textContent =
+                isOpen
+                    ? "×"
+                    : "☰";
+
+        }
+    );
+
+
+    /* ==================================================
+       ABRIR SUBCATEGORIAS NO CELULAR
+    ================================================== */
+
+    storeNavigation.addEventListener(
+        "click",
+        event => {
+
+            const link =
+                event.target.closest(
+                    ".navigation-item > a"
+                );
+
+
+            if (!link) {
+                return;
+            }
+
+
+            const item =
+                link.parentElement;
+
+
+            const submenu =
+                Array.from(
+                    item.children
+                ).find(
+                    child =>
+                        child.classList &&
+                        child.classList.contains(
+                            "navigation-dropdown"
+                        )
+                );
+
+
+            if (!submenu) {
+                return;
+            }
+
+
+            if (
+                window.innerWidth <= 700
+            ) {
+
+                event.preventDefault();
+
+
+                item.classList.toggle(
+                    "mobile-expanded"
+                );
+
+            }
+
+        }
+    );
+
+}
+
+
+/* ==================================================
+   INICIAR MENU
+================================================== */
+window.addEventListener(
+    "vellorFirebaseReady",
+    loadStoreMenu
+);
+
+
+    </script>
+
+    <script src="script.js"></script>
+
+
+</body>
+
+</html>

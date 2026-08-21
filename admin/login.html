@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>Vellor Shoes — Acesso Administrativo</title>
+
+    <link
+        rel="preconnect"
+        href="https://fonts.googleapis.com"
+    >
+
+    <link
+        rel="preconnect"
+        href="https://fonts.gstatic.com"
+        crossorigin
+    >
+
+    <link
+        href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap"
+        rel="stylesheet"
+    >
+
+    <link
+        rel="stylesheet"
+        href="admin.css"
+    >
+</head>
+
+<body class="admin-login-page">
+
+    <main class="admin-login-container">
+
+        <section class="admin-login-card">
+
+            <div class="admin-login-logo">
+                <img
+                    src="../assets/logo.png"
+                    alt="Vellor Shoes"
+                >
+            </div>
+
+            <div class="admin-login-header">
+
+                <span class="admin-login-label">
+                    PAINEL ADMINISTRATIVO
+                </span>
+
+                <h1>
+                    Acesso restrito
+                </h1>
+
+                <p>
+                    Entre para gerenciar sua loja.
+                </p>
+
+            </div>
+
+            <form id="admin-login-form">
+
+                <div class="admin-form-group">
+
+                    <label for="admin-email">
+                        E-mail
+                    </label>
+
+                    <input
+                        type="email"
+                        id="admin-email"
+                        placeholder="seu@email.com"
+                        autocomplete="email"
+                        required
+                    >
+
+                </div>
+
+                <div class="admin-form-group">
+
+                    <label for="admin-password">
+                        Senha
+                    </label>
+
+                    <input
+                        type="password"
+                        id="admin-password"
+                        placeholder="Digite sua senha"
+                        autocomplete="current-password"
+                        required
+                    >
+
+                </div>
+
+                <p
+                    id="admin-login-error"
+                    class="admin-login-error"
+                    hidden
+                ></p>
+
+                <button
+                    type="submit"
+                    class="admin-login-button"
+                >
+                    ENTRAR
+                </button>
+
+            </form>
+
+            <a
+                href="../index.html"
+                class="admin-back-store"
+            >
+                ← Voltar para a loja
+            </a>
+
+        </section>
+
+    </main>
+<script
+    type="module"
+    src="admin.js"
+></script>
+</body>
+
+</html>

@@ -1,0 +1,559 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>Vellor Shoes — Produtos</title>
+
+
+    <!-- GOOGLE FONT -->
+
+    <link
+        rel="preconnect"
+        href="https://fonts.googleapis.com"
+    >
+
+    <link
+        rel="preconnect"
+        href="https://fonts.gstatic.com"
+        crossorigin
+    >
+
+    <link
+        href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap"
+        rel="stylesheet"
+    >
+
+
+    <!-- CSS DO ADMIN -->
+
+    <link
+        rel="stylesheet"
+        href="admin.css"
+    >
+
+</head>
+
+
+<body class="admin-dashboard-page admin-products-page">
+
+
+    <!-- =====================================================
+         SIDEBAR
+    ====================================================== -->
+
+    <aside class="admin-sidebar">
+
+
+        <!-- LOGO -->
+
+        <div class="admin-sidebar-logo">
+
+            <img
+                src="../assets/logo.png"
+                alt="Vellor Shoes"
+            >
+
+        </div>
+
+
+        <!-- NAVEGAÇÃO -->
+
+        <nav class="admin-navigation">
+
+    <!-- PRINCIPAL -->
+    <div class="admin-nav-section">
+
+        <div class="admin-nav-title">
+            PRINCIPAL
+        </div>
+
+        <a
+            href="dashboard.html"
+            class="admin-nav-link"
+        >
+            <span class="admin-nav-icon">▦</span>
+            <span>Dashboard</span>
+        </a>
+
+    </div>
+
+
+    <!-- CATÁLOGO -->
+    <div class="admin-nav-section">
+
+        <div class="admin-nav-title">
+            CATÁLOGO
+        </div>
+
+        <a
+            href="produtos.html"
+            class="admin-nav-link active"
+        >
+            <span class="admin-nav-icon">◈</span>
+            <span>Produtos</span>
+        </a>
+
+        <a
+            href="menu.html"
+            class="admin-nav-link"
+        >
+            <span class="admin-nav-icon">☰</span>
+            <span>Menu da Loja</span>
+        </a>
+
+    </div>
+
+
+    <!-- OPERAÇÃO -->
+    <div class="admin-nav-section">
+
+        <div class="admin-nav-title">
+            OPERAÇÃO
+        </div>
+
+        <a
+            href="estoque.html"
+            class="admin-nav-link"
+        >
+            <span class="admin-nav-icon">▤</span>
+            <span>Estoque</span>
+        </a>
+
+        <a
+            href="vendas.html"
+            class="admin-nav-link"
+        >
+            <span class="admin-nav-icon">▣</span>
+            <span>Vendas</span>
+        </a>
+
+    </div>
+
+
+    <!-- LOJA -->
+    <div class="admin-nav-section">
+
+        <div class="admin-nav-title">
+            LOJA
+        </div>
+
+        <a
+            href="#"
+            class="admin-nav-link"
+        >
+            <span class="admin-nav-icon">⌂</span>
+            <span>Loja</span>
+        </a>
+
+    </div>
+
+
+    <!-- SISTEMA -->
+    <div class="admin-nav-section">
+
+        <div class="admin-nav-title">
+            SISTEMA
+        </div>
+
+        <a
+            href="#"
+            class="admin-nav-link"
+        >
+            <span class="admin-nav-icon">⚙</span>
+            <span>Configurações</span>
+        </a>
+
+    </div>
+
+</nav>
+
+
+        <!-- PARTE INFERIOR -->
+
+        <div class="admin-sidebar-bottom">
+
+
+            <a
+                href="../index.html"
+                class="admin-store-link"
+            >
+                ← Voltar para a loja
+            </a>
+
+
+            <button
+                type="button"
+                class="admin-logout-button"
+                id="admin-logout-button"
+            >
+                Sair da conta
+            </button>
+
+
+        </div>
+
+
+    </aside>
+
+
+
+    <!-- =====================================================
+         CONTEÚDO PRINCIPAL
+    ====================================================== -->
+
+    <main class="admin-main">
+
+
+        <!-- CABEÇALHO -->
+
+        <header class="admin-topbar">
+
+
+            <div class="admin-topbar-heading">
+
+                <span class="admin-page-label">
+                    CATÁLOGO
+                </span>
+
+
+                <h1>
+                    Produtos
+                </h1>
+
+
+                <p class="admin-topbar-subtitle">
+                    Gerencie os produtos cadastrados na Vellor Shoes.
+                </p>
+
+            </div>
+
+
+            <div class="admin-user-area">
+
+
+                <div class="admin-user-info">
+
+                    <span class="admin-user-name">
+                        Administrador
+                    </span>
+
+                    <span class="admin-user-role">
+                        Vellor Shoes
+                    </span>
+
+                </div>
+
+
+                <div class="admin-user-avatar">
+                    A
+                </div>
+
+
+            </div>
+
+
+        </header>
+
+
+
+        <!-- =================================================
+             FERRAMENTAS
+        ================================================== -->
+
+        <section class="products-toolbar">
+
+
+            <div class="products-toolbar-left">
+
+
+                <!-- BUSCA -->
+
+                <div class="products-search">
+
+                    <span class="products-search-icon">
+                        ⌕
+                    </span>
+
+
+                    <input
+                        type="search"
+                        id="product-search"
+                        placeholder="Buscar por nome, marca ou SKU..."
+                        autocomplete="off"
+                    >
+
+                </div>
+
+
+                <!-- FILTRO -->
+
+                <select
+                    id="product-status-filter"
+                    class="products-filter"
+                >
+
+                    <option value="all">
+                        Todos os produtos
+                    </option>
+
+                    <option value="active">
+                        Ativos
+                    </option>
+
+                    <option value="inactive">
+                        Inativos
+                    </option>
+
+                </select>
+
+
+            </div>
+
+
+            <!-- NOVO PRODUTO -->
+
+            <button
+                type="button"
+                class="products-new-button"
+                id="new-product-button"
+            >
+
+                <span>
+                    +
+                </span>
+
+                Novo produto
+
+            </button>
+
+
+        </section>
+
+
+
+        <!-- =================================================
+             RESUMO
+        ================================================== -->
+
+        <section class="products-summary">
+
+
+            <!-- CATÁLOGO -->
+
+            <div>
+
+                <span class="products-summary-label">
+                    CATÁLOGO
+                </span>
+
+
+                <strong id="products-total">
+                    0
+                </strong>
+
+
+                <small>
+                    produtos encontrados
+                </small>
+
+            </div>
+
+
+            <!-- ATIVOS -->
+
+            <div>
+
+                <span class="products-summary-label">
+                    ATIVOS
+                </span>
+
+
+                <strong id="products-active">
+                    0
+                </strong>
+
+
+                <small>
+                    disponíveis na loja
+                </small>
+
+            </div>
+
+
+            <!-- ESTOQUE BAIXO -->
+
+            <div>
+
+                <span class="products-summary-label">
+                    ESTOQUE BAIXO
+                </span>
+
+
+                <strong id="products-low-stock">
+                    0
+                </strong>
+
+
+                <small>
+                    produtos para verificar
+                </small>
+
+            </div>
+
+
+        </section>
+
+
+
+        <!-- =================================================
+             TABELA DE PRODUTOS
+        ================================================== -->
+
+        <section class="products-panel">
+
+
+            <!-- CABEÇALHO -->
+
+            <div class="products-panel-header">
+
+
+                <div>
+
+                    <span class="admin-panel-label">
+                        CATÁLOGO
+                    </span>
+
+
+                    <h2>
+                        Todos os produtos
+                    </h2>
+
+                </div>
+
+
+                <span
+                    id="products-loading-label"
+                    class="products-loading-label"
+                >
+                    Carregando...
+                </span>
+
+
+            </div>
+
+
+
+            <!-- FEEDBACK -->
+
+            <div
+                id="products-feedback"
+                class="products-feedback"
+                hidden
+            ></div>
+
+
+
+            <!-- TABELA -->
+
+            <div class="products-table-wrap">
+
+
+                <table class="products-table">
+
+
+                    <thead>
+
+                        <tr>
+
+                            <th>
+                                PRODUTO
+                            </th>
+
+                            <th>
+                                MARCA
+                            </th>
+
+                            <th>
+                                SKU
+                            </th>
+
+                            <th>
+                                PREÇO
+                            </th>
+
+                            <th>
+                                ESTOQUE
+                            </th>
+
+                            <th>
+                                STATUS
+                            </th>
+
+                            <th>
+                            </th>
+
+                        </tr>
+
+                    </thead>
+
+
+                    <tbody id="products-table-body">
+
+                    </tbody>
+
+
+                </table>
+
+
+            </div>
+
+
+
+            <!-- ESTADO VAZIO -->
+
+            <div
+                id="products-empty"
+                class="products-empty"
+                hidden
+            >
+
+                <h3>
+                    Nenhum produto encontrado
+                </h3>
+
+
+                <p>
+                    Cadastre seu primeiro produto para começar a montar o catálogo.
+                </p>
+
+            </div>
+
+
+        </section>
+
+
+    </main>
+
+
+
+    <!-- =====================================================
+         JAVASCRIPT
+    ====================================================== -->
+
+    <script
+        type="module"
+        src="produtos.js"
+    ></script>
+
+
+</body>
+
+</html>

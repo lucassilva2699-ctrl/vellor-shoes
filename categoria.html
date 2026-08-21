@@ -1,0 +1,1198 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Vellor Shoes — produtos por categoria.">
+    <title>Vellor Shoes | Produtos</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+
+    <style>
+        body {
+            background: #0b0b0d;
+            color: #fff;
+            font-family: Poppins, sans-serif;
+        }
+
+        .navigation {
+            display: flex;
+            align-items: center;
+            gap: 28px;
+        }
+
+        .navigation-item {
+            position: relative;
+            display: flex;
+            align-items: center;
+        }
+
+        .navigation-item > a {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            white-space: nowrap;
+        }
+
+        .navigation-arrow {
+            font-size: 10px;
+            opacity: .7;
+        }
+
+        .navigation-dropdown {
+            position: absolute;
+            top: 100%;
+            left: 50%;
+            transform: translateX(-50%);
+            min-width: 230px;
+            padding: 10px;
+            background: #111114;
+            border: 1px solid rgba(255,255,255,.1);
+            border-radius: 12px;
+            box-shadow: 0 18px 45px rgba(0,0,0,.35);
+            opacity: 0;
+            visibility: hidden;
+            pointer-events: none;
+            transition: opacity .18s, visibility .18s, transform .18s;
+            z-index: 9999;
+        }
+
+        .navigation-item:hover > .navigation-dropdown,
+        .navigation-item:focus-within > .navigation-dropdown {
+            opacity: 1;
+            visibility: visible;
+            pointer-events: auto;
+            transform: translateX(-50%) translateY(0);
+        }
+
+        .navigation-dropdown .navigation-item {
+            display: block;
+        }
+
+        .navigation-dropdown .navigation-item > a {
+            display: flex;
+            justify-content: space-between;
+            width: 100%;
+            padding: 11px 12px;
+            border-radius: 8px;
+        }
+
+        .navigation-dropdown .navigation-item > a:hover {
+            background: rgba(255,255,255,.07);
+        }
+
+        .navigation-dropdown .navigation-dropdown {
+            top: -10px;
+            left: 100%;
+            transform: none;
+        }
+
+        .navigation-dropdown .navigation-item:hover > .navigation-dropdown,
+        .navigation-dropdown .navigation-item:focus-within > .navigation-dropdown {
+            transform: translateY(0);
+        }
+
+        .category-page {
+            padding: 55px 0 90px;
+            min-height: calc(100vh - 100px);
+        }
+
+        .category-top {
+            display: flex;
+            justify-content: space-between;
+            align-items: end;
+            gap: 25px;
+            margin-bottom: 28px;
+        }
+
+        .breadcrumb {
+            font-size: 13px;
+            color: #8e8e96;
+            margin-bottom: 10px;
+        }
+
+        .category-title {
+            font-size: 36px;
+            margin: 0;
+        }
+
+        .category-description {
+            color: #9a9aa2;
+            margin-top: 8px;
+        }
+
+        .category-tools {
+            display: flex;
+            gap: 10px;
+        }
+
+        .category-tools input,
+        .category-tools select {
+            background: #151518;
+            border: 1px solid #29292e;
+            color: #fff;
+            padding: 12px 14px;
+            border-radius: 9px;
+            font: inherit;
+            outline: none;
+        }
+
+        .category-tools input {
+            min-width: 230px;
+        }
+
+        .products-grid {
+            display: grid;
+            grid-template-columns: repeat(4, minmax(0, 1fr));
+            gap: 22px;
+        }
+
+        .product-card {
+            background: #111114;
+            border: 1px solid #232329;
+            border-radius: 14px;
+            overflow: hidden;
+            transition: .2s;
+        }
+
+        .product-card:hover {
+            transform: translateY(-3px);
+            border-color: #3a3a43;
+        }
+
+        .product-image {
+            display: block;
+            aspect-ratio: 1 / 1;
+            background: #18181b;
+            overflow: hidden;
+            position: relative;
+        }
+
+        .product-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            display: block;
+        }
+
+        .badge {
+            position: absolute;
+            top: 12px;
+            left: 12px;
+            background: #007bff;
+            color: #fff;
+            font-size: 11px;
+            font-weight: 600;
+            padding: 6px 9px;
+            border-radius: 6px;
+        }
+
+        .product-info {
+            padding: 17px;
+        }
+
+        .product-brand {
+            font-size: 11px;
+            text-transform: uppercase;
+            color: #8e8e96;
+            letter-spacing: .7px;
+        }
+
+        .product-name {
+            font-size: 15px;
+            font-weight: 600;
+            margin: 6px 0 12px;
+            min-height: 44px;
+        }
+
+        .product-price {
+            font-size: 18px;
+            font-weight: 700;
+        }
+
+        .old-price {
+            text-decoration: line-through;
+            color: #777;
+            font-size: 13px;
+            margin-right: 8px;
+            font-weight: 400;
+        }
+
+        .empty {
+            padding: 70px 20px;
+            text-align: center;
+            background: #111114;
+            border: 1px solid #232329;
+            border-radius: 14px;
+            color: #999;
+        }
+
+        .loading {
+            text-align: center;
+            padding: 70px;
+            color: #aaa;
+        }
+
+        .category-count {
+            color: #888;
+            font-size: 13px;
+        }
+
+        .header {
+            position: relative;
+            z-index: 10000;
+        }
+
+        .navigation-item > a {
+            text-decoration: none;
+            color: inherit;
+        }
+
+        .navigation-item > a:hover {
+            color: #fff;
+        }
+
+        .home-link,
+        .cart-button {
+            text-decoration: none;
+            color: inherit;
+        }
+
+        .cart-count {
+            display: inline-flex;
+        }
+
+        /* Pesquisa do cabeçalho */
+        #search-panel {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            min-height: 100vh;
+            background: rgba(0, 0, 0, 0.96);
+            z-index: 99999;
+            display: none;
+            align-items: flex-start;
+            justify-content: center;
+            padding: 90px 20px 30px;
+            box-sizing: border-box;
+        }
+
+        #search-panel.search-open {
+            display: flex;
+        }
+
+        .search-panel-content {
+            width: min(760px, 100%);
+        }
+
+        .search-panel-top {
+            display: flex;
+            gap: 12px;
+            align-items: center;
+        }
+
+        #store-search {
+            flex: 1;
+            width: 100%;
+            background: #151518;
+            border: 1px solid #303038;
+            color: #fff;
+            padding: 16px 18px;
+            border-radius: 10px;
+            outline: none;
+            font: inherit;
+            font-size: 16px;
+            box-sizing: border-box;
+        }
+
+        #search-close {
+            border: 1px solid #303038;
+            background: #151518;
+            color: #fff;
+            width: 48px;
+            height: 48px;
+            border-radius: 10px;
+            cursor: pointer;
+            font-size: 22px;
+        }
+
+        #search-results {
+            margin-top: 14px;
+            max-height: 65vh;
+            overflow-y: auto;
+        }
+
+        .search-result {
+            display: flex;
+            align-items: center;
+            gap: 14px;
+            padding: 12px;
+            margin-bottom: 8px;
+            background: #111114;
+            border: 1px solid #232329;
+            border-radius: 10px;
+            cursor: pointer;
+        }
+
+        .search-result:hover {
+            border-color: #007bff;
+        }
+
+        .search-result-image {
+            width: 58px;
+            height: 58px;
+            object-fit: cover;
+            border-radius: 8px;
+            background: #18181b;
+            flex-shrink: 0;
+        }
+
+        .search-result-info {
+            min-width: 0;
+        }
+
+        .search-result-brand {
+            font-size: 11px;
+            color: #8e8e96;
+            text-transform: uppercase;
+        }
+
+        .search-result-name {
+            margin-top: 3px;
+            font-size: 14px;
+            font-weight: 600;
+        }
+
+        .search-result-price {
+            margin-top: 4px;
+            font-size: 13px;
+            color: #bbb;
+        }
+
+        .search-message {
+            padding: 25px 10px;
+            text-align: center;
+            color: #999;
+        }
+
+        @media (max-width: 1100px) {
+            .products-grid {
+                grid-template-columns: repeat(3, minmax(0, 1fr));
+            }
+        }
+
+        @media (max-width: 800px) {
+            .category-top {
+                display: block;
+            }
+
+            .category-tools {
+                margin-top: 18px;
+                flex-wrap: wrap;
+            }
+
+            .category-tools input {
+                width: 100%;
+                min-width: 0;
+            }
+
+            .products-grid {
+                grid-template-columns: repeat(2, minmax(0, 1fr));
+            }
+
+            .navigation {
+                gap: 12px;
+            }
+        }
+
+        @media (max-width: 520px) {
+            .products-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .category-title {
+                font-size: 28px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <header class="header">
+        <div class="container header-content">
+            <a href="index.html" class="logo">
+                <img src="assets/logo.png" alt="Vellor Shoes">
+            </a>
+
+            <nav class="navigation" id="store-navigation">
+                <a href="index.html" class="home-link active">Início</a>
+                <span class="navigation-loading">Carregando menu...</span>
+            </nav>
+
+            <div class="header-actions">
+                <button
+    type="button"
+    class="icon-button mobile-menu-toggle"
+    id="mobile-menu-toggle"
+    aria-label="Abrir menu"
+    aria-expanded="false"
+>
+    ☰
+</button>
+                <button
+                    type="button"
+                    class="icon-button search-toggle"
+                    id="search-toggle"
+                    aria-label="Pesquisar"
+                >
+                    🔍
+                </button>
+<a
+    href="acompanhar.html"
+    class="icon-button"
+    aria-label="Acompanhar pedido"
+    title="Acompanhar pedido"
+>
+    ♙
+</a>
+                <a
+                    href="carrinho.html"
+                    class="icon-button cart-button"
+                    aria-label="Carrinho"
+                >
+                    🛒 <span class="cart-count">0</span>
+                </a>
+            </div>
+        </div>
+    </header>
+
+    <main class="category-page">
+        <div class="container">
+            <div class="category-top">
+                <div>
+                    <div class="breadcrumb" id="breadcrumb">
+                        Vellor Shoes / Produtos
+                    </div>
+
+                    <h1 class="category-title" id="category-title">
+                        Produtos
+                    </h1>
+
+                    <p class="category-description" id="category-description">
+                        Encontre o modelo ideal para você.
+                    </p>
+
+                    <div class="category-count" id="category-count"></div>
+                </div>
+
+                <div class="category-tools">
+                    <input
+                        id="product-search"
+                        type="search"
+                        placeholder="Buscar produto..."
+                    >
+
+                    <select id="sort-products">
+                        <option value="relevance">Mais relevantes</option>
+                        <option value="price-asc">Menor preço</option>
+                        <option value="price-desc">Maior preço</option>
+                        <option value="name">Nome A–Z</option>
+                    </select>
+                </div>
+            </div>
+
+            <div id="products-area" class="loading">
+                Carregando produtos...
+            </div>
+        </div>
+    </main>
+
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/12.17.1/firebase-app.js";
+        import {
+            getFirestore,
+            collection,
+            query,
+            where,
+            getDocs
+        } from "https://www.gstatic.com/firebasejs/12.17.1/firebase-firestore.js";
+
+        const firebaseConfig = {
+            apiKey: "AIzaSyDQdaiVEWUeIFQOMXzI9DluqDkl8ZeMS5o",
+            authDomain: "vellor-shoes.firebaseapp.com",
+            projectId: "vellor-shoes",
+            storageBucket: "vellor-shoes.firebasestorage.app",
+            messagingSenderId: "455357493198",
+            appId: "1:455357473198:web:f36451b846420b4dfde83f"
+        };
+
+        const app = initializeApp(firebaseConfig);
+        const db = getFirestore(app);
+
+        const esc = value =>
+            String(value ?? "")
+                .replace(/&/g, "&amp;")
+                .replace(/</g, "&lt;")
+                .replace(/>/g, "&gt;")
+                .replace(/"/g, "&quot;")
+                .replace(/'/g, "&#039;");
+
+        let menuItems = [];
+        let products = [];
+        let filtered = [];
+
+        const params = new URLSearchParams(location.search);
+        const menuId = params.get("menu");
+        const showAll = params.get("all") === "1";
+        const promotionsOnly = params.get("promocoes") === "1";
+
+        function children(id) {
+            return menuItems.filter(
+                item => (item.parentId || null) === (id || null)
+            );
+        }
+
+        function pathTo(id) {
+            const path = [];
+            let current = menuItems.find(item => item.id === id);
+            let guard = 0;
+
+            while (current && guard++ < 50) {
+                path.unshift(current);
+                current = menuItems.find(
+                    item => item.id === current.parentId
+                );
+            }
+
+            return path;
+        }
+
+        function descendantIds(id) {
+            const ids = new Set([id]);
+            let changed = true;
+
+            while (changed) {
+                changed = false;
+
+                menuItems.forEach(item => {
+                    if (
+                        item.parentId &&
+                        ids.has(item.parentId) &&
+                        !ids.has(item.id)
+                    ) {
+                        ids.add(item.id);
+                        changed = true;
+                    }
+                });
+            }
+
+            return ids;
+        }
+
+        function menuMatch(product, id) {
+            if (!id) return true;
+
+            const selected = menuItems.find(item => item.id === id);
+            if (!selected) return false;
+
+            const selectedName = String(selected.name || "")
+                .trim()
+                .toLowerCase();
+
+            const parent = menuItems.find(
+                item => item.id === selected.parentId
+            );
+
+            const specialAll = [
+                "ver todos",
+                "ver outros",
+                "todos os produtos",
+                "todos"
+            ].includes(selectedName);
+
+            let targetIds;
+
+            if (specialAll && parent) {
+                targetIds = descendantIds(parent.id);
+            } else if (
+                showAll &&
+                ["masculino", "feminino"].includes(selectedName)
+            ) {
+                const tennis = menuItems.find(
+                    item =>
+                        item.parentId === id &&
+                        ["tênis", "tenis"].includes(
+                            String(item.name || "")
+                                .trim()
+                                .toLowerCase()
+                        )
+                );
+
+                targetIds = tennis
+                    ? descendantIds(tennis.id)
+                    : descendantIds(id);
+            } else {
+                targetIds = descendantIds(id);
+            }
+
+            const productIds = [
+                product?.menu?.genderId,
+                product?.menu?.categoryId,
+                product?.menu?.subcategoryId,
+                product?.menu?.leafId
+            ].filter(Boolean);
+
+            return productIds.some(id => targetIds.has(id));
+        }
+
+        function money(value) {
+            return Number(value || 0).toLocaleString(
+                "pt-BR",
+                {
+                    style: "currency",
+                    currency: "BRL"
+                }
+            );
+        }
+
+        function imageOf(product) {
+            return (
+                product.image ||
+                (
+                    Array.isArray(product.images)
+                        ? (
+                            product.images.find(image => image.main)?.url ||
+                            product.images[0]?.url
+                        )
+                        : ""
+                )
+            );
+        }
+
+        function render() {
+            const queryText = document
+                .getElementById("product-search")
+                .value
+                .trim()
+                .toLowerCase();
+
+            filtered = products.filter(product =>
+                !queryText ||
+                `${product.name || ""} ${product.brand || ""}`
+                    .toLowerCase()
+                    .includes(queryText)
+            );
+
+            const sort = document.getElementById("sort-products").value;
+
+            if (sort === "price-asc") {
+                filtered.sort(
+                    (a, b) =>
+                        (Number(a.promotionalPrice || a.price) || 0) -
+                        (Number(b.promotionalPrice || b.price) || 0)
+                );
+            }
+
+            if (sort === "price-desc") {
+                filtered.sort(
+                    (a, b) =>
+                        (Number(b.promotionalPrice || b.price) || 0) -
+                        (Number(a.promotionalPrice || a.price) || 0)
+                );
+            }
+
+            if (sort === "name") {
+                filtered.sort(
+                    (a, b) =>
+                        String(a.name || "").localeCompare(
+                            String(b.name || ""),
+                            "pt-BR"
+                        )
+                );
+            }
+
+            document.getElementById("category-count").textContent =
+                `${filtered.length} ${filtered.length === 1 ? "produto" : "produtos"}`;
+
+            if (!filtered.length) {
+                document.getElementById("products-area").innerHTML =
+                    '<div class="empty">Nenhum produto encontrado nesta categoria.</div>';
+                return;
+            }
+
+            document.getElementById("products-area").className = "products-grid";
+
+            document.getElementById("products-area").innerHTML =
+                filtered
+                    .map(product => {
+                        const price = Number(product.price || 0);
+                        const promo =
+                            product.promotion === true ||
+                            product.promotion === "true";
+                        const promoPrice = Number(
+                            product.promotionalPrice || 0
+                        );
+                        const img = imageOf(product);
+
+                        return `
+                            <article class="product-card">
+                                <a
+                                    class="product-image"
+                                    href="produto.html?id=${encodeURIComponent(product.id)}"
+                                >
+                                    ${
+                                        img
+                                            ? `<img src="${esc(img)}" alt="${esc(product.name)}" loading="lazy">`
+                                            : '<div style="height:100%;display:grid;place-items:center;color:#777">Sem imagem</div>'
+                                    }
+
+                                    ${
+                                        promo && promoPrice > 0
+                                            ? '<span class="badge">PROMOÇÃO</span>'
+                                            : ""
+                                    }
+                                </a>
+
+                                <div class="product-info">
+                                    <div class="product-brand">
+                                        ${esc(product.brand || "")}
+                                    </div>
+
+                                    <div class="product-name">
+                                        ${esc(product.name || "Produto")}
+                                    </div>
+
+                                    <div class="product-price">
+                                        ${
+                                            promo && promoPrice > 0
+                                                ? `<span class="old-price">${money(price)}</span>${money(promoPrice)}`
+                                                : money(price)
+                                        }
+                                    </div>
+                                </div>
+                            </article>
+                        `;
+                    })
+                    .join("");
+        }
+
+        async function load() {
+            try {
+                const menus = await getDocs(
+                    query(
+                        collection(db, "store_menu"),
+                        where("active", "==", true)
+                    )
+                );
+
+                menuItems = menus.docs.map(doc => ({
+                    id: doc.id,
+                    ...doc.data()
+                }));
+
+                const snap = await getDocs(
+                    query(
+                        collection(db, "products"),
+                        where("active", "==", true)
+                    )
+                );
+
+                const all = snap.docs.map(doc => ({
+                    id: doc.id,
+                    ...doc.data()
+                }));
+
+                products = promotionsOnly
+                    ? all.filter(
+                        product =>
+                            product.promotion === true ||
+                            product.promotion === "true"
+                    )
+                    : all.filter(product => menuMatch(product, menuId));
+
+                const path = pathTo(menuId);
+                const pageTitle = promotionsOnly
+                    ? "Promoções"
+                    : (path.at(-1)?.name || "Produtos");
+
+                document.title = `Vellor Shoes | ${pageTitle}`;
+                document.getElementById("category-title").textContent = pageTitle;
+
+                document.getElementById("breadcrumb").textContent =
+                    "Vellor Shoes / " +
+                    (
+                        promotionsOnly
+                            ? "Promoções"
+                            : (path.map(item => item.name).join(" / ") || "Produtos")
+                    );
+
+                document.getElementById("category-description").textContent =
+                    promotionsOnly
+                        ? "Confira todos os produtos em promoção na Vellor Shoes."
+                        : (
+                            path.length
+                                ? `Confira os produtos disponíveis em ${path.at(-1).name}.`
+                                : "Encontre o modelo ideal para você."
+                        );
+
+                buildNav();
+                render();
+            } catch (error) {
+                console.error(error);
+
+                document.getElementById("products-area").innerHTML =
+                    '<div class="empty">Não foi possível carregar os produtos. Tente novamente.</div>';
+            }
+        }
+
+        function buildNav() {
+            const nav = document.getElementById("store-navigation");
+
+            nav.innerHTML = '<a href="index.html" class="home-link">Início</a>';
+
+            function build(item, isRoot = false) {
+                const kids = children(item.id);
+                const wrapper = document.createElement("div");
+                wrapper.className = "navigation-item";
+
+                const link = document.createElement("a");
+                const itemName = String(item.name || "")
+                    .trim()
+                    .toLowerCase();
+
+                link.href =
+                    isRoot && ["masculino", "feminino"].includes(itemName)
+                        ? `categoria.html?menu=${encodeURIComponent(item.id)}&all=1`
+                        : `categoria.html?menu=${encodeURIComponent(item.id)}`;
+
+                link.dataset.menuId = item.id;
+
+                link.innerHTML = `
+                    <span>${esc(item.name)}</span>
+                    ${
+                        kids.length
+                            ? '<span class="navigation-arrow">›</span>'
+                            : ""
+                    }
+                `;
+
+                wrapper.appendChild(link);
+
+                if (kids.length) {
+                    const dropdown = document.createElement("div");
+                    dropdown.className = "navigation-dropdown";
+
+                    kids.forEach(child =>
+                        dropdown.appendChild(build(child, false))
+                    );
+
+                    wrapper.appendChild(dropdown);
+                }
+
+                return wrapper;
+            }
+
+            const roots = children(null).sort((a, b) => {
+                const order = [
+                    "masculino",
+                    "feminino",
+                    "acessórios",
+                    "acessorios"
+                ];
+
+                const ai = order.indexOf(
+                    String(a.name || "").trim().toLowerCase()
+                );
+                const bi = order.indexOf(
+                    String(b.name || "").trim().toLowerCase()
+                );
+
+                if (ai < 0 && bi < 0) {
+                    return String(a.name).localeCompare(
+                        String(b.name),
+                        "pt-BR"
+                    );
+                }
+
+                if (ai < 0) return 1;
+                if (bi < 0) return -1;
+
+                return ai - bi;
+            });
+
+            roots.forEach(item => nav.appendChild(build(item, true)));
+
+            const promotions = document.createElement("a");
+            promotions.href = "categoria.html?promocoes=1";
+            promotions.textContent = "Promoções";
+            nav.appendChild(promotions);
+        }
+
+        /* =====================================================
+           PESQUISA DO CABEÇALHO
+           ===================================================== */
+
+        function openHeaderSearch() {
+            let panel = document.getElementById("search-panel");
+
+            if (!panel) {
+                panel = document.createElement("div");
+                panel.id = "search-panel";
+
+                panel.innerHTML = `
+                    <div class="search-panel-content">
+                        <div class="search-panel-top">
+                            <input
+                                id="store-search"
+                                type="search"
+                                placeholder="Buscar produto..."
+                                autocomplete="off"
+                            >
+
+                            <button
+                                type="button"
+                                id="search-close"
+                                aria-label="Fechar pesquisa"
+                            >
+                                ×
+                            </button>
+                        </div>
+
+                        <div id="search-results">
+                            <div class="search-message">
+                                Digite o nome, marca ou SKU do produto.
+                            </div>
+                        </div>
+                    </div>
+                `;
+
+                document.body.appendChild(panel);
+
+                const searchInput = document.getElementById("store-search");
+                const searchResults = document.getElementById("search-results");
+                const searchClose = document.getElementById("search-close");
+
+                searchClose.addEventListener("click", closeHeaderSearch);
+
+                searchInput.addEventListener("input", async () => {
+                    const text = searchInput.value.trim().toLowerCase();
+
+                    if (!text) {
+                        searchResults.innerHTML =
+                            '<div class="search-message">Digite o nome, marca ou SKU do produto.</div>';
+                        return;
+                    }
+
+                    searchResults.innerHTML =
+                        '<div class="search-message">Buscando...</div>';
+
+                    try {
+                        const snapshot = await getDocs(
+                            query(
+                                collection(db, "products"),
+                                where("active", "==", true)
+                            )
+                        );
+
+                        const results = snapshot.docs
+                            .map(doc => ({
+                                id: doc.id,
+                                ...doc.data()
+                            }))
+                            .filter(product => {
+                                const content = [
+                                    product.name,
+                                    product.brand,
+                                    product.sku
+                                ]
+                                    .filter(Boolean)
+                                    .join(" ")
+                                    .toLowerCase();
+
+                                return content.includes(text);
+                            })
+                            .slice(0, 20);
+
+                        if (!results.length) {
+                            searchResults.innerHTML =
+                                '<div class="search-message">Nenhum produto encontrado.</div>';
+                            return;
+                        }
+
+                        searchResults.innerHTML = results
+                            .map(product => {
+                                const image = imageOf(product);
+                                const price =
+                                    product.promotion === true ||
+                                    product.promotion === "true"
+                                        ? Number(product.promotionalPrice || product.price || 0)
+                                        : Number(product.price || 0);
+
+                                return `
+                                    <div
+                                        class="search-result"
+                                        data-id="${esc(product.id)}"
+                                    >
+                                        ${
+                                            image
+                                                ? `<img class="search-result-image" src="${esc(image)}" alt="${esc(product.name || "Produto")}">`
+                                                : '<div class="search-result-image"></div>'
+                                        }
+
+                                        <div class="search-result-info">
+                                            <div class="search-result-brand">
+                                                ${esc(product.brand || "")}
+                                            </div>
+
+                                            <div class="search-result-name">
+                                                ${esc(product.name || "Produto")}
+                                            </div>
+
+                                            <div class="search-result-price">
+                                                ${money(price)}
+                                            </div>
+                                        </div>
+                                    </div>
+                                `;
+                            })
+                            .join("");
+                    } catch (error) {
+                        console.error("Erro na pesquisa:", error);
+                        searchResults.innerHTML =
+                            '<div class="search-message">Não foi possível realizar a pesquisa.</div>';
+                    }
+                });
+
+                searchResults.addEventListener("click", event => {
+                    const result = event.target.closest(".search-result");
+
+                    if (!result) return;
+
+                    const id = result.dataset.id;
+                    if (!id) return;
+
+                    window.location.href =
+                        `produto.html?id=${encodeURIComponent(id)}`;
+                });
+
+                panel.addEventListener("click", event => {
+                    if (event.target === panel) {
+                        closeHeaderSearch();
+                    }
+                });
+            }
+
+            panel.classList.add("search-open");
+
+            const searchInput = document.getElementById("store-search");
+
+            setTimeout(() => {
+                searchInput?.focus();
+            }, 50);
+        }
+
+        function closeHeaderSearch() {
+            const panel = document.getElementById("search-panel");
+
+            if (panel) {
+                panel.classList.remove("search-open");
+            }
+        }
+
+        document
+            .getElementById("search-toggle")
+            .addEventListener("click", openHeaderSearch);
+
+        document.addEventListener("keydown", event => {
+            if (event.key === "Escape") {
+                closeHeaderSearch();
+            }
+        });
+
+        document
+            .getElementById("product-search")
+            .addEventListener("input", render);
+
+        document
+            .getElementById("sort-products")
+            .addEventListener("change", render);
+
+            const mobileMenuToggle =
+    document.getElementById("mobile-menu-toggle");
+
+const storeNavigation =
+    document.getElementById("store-navigation");
+
+if (mobileMenuToggle && storeNavigation) {
+
+    mobileMenuToggle.addEventListener(
+        "click",
+        () => {
+
+            const isOpen =
+                document.body.classList.toggle(
+                    "mobile-menu-open"
+                );
+
+            mobileMenuToggle.setAttribute(
+                "aria-expanded",
+                String(isOpen)
+            );
+
+            mobileMenuToggle.setAttribute(
+                "aria-label",
+                isOpen
+                    ? "Fechar menu"
+                    : "Abrir menu"
+            );
+
+            mobileMenuToggle.textContent =
+                isOpen ? "×" : "☰";
+        }
+    );
+
+    storeNavigation.addEventListener(
+        "click",
+        event => {
+
+            const link =
+                event.target.closest(
+                    ".navigation-item > a"
+                );
+
+            if (!link) return;
+
+            const item = link.parentElement;
+
+            const submenu =
+                Array.from(item.children).find(
+                    child =>
+                        child.classList &&
+                        child.classList.contains(
+                            "navigation-dropdown"
+                        )
+                );
+
+            if (!submenu) return;
+
+            if (window.innerWidth <= 700) {
+                event.preventDefault();
+
+                item.classList.toggle(
+                    "mobile-expanded"
+                );
+            }
+        }
+    );
+}
+
+        load();
+    </script>
+
+    <script src="script.js"></script>
+</body>
+</html>

@@ -1,0 +1,389 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+    <meta charset="UTF-8">
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>Vendas — Vellor Shoes</title>
+
+    <link rel="stylesheet" href="admin.css">
+
+    <link
+        href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap"
+        rel="stylesheet"
+    >
+</head>
+
+<body>
+
+    <div class="admin-layout">
+
+        <!-- SIDEBAR -->
+        <aside class="admin-sidebar">
+
+            <div class="admin-sidebar-logo">
+                <img
+                    src="../assets/logo.png"
+                    alt="Vellor Shoes"
+                >
+            </div>
+
+            <nav class="admin-navigation">
+
+                <!-- PRINCIPAL -->
+                <div class="admin-nav-section">
+
+                    <div class="admin-nav-title">
+                        PRINCIPAL
+                    </div>
+
+                    <a
+                        href="dashboard.html"
+                        class="admin-nav-link"
+                    >
+                        <span>▦</span>
+                        <span>Dashboard</span>
+                    </a>
+
+                </div>
+
+
+                <!-- CATÁLOGO -->
+                <div class="admin-nav-section">
+
+                    <div class="admin-nav-title">
+                        CATÁLOGO
+                    </div>
+
+                    <a
+                        href="produtos.html"
+                        class="admin-nav-link"
+                    >
+                        <span>◈</span>
+                        <span>Produtos</span>
+                    </a>
+
+                    <a
+                        href="menu.html"
+                        class="admin-nav-link"
+                    >
+                        <span>☰</span>
+                        <span>Menu da Loja</span>
+                    </a>
+
+                </div>
+
+
+                <!-- OPERAÇÃO -->
+                <div class="admin-nav-section">
+
+                    <div class="admin-nav-title">
+                        OPERAÇÃO
+                    </div>
+
+                    <a
+                        href="estoque.html"
+                        class="admin-nav-link"
+                    >
+                        <span>▤</span>
+                        <span>Estoque</span>
+                    </a>
+
+                    <a
+                        href="vendas.html"
+                        class="admin-nav-link active"
+                    >
+                        <span>▣</span>
+                        <span>Vendas</span>
+                    </a>
+
+                </div>
+
+
+                <!-- LOJA -->
+                <div class="admin-nav-section">
+
+                    <div class="admin-nav-title">
+                        LOJA
+                    </div>
+
+                    <a
+                        href="#"
+                        class="admin-nav-link"
+                    >
+                        <span>⌂</span>
+                        <span>Loja</span>
+                    </a>
+
+                </div>
+
+
+                <!-- SISTEMA -->
+                <div class="admin-nav-section">
+
+                    <div class="admin-nav-title">
+                        SISTEMA
+                    </div>
+
+                    <a
+                        href="#"
+                        class="admin-nav-link"
+                    >
+                        <span>⚙</span>
+                        <span>Configurações</span>
+                    </a>
+
+                </div>
+
+            </nav>
+
+
+            <!-- SIDEBAR BOTTOM -->
+            <div class="admin-sidebar-bottom">
+
+                <a
+                    href="../index.html"
+                    class="admin-sidebar-back"
+                >
+                    ← Voltar para a loja
+                </a>
+
+                <button
+                    type="button"
+                    class="admin-sidebar-logout"
+                    id="admin-logout"
+                >
+                    Sair da conta
+                </button>
+
+            </div>
+
+        </aside>
+
+
+        <!-- CONTEÚDO PRINCIPAL -->
+        <main class="admin-main">
+
+            <header class="admin-header">
+
+                <div>
+                    <h1>Vendas</h1>
+
+                    <p>
+                        Gerencie os pedidos realizados na loja.
+                    </p>
+                </div>
+
+            </header>
+
+
+            <!-- RESUMO -->
+            <section class="sales-summary">
+
+                <div class="sales-summary-card">
+
+                    <span class="sales-summary-label">
+                        Total de pedidos
+                    </span>
+
+                    <strong id="sales-total-orders">
+                        0
+                    </strong>
+
+                </div>
+
+
+                <div class="sales-summary-card">
+
+                    <span class="sales-summary-label">
+                        Aguardando pagamento
+                    </span>
+
+                    <strong id="sales-pending-payment">
+                        0
+                    </strong>
+
+                </div>
+
+
+                <div class="sales-summary-card">
+
+                    <span class="sales-summary-label">
+                        Pagos
+                    </span>
+
+                    <strong id="sales-paid">
+                        0
+                    </strong>
+
+                </div>
+
+
+                <div class="sales-summary-card">
+
+                    <span class="sales-summary-label">
+                        Enviados
+                    </span>
+
+                    <strong id="sales-shipped">
+                        0
+                    </strong>
+
+                </div>
+
+
+                <div class="sales-summary-card">
+
+                    <span class="sales-summary-label">
+                        Concluídos
+                    </span>
+
+                    <strong id="sales-completed">
+                        0
+                    </strong>
+
+                </div>
+
+            </section>
+
+
+            <!-- PEDIDOS -->
+            <section class="sales-section">
+
+                <div class="sales-section-header">
+
+                    <div>
+
+                        <h2>
+                            Pedidos
+                        </h2>
+
+                        <p>
+                            Acompanhe os pedidos realizados pelos clientes.
+                        </p>
+
+                    </div>
+
+                </div>
+
+
+                <!-- FILTROS -->
+                <div class="sales-filters">
+
+                    <input
+                        type="text"
+                        id="sales-search"
+                        placeholder="Buscar por pedido ou cliente..."
+                    >
+
+                    <select id="sales-status-filter">
+
+                        <option value="">
+                            Todos os status
+                        </option>
+
+                        <option value="pending">
+                            Aguardando pagamento
+                        </option>
+
+                        <option value="paid">
+                            Pago
+                        </option>
+
+                        <option value="shipped">
+                            Enviado
+                        </option>
+
+                        <option value="completed">
+                            Concluído
+                        </option>
+
+                        <option value="cancelled">
+                            Cancelado
+                        </option>
+
+                    </select>
+
+                </div>
+
+
+                <!-- TABELA -->
+                <div class="sales-table-wrapper">
+
+                    <table class="sales-table">
+
+                        <thead>
+
+                            <tr>
+
+                                <th>
+                                    Pedido
+                                </th>
+
+                                <th>
+                                    Cliente
+                                </th>
+
+                                <th>
+                                    Data
+                                </th>
+
+                                <th>
+                                    Valor
+                                </th>
+
+                                <th>
+                                    Pagamento
+                                </th>
+
+                                <th>
+                                    Status
+                                </th>
+
+                                <th>
+                                    Ação
+                                </th>
+
+                            </tr>
+
+                        </thead>
+
+                        <tbody id="sales-orders">
+
+                            <tr>
+
+                                <td
+                                    colspan="7"
+                                    class="sales-empty"
+                                >
+                                    Nenhum pedido encontrado.
+                                </td>
+
+                            </tr>
+
+                        </tbody>
+
+                    </table>
+
+                </div>
+
+            </section>
+
+        </main>
+
+    </div>
+
+
+    <!-- JAVASCRIPT -->
+    <script
+        type="module"
+        src="vendas.js"
+    ></script>
+
+</body>
+
+</html>

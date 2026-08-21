@@ -1,0 +1,676 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Acompanhar pedido | Vellor Shoes</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+    <link
+        href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap"
+        rel="stylesheet"
+    >
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: "Poppins", sans-serif;
+            background: #f5f5f7;
+            color: #0b0b0d;
+            min-height: 100vh;
+        }
+
+        /* HEADER */
+
+        header {
+            height: 78px;
+            background: #0b0b0d;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 6%;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+        }
+
+        .logo img {
+            width: 170px;
+            height: auto;
+            display: block;
+        }
+
+        .header-link {
+            color: #fff;
+            text-decoration: none;
+            font-size: 14px;
+            font-weight: 500;
+            transition: 0.2s;
+        }
+
+        .header-link:hover {
+            color: #007bff;
+        }
+
+        /* MAIN */
+
+        main {
+            min-height: calc(100vh - 78px);
+            display: flex;
+            justify-content: center;
+            padding: 70px 20px;
+        }
+
+        .tracking-wrapper {
+            width: 100%;
+            max-width: 760px;
+        }
+
+        .tracking-header {
+            text-align: center;
+            margin-bottom: 35px;
+        }
+
+        .tracking-header span {
+            display: inline-block;
+            color: #007bff;
+            font-size: 13px;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 10px;
+        }
+
+        .tracking-header h1 {
+            font-size: 34px;
+            line-height: 1.2;
+            margin-bottom: 12px;
+        }
+
+        .tracking-header p {
+            color: #666;
+            font-size: 15px;
+            line-height: 1.6;
+        }
+
+        /* CARD */
+
+        .tracking-card {
+            background: #fff;
+            border: 1px solid #e5e5e7;
+            border-radius: 16px;
+            padding: 35px;
+            box-shadow: 0 10px 35px rgba(0, 0, 0, 0.05);
+        }
+
+        .field-group {
+            margin-bottom: 20px;
+        }
+
+        .field-group label {
+            display: block;
+            font-size: 13px;
+            font-weight: 600;
+            margin-bottom: 8px;
+        }
+
+        .field-group input {
+            width: 100%;
+            height: 52px;
+            border: 1px solid #dcdce0;
+            border-radius: 8px;
+            padding: 0 15px;
+            font-family: inherit;
+            font-size: 14px;
+            outline: none;
+            transition: 0.2s;
+        }
+
+        .field-group input:focus {
+            border-color: #007bff;
+            box-shadow: 0 0 0 3px rgba(0, 123, 255, 0.08);
+        }
+
+        .field-description {
+            color: #777;
+            font-size: 12px;
+            margin-top: 7px;
+        }
+
+        .track-button {
+            width: 100%;
+            height: 52px;
+            border: none;
+            border-radius: 8px;
+            background: #007bff;
+            color: #fff;
+            font-family: inherit;
+            font-size: 14px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: 0.2s;
+        }
+
+        .track-button:hover {
+            background: #0069d9;
+        }
+
+        /* RESULTADO */
+
+        .tracking-result {
+            display: none;
+            margin-top: 25px;
+        }
+
+        .tracking-result.visible {
+            display: block;
+        }
+
+        .result-card {
+            background: #fff;
+            border: 1px solid #e5e5e7;
+            border-radius: 16px;
+            padding: 30px;
+        }
+
+        .result-top {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 20px;
+            padding-bottom: 22px;
+            border-bottom: 1px solid #eee;
+        }
+
+        .result-order-label {
+            color: #777;
+            font-size: 12px;
+            margin-bottom: 5px;
+        }
+
+        .result-order-number {
+            font-size: 20px;
+            font-weight: 700;
+        }
+
+        .status-badge {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            padding: 8px 14px;
+            border-radius: 30px;
+            background: #eaf3ff;
+            color: #007bff;
+            font-size: 12px;
+            font-weight: 600;
+            white-space: nowrap;
+        }
+
+        .timeline {
+            margin-top: 30px;
+        }
+
+        .timeline-title {
+            font-size: 16px;
+            font-weight: 600;
+            margin-bottom: 25px;
+        }
+
+        .timeline-item {
+            position: relative;
+            display: flex;
+            gap: 15px;
+            padding-bottom: 25px;
+        }
+
+        .timeline-item:last-child {
+            padding-bottom: 0;
+        }
+
+        .timeline-line {
+            position: absolute;
+            left: 7px;
+            top: 16px;
+            width: 2px;
+            height: calc(100% - 5px);
+            background: #e2e2e5;
+        }
+
+        .timeline-item:last-child .timeline-line {
+            display: none;
+        }
+
+        .timeline-dot {
+            position: relative;
+            z-index: 2;
+            width: 16px;
+            height: 16px;
+            min-width: 16px;
+            border-radius: 50%;
+            background: #ddd;
+            border: 3px solid #fff;
+            box-shadow: 0 0 0 1px #ddd;
+        }
+
+        .timeline-item.active .timeline-dot {
+            background: #007bff;
+            box-shadow: 0 0 0 1px #007bff;
+        }
+
+        .timeline-content strong {
+            display: block;
+            font-size: 14px;
+            margin-bottom: 4px;
+        }
+
+        .timeline-content span {
+            color: #777;
+            font-size: 12px;
+        }
+
+        .empty-message {
+            text-align: center;
+            padding: 15px 0 5px;
+            color: #777;
+            font-size: 13px;
+        }
+
+        /* FOOTER */
+
+        footer {
+            background: #0b0b0d;
+            color: #fff;
+            text-align: center;
+            padding: 25px 20px;
+            font-size: 12px;
+        }
+
+        footer span {
+            color: #007bff;
+        }
+
+        /* RESPONSIVO */
+
+        @media (max-width: 600px) {
+
+            header {
+                height: 70px;
+                padding: 0 20px;
+            }
+
+            .logo img {
+                width: 140px;
+            }
+
+            .header-link {
+                font-size: 12px;
+            }
+
+            main {
+                padding: 45px 15px;
+            }
+
+            .tracking-header h1 {
+                font-size: 27px;
+            }
+
+            .tracking-card,
+            .result-card {
+                padding: 22px;
+            }
+
+            .result-top {
+                align-items: flex-start;
+                flex-direction: column;
+            }
+
+            .status-badge {
+                width: 100%;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <header>
+
+        <a href="index.html" class="logo">
+            <img src="assets/logo.png" alt="Vellor Shoes">
+        </a>
+
+        <a href="index.html" class="header-link">
+            ← Voltar para a loja
+        </a>
+
+    </header>
+
+
+    <main>
+
+        <div class="tracking-wrapper">
+
+            <div class="tracking-header">
+
+                <span>Vellor Shoes</span>
+
+                <h1>Acompanhe seu pedido</h1>
+
+                <p>
+                    Consulte o status da sua compra informando
+                    o número do pedido e o celular utilizado na compra.
+                </p>
+
+            </div>
+
+
+            <div class="tracking-card">
+
+                <div class="field-group">
+
+                    <label for="order-number">
+                        Número do pedido
+                    </label>
+
+                    <input
+                        type="text"
+                        id="order-number"
+                        placeholder="Ex.: VEL-47099720"
+                        autocomplete="off"
+                    >
+
+                </div>
+
+
+                <div class="field-group">
+
+                    <label for="customer-phone">
+                        Celular utilizado na compra
+                    </label>
+
+                    <input
+                        type="tel"
+                        id="customer-phone"
+                        placeholder="(11) 99999-9999"
+                        autocomplete="tel"
+                    >
+
+                    <div class="field-description">
+                        Informe o mesmo celular utilizado no pedido.
+                    </div>
+
+                </div>
+
+
+                <button
+                    type="button"
+                    class="track-button"
+                    id="track-button"
+                >
+                    CONSULTAR PEDIDO
+                </button>
+
+            </div>
+
+
+            <!-- RESULTADO -->
+
+            <div
+                class="tracking-result"
+                id="tracking-result"
+            >
+
+                <div class="result-card">
+
+                    <div class="result-top">
+
+                        <div>
+
+                            <div class="result-order-label">
+                                Número do pedido
+                            </div>
+
+                            <div
+                                class="result-order-number"
+                                id="result-order-number"
+                            >
+                                VEL-00000000
+                            </div>
+
+                        </div>
+
+                        <div
+                            class="status-badge"
+                            id="result-status"
+                        >
+                            Aguardando pagamento
+                        </div>
+
+                    </div>
+
+
+                    <div class="timeline">
+
+                        <div class="timeline-title">
+                            Acompanhamento
+                        </div>
+
+
+                        <div class="timeline-item active">
+
+                            <div class="timeline-line"></div>
+
+                            <div class="timeline-dot"></div>
+
+                            <div class="timeline-content">
+
+                                <strong>
+                                    Pedido recebido
+                                </strong>
+
+                                <span>
+                                    Seu pedido foi registrado.
+                                </span>
+
+                            </div>
+
+                        </div>
+
+
+                        <div class="timeline-item">
+
+                            <div class="timeline-line"></div>
+
+                            <div class="timeline-dot"></div>
+
+                            <div class="timeline-content">
+
+                                <strong>
+                                    Pagamento confirmado
+                                </strong>
+
+                                <span>
+                                    Aguardando confirmação do pagamento.
+                                </span>
+
+                            </div>
+
+                        </div>
+
+
+                        <div class="timeline-item">
+
+                            <div class="timeline-line"></div>
+
+                            <div class="timeline-dot"></div>
+
+                            <div class="timeline-content">
+
+                                <strong>
+                                    Em preparação
+                                </strong>
+
+                                <span>
+                                    Seu pedido será preparado.
+                                </span>
+
+                            </div>
+
+                        </div>
+
+
+                        <div class="timeline-item">
+
+                            <div class="timeline-line"></div>
+
+                            <div class="timeline-dot"></div>
+
+                            <div class="timeline-content">
+
+                                <strong>
+                                    Enviado
+                                </strong>
+
+                                <span>
+                                    Seu pedido foi enviado.
+                                </span>
+
+                            </div>
+
+                        </div>
+
+
+                        <div class="timeline-item">
+
+                            <div class="timeline-dot"></div>
+
+                            <div class="timeline-content">
+
+                                <strong>
+                                    Concluído
+                                </strong>
+
+                                <span>
+                                    Pedido entregue/concluído.
+                                </span>
+
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </main>
+
+
+    <footer>
+        © 2026 <span>Vellor Shoes</span>. Todos os direitos reservados.
+    </footer>
+<script>
+document.addEventListener("DOMContentLoaded", function () {
+
+    const button = document.getElementById("track-button");
+
+    button.addEventListener("click", async function () {
+
+        const orderNumber =
+            document.getElementById("order-number").value.trim();
+
+        const phone =
+            document.getElementById("customer-phone").value.trim();
+
+        if (!orderNumber || !phone) {
+            alert("Informe o número do pedido e o celular.");
+            return;
+        }
+
+        button.disabled = true;
+        button.textContent = "CONSULTANDO...";
+
+        try {
+
+            const response = await fetch(
+                "/api/consultar-pedido",
+                {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/json"
+                    },
+                    body: JSON.stringify({
+                        orderNumber,
+                        phone
+                    })
+                }
+            );
+
+            const data = await response.json();
+
+            if (!response.ok) {
+                throw new Error(
+                    data.error || "Erro ao consultar pedido."
+                );
+            }
+
+            document.getElementById(
+                "result-order-number"
+            ).textContent =
+                data.order.orderNumber;
+
+            document.getElementById(
+                "result-status"
+            ).textContent =
+                formatStatus(data.order.status);
+
+            document
+                .getElementById("tracking-result")
+                .classList.add("visible");
+
+        } catch (error) {
+
+            console.error(error);
+            alert(error.message);
+
+        } finally {
+
+            button.disabled = false;
+            button.textContent = "CONSULTAR PEDIDO";
+
+        }
+
+    });
+
+});
+
+
+function formatStatus(status) {
+
+    const statuses = {
+        aguardando_pagamento: "Aguardando pagamento",
+        pagamento_confirmado: "Pagamento confirmado",
+        em_preparacao: "Em preparação",
+        enviado: "Enviado",
+        concluido: "Concluído",
+        cancelado: "Cancelado"
+    };
+
+    return statuses[status] || status;
+}
+</script>
+</body>
+</html>

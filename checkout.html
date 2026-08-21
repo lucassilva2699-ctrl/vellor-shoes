@@ -1,0 +1,2534 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <meta
+        name="description"
+        content="Checkout | Vellor Shoes"
+    >
+
+    <title>Checkout | Vellor Shoes</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+
+    <link
+        rel="preconnect"
+        href="https://fonts.gstatic.com"
+        crossorigin
+    >
+
+    <link
+        href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap"
+        rel="stylesheet"
+    >
+
+    <link
+        rel="stylesheet"
+        href="style.css"
+    >
+<style>
+    /* ==========================================
+       PESQUISA — CHECKOUT
+    ========================================== */
+
+    #search-panel {
+        position: fixed;
+        inset: 0;
+        background: rgba(0, 0, 0, 0.72);
+        backdrop-filter: blur(8px);
+        z-index: 99999;
+        opacity: 0;
+        visibility: hidden;
+        pointer-events: none;
+        transition:
+            opacity 0.2s ease,
+            visibility 0.2s ease;
+    }
+
+    #search-panel.search-open {
+        opacity: 1;
+        visibility: visible;
+        pointer-events: auto;
+    }
+
+    .search-panel-content {
+        width: min(700px, calc(100% - 32px));
+        margin: 90px auto 0;
+        background: #111114;
+        border: 1px solid rgba(255,255,255,.1);
+        border-radius: 14px;
+        padding: 28px;
+        box-sizing: border-box;
+        position: relative;
+        box-shadow: 0 25px 70px rgba(0,0,0,.5);
+    }
+
+    .search-close {
+        position: absolute;
+        top: 12px;
+        right: 15px;
+        border: 0;
+        background: transparent;
+        color: #fff;
+        font-size: 30px;
+        cursor: pointer;
+    }
+
+    .search-panel-title {
+        color: #fff;
+        font-size: 13px;
+        font-weight: 600;
+        letter-spacing: 1.5px;
+        margin-bottom: 14px;
+    }
+
+    #store-search {
+        width: 100%;
+        height: 50px;
+        padding: 0 16px;
+        box-sizing: border-box;
+        background: #1a1a1d;
+        border: 1px solid rgba(255,255,255,.12);
+        border-radius: 8px;
+        color: #fff;
+        outline: none;
+        font-family: Poppins, sans-serif;
+        font-size: 14px;
+    }
+
+    #store-search:focus {
+        border-color: #007BFF;
+    }
+
+    .search-results {
+        margin-top: 16px;
+        max-height: 420px;
+        overflow-y: auto;
+    }
+
+    .search-result {
+        display: flex;
+        align-items: center;
+        gap: 14px;
+        padding: 12px;
+        border-radius: 9px;
+        cursor: pointer;
+        transition: background .15s ease;
+    }
+
+    .search-result:hover {
+        background: rgba(255,255,255,.06);
+    }
+
+    .search-result-image {
+        width: 65px;
+        height: 65px;
+        flex-shrink: 0;
+        border-radius: 8px;
+        overflow: hidden;
+        background: #1a1a1d;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+
+    .search-result-image img {
+        width: 100%;
+        height: 100%;
+        object-fit: contain;
+    }
+
+    .search-result-info {
+        display: flex;
+        flex-direction: column;
+        gap: 3px;
+        min-width: 0;
+    }
+
+    .search-result-info strong {
+        color: #fff;
+        font-size: 14px;
+    }
+
+    .search-result-info span {
+        color: rgba(255,255,255,.55);
+        font-size: 12px;
+    }
+
+    .search-result-info b {
+        color: #fff;
+        font-size: 13px;
+    }
+
+    @media (max-width: 700px) {
+        .search-panel-content {
+            width: calc(100% - 20px);
+            margin: 75px auto 0;
+            padding: 22px 16px;
+        }
+
+        .search-result-image {
+            width: 55px;
+            height: 55px;
+        }
+
+        .search-results {
+            max-height: 65vh;
+        }
+    }
+</style>
+
+</head>
+
+
+<body>
+
+
+    <!-- ==================================================
+         HEADER
+    ================================================== -->
+
+    <header class="header">
+
+        <div class="container header-content">
+
+            <a
+                href="index.html"
+                class="logo"
+            >
+
+                <img
+                    src="assets/logo.png"
+                    alt="Vellor Shoes"
+                >
+
+            </a>
+
+<nav class="navigation" id="store-navigation">
+
+    <a href="index.html" data-home-link>
+        Início
+    </a>
+
+    <span class="navigation-loading">
+        Carregando menu...
+    </span>
+
+</nav>
+
+
+            <div class="header-actions">
+                <button
+    type="button"
+    class="icon-button mobile-menu-toggle"
+    id="mobile-menu-toggle"
+    aria-label="Abrir menu"
+    aria-expanded="false"
+>
+    ☰
+</button>
+
+             <button
+    type="button"
+    class="icon-button search-toggle"
+    id="search-toggle"
+    aria-label="Pesquisar"
+>
+    🔍
+</button>
+
+      <a
+    href="acompanhar.html"
+    class="icon-button"
+    aria-label="Acompanhar pedido"
+    title="Acompanhar pedido"
+>
+    ♙
+</a>
+                <a
+                    href="carrinho.html"
+                    class="icon-button cart-button"
+                    aria-label="Carrinho"
+                >
+
+                    🛒
+
+                    <span class="cart-count">
+                        0
+                    </span>
+
+                </a>
+
+            </div>
+
+        </div>
+
+    </header>
+
+
+    <!-- ==================================================
+         CHECKOUT
+    ================================================== -->
+
+    <main class="checkout-page">
+
+        <div class="container">
+
+
+            <!-- TÍTULO -->
+
+            <div class="checkout-header">
+
+                <span class="section-label">
+                    VELLOR SHOES
+                </span>
+
+                <h1>
+                    Finalizar compra
+                </h1>
+
+                <p>
+                    Preencha seus dados para continuar com o pedido.
+                </p>
+
+            </div>
+
+
+            <!-- LAYOUT -->
+
+            <div class="checkout-layout">
+
+
+                <!-- ==================================================
+                     DADOS DO CLIENTE
+                ================================================== -->
+
+                <section class="checkout-form">
+
+                    <div class="checkout-card">
+
+                        <div class="checkout-card-header">
+
+                            <span>
+                                01
+                            </span>
+
+                            <div>
+
+                                <h2>
+                                    Dados pessoais
+                                </h2>
+
+                                <p>
+                                    Precisamos dessas informações para o pedido.
+                                </p>
+
+                            </div>
+
+                        </div>
+
+
+                        <div class="checkout-fields">
+
+                            <div class="checkout-field full">
+
+                                <label for="customer-name">
+                                    Nome completo
+                                </label>
+
+                                <input
+                                    type="text"
+                                    id="customer-name"
+                                    placeholder="Digite seu nome completo"
+                                    autocomplete="name"
+                                    required
+                                >
+
+                            </div>
+
+
+                            <div class="checkout-field">
+
+                                <label for="customer-email">
+                                    E-mail
+                                </label>
+
+                                <input
+                                    type="email"
+                                    id="customer-email"
+                                    placeholder="seuemail@email.com"
+                                    autocomplete="email"
+                                    required
+                                >
+
+                            </div>
+
+
+                            <div class="checkout-field">
+
+                                <label for="customer-phone">
+                                    Telefone
+                                </label>
+
+                                <input
+                                    type="tel"
+                                    id="customer-phone"
+                                    placeholder="(00) 00000-0000"
+                                    autocomplete="tel"
+                                    required
+                                >
+
+                            </div>
+
+                        </div>
+
+                    </div>
+
+
+                    <!-- ==================================================
+                         ENDEREÇO
+                    ================================================== -->
+
+                    <div class="checkout-card">
+
+                        <div class="checkout-card-header">
+
+                            <span>
+                                02
+                            </span>
+
+                            <div>
+
+                                <h2>
+                                    Endereço de entrega
+                                </h2>
+
+                                <p>
+                                    Para onde devemos enviar seu pedido?
+                                </p>
+
+                            </div>
+
+                        </div>
+
+
+                        <div class="checkout-fields">
+
+                            <div class="checkout-field">
+
+                                <label for="customer-cep">
+                                    CEP
+                                </label>
+
+                                <input
+                                    type="text"
+                                    id="customer-cep"
+                                    placeholder="00000-000"
+                                    maxlength="9"
+                                    autocomplete="postal-code"
+                                    required
+                                >
+
+                            </div>
+
+
+                            <div class="checkout-field">
+
+                                <label for="customer-state">
+                                    Estado
+                                </label>
+
+                                <input
+                                    type="text"
+                                    id="customer-state"
+                                    placeholder="SP"
+                                    maxlength="2"
+                                    autocomplete="address-level1"
+                                    required
+                                >
+
+                            </div>
+
+
+                            <div class="checkout-field full">
+
+                                <label for="customer-address">
+                                    Endereço
+                                </label>
+
+                                <input
+                                    type="text"
+                                    id="customer-address"
+                                    placeholder="Rua, Avenida..."
+                                    autocomplete="street-address"
+                                    required
+                                >
+
+                            </div>
+
+
+                            <div class="checkout-field">
+
+                                <label for="customer-number">
+                                    Número
+                                </label>
+
+                                <input
+                                    type="text"
+                                    id="customer-number"
+                                    placeholder="123"
+                                    required
+                                >
+
+                            </div>
+
+
+                            <div class="checkout-field">
+
+                                <label for="customer-complement">
+                                    Complemento
+                                </label>
+
+                                <input
+                                    type="text"
+                                    id="customer-complement"
+                                    placeholder="Apartamento, bloco..."
+                                >
+
+                            </div>
+
+
+                            <div class="checkout-field">
+
+                                <label for="customer-neighborhood">
+                                    Bairro
+                                </label>
+
+                                <input
+                                    type="text"
+                                    id="customer-neighborhood"
+                                    placeholder="Seu bairro"
+                                    autocomplete="address-line2"
+                                    required
+                                >
+
+                            </div>
+
+
+                            <div class="checkout-field">
+
+                                <label for="customer-city">
+                                    Cidade
+                                </label>
+
+                                <input
+                                    type="text"
+                                    id="customer-city"
+                                    placeholder="Sua cidade"
+                                    autocomplete="address-level2"
+                                    required
+                                >
+
+                            </div>
+
+                        </div>
+
+                    </div>
+
+
+                    <!-- ==================================================
+                         FRETE
+                    ================================================== -->
+
+                    <div class="checkout-card">
+
+                        <div class="checkout-card-header">
+
+                            <span>
+                                03
+                            </span>
+
+                            <div>
+
+                                <h2>
+                                    Entrega
+                                </h2>
+
+                                <p>
+                                    Escolha a forma de envio.
+                                </p>
+
+                            </div>
+
+                        </div>
+
+
+                        <div class="shipping-options">
+
+    <label class="shipping-option">
+
+        <input
+            type="radio"
+            name="shipping"
+            value="standard"
+            checked
+        >
+
+        <div>
+
+            <strong>
+                Envio padrão
+            </strong>
+
+            <span>
+                Prazo calculado após informar o endereço
+            </span>
+
+        </div>
+
+        <strong id="standard-shipping-price">
+            A calcular
+        </strong>
+
+    </label>
+
+
+    <label class="shipping-option">
+
+        <input
+            type="radio"
+            name="shipping"
+            value="express"
+        >
+
+        <div>
+
+            <strong>
+                Envio expresso
+            </strong>
+
+            <span>
+                Disponibilidade e prazo serão calculados
+            </span>
+
+        </div>
+
+        <strong id="express-shipping-price">
+            A calcular
+        </strong>
+
+    </label>
+
+</div>
+
+                    <!-- ==================================================
+                         PAGAMENTO
+                    ================================================== -->
+
+                    <div class="checkout-card">
+
+                        <div class="checkout-card-header">
+
+                            <span>
+                                04
+                            </span>
+
+                            <div>
+
+                                <h2>
+                                    Pagamento
+                                </h2>
+
+                                <p>
+                                    O pagamento seguro será conectado nesta etapa.
+                                </p>
+
+                            </div>
+
+                        </div>
+
+
+                        <div class="payment-placeholder">
+
+                            <div>
+                                💳
+                            </div>
+
+                            <strong>
+                                Pagamento seguro
+                            </strong>
+
+                            <p>
+                                Cartão, Pix e outras formas de pagamento
+                                serão disponibilizados aqui.
+                            </p>
+
+                        </div>
+
+                    </div>
+
+                </section>
+
+
+                <!-- ==================================================
+                     RESUMO DO PEDIDO
+                ================================================== -->
+
+                <aside class="checkout-summary">
+
+                    <div class="checkout-summary-card">
+
+                        <h2>
+                            Resumo do pedido
+                        </h2>
+
+
+                        <div
+                            id="checkout-items"
+                            class="checkout-items"
+                        >
+                        </div>
+
+
+                        <div class="checkout-divider">
+                        </div>
+
+
+                        <div class="checkout-summary-row">
+
+                            <span>
+                                Subtotal
+                            </span>
+
+                            <strong id="checkout-subtotal">
+                                R$ 0,00
+                            </strong>
+
+                        </div>
+
+
+                        <div class="checkout-summary-row">
+
+                            <span>
+                                Frete
+                            </span>
+
+                            <span id="checkout-shipping">
+                                A calcular
+                            </span>
+
+                        </div>
+
+
+                        <div class="checkout-divider">
+                        </div>
+
+
+                        <div class="checkout-total">
+
+                            <span>
+                                Total
+                            </span>
+
+                            <strong id="checkout-total">
+                                R$ 0,00
+                            </strong>
+
+                        </div>
+
+
+                        <button
+                            type="button"
+                            id="finish-order"
+                            class="checkout-submit"
+                        >
+
+                            CONTINUAR PARA PAGAMENTO
+
+                        </button>
+
+
+                        <a
+                            href="carrinho.html"
+                            class="checkout-back"
+                        >
+
+                            ← Voltar para o carrinho
+
+                        </a>
+
+                    </div>
+
+                </aside>
+
+            </div>
+
+        </div>
+
+    </main>
+
+
+    <!-- ==================================================
+         FOOTER
+    ================================================== -->
+
+    <footer class="footer">
+
+        <div class="container">
+
+            <img
+                src="assets/logo.png"
+                alt="Vellor Shoes"
+                class="footer-logo"
+            >
+
+            <p>
+                ESTILO • QUALIDADE • PRESENÇA
+            </p>
+
+            <span>
+                © 2026 Vellor Shoes. Todos os direitos reservados.
+            </span>
+
+        </div>
+
+    </footer>
+
+
+    <!-- ==================================================
+         CHECKOUT — JAVASCRIPT
+    ================================================== -->
+    <div id="search-panel" class="search-panel">
+    <div class="search-panel-content">
+
+        <button
+            type="button"
+            id="search-close"
+            class="search-close"
+            aria-label="Fechar pesquisa"
+        >
+            ×
+        </button>
+
+        <div class="search-panel-title">
+            O QUE VOCÊ ESTÁ PROCURANDO?
+        </div>
+
+        <input
+            type="search"
+            id="store-search"
+            placeholder="Buscar produto..."
+            autocomplete="off"
+        >
+
+        <div id="search-results" class="search-results"></div>
+
+    </div>
+</div>
+<script>
+
+/* ==================================================
+   VELLOR SHOES — CHECKOUT
+   CARRINHO + CEP + FRETE + VALIDAÇÕES
+================================================== */
+
+
+/* ==================================================
+   CARRINHO
+================================================== */
+
+let checkoutBuyNowItem = null;
+let checkoutCart = [];
+
+function getCart() {
+
+    if (checkoutCart.length > 0) {
+        return checkoutCart;
+    }
+
+    const params =
+        new URLSearchParams(
+            window.location.search
+        );
+
+    if (params.get("buyNow") === "1") {
+
+        const storedBuyNow =
+            localStorage.getItem(
+                "vellorBuyNow"
+            );
+
+        if (!storedBuyNow) {
+            return [];
+        }
+
+        try {
+
+            checkoutBuyNowItem =
+                JSON.parse(
+                    storedBuyNow
+                );
+
+        } catch (error) {
+
+            console.error(
+                "Erro ao ler vellorBuyNow:",
+                error
+            );
+
+            checkoutBuyNowItem = null;
+        }
+
+        checkoutCart =
+            checkoutBuyNowItem
+                ? [checkoutBuyNowItem]
+                : [];
+
+        return checkoutCart;
+    }
+
+    checkoutCart =
+        JSON.parse(
+            localStorage.getItem(
+                "vellorCart"
+            )
+        ) || [];
+
+    return checkoutCart;
+}
+
+/* ==================================================
+   PREÇO
+================================================== */
+
+function formatPrice(price) {
+
+    return new Intl.NumberFormat(
+        "pt-BR",
+        {
+            style: "currency",
+            currency: "BRL"
+        }
+    ).format(price);
+
+}
+
+
+/* ==================================================
+   ELEMENTOS
+================================================== */
+
+const checkoutItems =
+    document.getElementById("checkout-items");
+
+const checkoutSubtotal =
+    document.getElementById("checkout-subtotal");
+
+const checkoutShipping =
+    document.getElementById("checkout-shipping");
+
+const checkoutTotal =
+    document.getElementById("checkout-total");
+
+const finishOrder =
+    document.getElementById("finish-order");
+
+const nameInput =
+    document.getElementById("customer-name");
+
+const emailInput =
+    document.getElementById("customer-email");
+
+const phoneInput =
+    document.getElementById("customer-phone");
+
+const cepInput =
+    document.getElementById("customer-cep");
+
+const stateInput =
+    document.getElementById("customer-state");
+
+const addressInput =
+    document.getElementById("customer-address");
+
+const numberInput =
+    document.getElementById("customer-number");
+
+const neighborhoodInput =
+    document.getElementById("customer-neighborhood");
+
+const cityInput =
+    document.getElementById("customer-city");
+
+const complementInput =
+    document.getElementById("customer-complement");
+
+    const standardShippingPrice =
+    document.getElementById("standard-shipping-price");
+
+const expressShippingPrice =
+    document.getElementById("express-shipping-price");
+
+
+/* ==================================================
+   FRETE
+================================================== */
+
+let currentShippingCost = null;
+
+let currentShippingLabel = "A calcular";
+
+
+/* ==================================================
+   CALCULAR FRETE
+================================================== */
+
+function calculateShipping(cep, type) {
+
+    const cleanCep =
+        cep.replace(/\D/g, "");
+
+    if (cleanCep.length !== 8) {
+
+        return null;
+
+    }
+
+
+    const cepNumber =
+        Number(cleanCep);
+
+
+    /*
+       Cálculo provisório por região.
+
+       Esses valores serão substituídos posteriormente
+       pela API de frete real.
+    */
+
+
+    let standard = 19.90;
+    let express = 34.90;
+
+
+    /*
+       Faixa aproximada para SP
+    */
+
+    if (
+        cepNumber >= 1000000 &&
+        cepNumber <= 19999999
+    ) {
+
+        standard = 14.90;
+        express = 24.90;
+
+    }
+
+
+    /*
+       Faixa aproximada para RJ
+    */
+
+    else if (
+        cepNumber >= 20000000 &&
+        cepNumber <= 28999999
+    ) {
+
+        standard = 24.90;
+        express = 39.90;
+
+    }
+
+
+    /*
+       Faixa aproximada para MG
+    */
+
+    else if (
+        cepNumber >= 30000000 &&
+        cepNumber <= 39999999
+    ) {
+
+        standard = 24.90;
+        express = 39.90;
+
+    }
+
+
+    /*
+       Faixa aproximada para PR
+    */
+
+    else if (
+        cepNumber >= 80000000 &&
+        cepNumber <= 87999999
+    ) {
+
+        standard = 29.90;
+        express = 44.90;
+
+    }
+
+
+    /*
+       Faixa aproximada para SC
+    */
+
+    else if (
+        cepNumber >= 88000000 &&
+        cepNumber <= 89999999
+    ) {
+
+        standard = 29.90;
+        express = 44.90;
+
+    }
+
+
+    /*
+       Faixa aproximada para RS
+    */
+
+    else if (
+        cepNumber >= 90000000 &&
+        cepNumber <= 99999999
+    ) {
+
+        standard = 34.90;
+        express = 49.90;
+
+    }
+
+
+    /*
+       Demais regiões
+    */
+
+    else {
+
+        standard = 34.90;
+        express = 54.90;
+
+    }
+
+
+    return type === "express"
+        ? express
+        : standard;
+
+}
+
+
+/* ==================================================
+   ATUALIZAR FRETE E TOTAL
+================================================== */
+function updateShipping() {
+
+    const cart = getCart();
+
+    if (cart.length === 0) {
+
+        currentShippingCost = null;
+        currentShippingLabel = "A calcular";
+
+        standardShippingPrice.textContent = "A calcular";
+        expressShippingPrice.textContent = "A calcular";
+
+        checkoutShipping.textContent = "A calcular";
+        checkoutTotal.textContent = formatPrice(0);
+
+        return;
+    }
+
+    const cep = cepInput.value.replace(/\D/g, "");
+
+    if (cep.length !== 8) {
+
+        currentShippingCost = null;
+        currentShippingLabel = "A calcular";
+
+        standardShippingPrice.textContent = "A calcular";
+        expressShippingPrice.textContent = "A calcular";
+
+        checkoutShipping.textContent = "A calcular";
+
+        const subtotal = calculateSubtotal();
+
+        checkoutTotal.textContent =
+            formatPrice(subtotal);
+
+        return;
+    }
+
+    const standardCost =
+        calculateShipping(cep, "standard");
+
+    const expressCost =
+        calculateShipping(cep, "express");
+
+    standardShippingPrice.textContent =
+        formatPrice(standardCost);
+
+    expressShippingPrice.textContent =
+        formatPrice(expressCost);
+
+    const shippingType =
+        document.querySelector(
+            'input[name="shipping"]:checked'
+        )?.value || "standard";
+
+    const shippingCost =
+        shippingType === "express"
+            ? expressCost
+            : standardCost;
+
+    currentShippingCost =
+        shippingCost;
+
+    currentShippingLabel =
+        shippingType === "express"
+            ? "Envio expresso"
+            : "Envio padrão";
+
+    checkoutShipping.textContent =
+        formatPrice(shippingCost);
+
+    const subtotal =
+        calculateSubtotal();
+
+    const total =
+        subtotal + shippingCost;
+
+    checkoutTotal.textContent =
+        formatPrice(total);
+}
+
+/* ==================================================
+   CALCULAR SUBTOTAL
+================================================== */
+
+function calculateSubtotal() {
+
+    const cart =
+        getCart();
+
+
+    return cart.reduce(
+        (total, item) => {
+
+            const price =
+                Number(item.price || 0);
+
+            const quantity =
+                Number(item.quantity || 1);
+
+            return total +
+                (price * quantity);
+
+        },
+        0
+    );
+
+}
+
+
+/* ==================================================
+   RENDERIZAR PEDIDO
+================================================== */
+
+function renderCheckout() {
+
+    const cart =
+        getCart();
+        checkoutCart = cart;
+
+    checkoutItems.innerHTML =
+        "";
+
+
+    if (cart.length === 0) {
+
+        checkoutItems.innerHTML = `
+
+            <div class="checkout-empty">
+
+                <strong>
+                    Seu carrinho está vazio.
+                </strong>
+
+                <a href="index.html">
+                    Voltar para a loja
+                </a>
+
+            </div>
+
+        `;
+
+
+        finishOrder.disabled =
+            true;
+
+
+        checkoutSubtotal.textContent =
+            formatPrice(0);
+
+
+        checkoutShipping.textContent =
+            "A calcular";
+
+
+        checkoutTotal.textContent =
+            formatPrice(0);
+
+
+        return;
+
+    }
+
+
+    finishOrder.disabled =
+        false;
+
+
+    let subtotal =
+        0;
+
+
+    cart.forEach(item => {
+
+        const price =
+            Number(item.price || 0);
+
+        const quantity =
+            Number(item.quantity || 1);
+
+        const itemTotal =
+            price * quantity;
+
+
+        subtotal +=
+            itemTotal;
+
+
+        const itemElement =
+            document.createElement("div");
+
+
+        itemElement.className =
+            "checkout-product";
+
+
+        itemElement.innerHTML = `
+
+            <div class="checkout-product-image">
+
+                ${
+                    item.image
+                        ? `
+                            <img
+                                src="${item.image}"
+                                alt="${item.name || "Produto"}"
+                            >
+                        `
+                        : `
+                            <div>
+                                PRODUTO
+                            </div>
+                        `
+                }
+
+            </div>
+
+
+            <div class="checkout-product-info">
+
+                <strong>
+                    ${item.name || "Produto"}
+                </strong>
+
+                <span>
+                    Tamanho: ${item.size || "-"}
+                </span>
+
+                <span>
+                    Quantidade: ${quantity}
+                </span>
+
+                <strong>
+                    ${formatPrice(itemTotal)}
+                </strong>
+
+            </div>
+
+        `;
+
+
+        checkoutItems.appendChild(
+            itemElement
+        );
+
+    });
+
+
+    checkoutSubtotal.textContent =
+        formatPrice(subtotal);
+
+
+    updateShipping();
+
+}
+
+
+/* ==================================================
+   NOME
+   SOMENTE LETRAS E ESPAÇOS
+================================================== */
+
+nameInput.addEventListener(
+    "input",
+    () => {
+
+        nameInput.value =
+            nameInput.value.replace(
+                /[^A-Za-zÀ-ÿ\s]/g,
+                ""
+            );
+
+    }
+);
+
+
+/* ==================================================
+   TELEFONE
+   SOMENTE NÚMEROS + MÁSCARA
+================================================== */
+
+phoneInput.addEventListener(
+    "input",
+    () => {
+
+        let phone =
+            phoneInput.value.replace(
+                /\D/g,
+                ""
+            );
+
+
+        phone =
+            phone.substring(0, 11);
+
+
+        if (phone.length <= 2) {
+
+            phoneInput.value =
+                phone.length
+                    ? `(${phone}`
+                    : "";
+
+            return;
+
+        }
+
+
+        if (phone.length <= 7) {
+
+            phoneInput.value =
+                `(${phone.substring(0, 2)}) ` +
+                phone.substring(2);
+
+            return;
+
+        }
+
+
+        phoneInput.value =
+            `(${phone.substring(0, 2)}) ` +
+            `${phone.substring(2, 7)}-` +
+            `${phone.substring(7, 11)}`;
+
+    }
+);
+
+
+/* ==================================================
+   CEP
+================================================== */
+
+cepInput.addEventListener(
+    "input",
+    () => {
+
+        let cep =
+            cepInput.value.replace(
+                /\D/g,
+                ""
+            );
+
+
+        cep =
+            cep.substring(0, 8);
+
+
+        if (cep.length > 5) {
+
+            cep =
+                cep.substring(0, 5) +
+                "-" +
+                cep.substring(5);
+
+        }
+
+
+        cepInput.value =
+            cep;
+
+
+        /*
+           Se o usuário alterar o CEP,
+           o cálculo anterior deixa de valer.
+        */
+
+        currentShippingCost =
+            null;
+
+
+        currentShippingLabel =
+            "A calcular";
+
+
+        checkoutShipping.textContent =
+            "A calcular";
+
+
+        updateShipping();
+
+    }
+);
+
+
+/* ==================================================
+   CEP — VIA CEP
+================================================== */
+
+cepInput.addEventListener(
+    "blur",
+    async () => {
+
+        const cep =
+            cepInput.value.replace(
+                /\D/g,
+                ""
+            );
+
+
+        if (cep.length !== 8) {
+
+            return;
+
+        }
+
+
+        stateInput.value =
+            "";
+
+        addressInput.value =
+            "";
+
+        neighborhoodInput.value =
+            "";
+
+        cityInput.value =
+            "";
+
+
+        try {
+
+            const response =
+                await fetch(
+                    `https://viacep.com.br/ws/${cep}/json/`
+                );
+
+
+            if (!response.ok) {
+
+                throw new Error(
+                    "Erro ao consultar CEP"
+                );
+
+            }
+
+
+            const data =
+                await response.json();
+
+
+            if (data.erro) {
+
+                alert(
+                    "CEP não encontrado. Verifique o número informado."
+                );
+
+                return;
+
+            }
+
+
+            stateInput.value =
+                data.uf || "";
+
+
+            addressInput.value =
+                data.logradouro || "";
+
+
+            neighborhoodInput.value =
+                data.bairro || "";
+
+
+            cityInput.value =
+                data.localidade || "";
+
+
+            /*
+               CEP validado:
+               calcular frete
+            */
+
+            updateShipping();
+
+
+        } catch (error) {
+
+            console.error(
+                "Erro ao consultar CEP:",
+                error
+            );
+
+
+            alert(
+                "Não foi possível consultar o CEP agora. Tente novamente."
+            );
+
+        }
+
+    }
+);
+
+
+/* ==================================================
+   ESTADO
+================================================== */
+
+stateInput.addEventListener(
+    "input",
+    () => {
+
+        stateInput.value =
+            stateInput.value
+                .replace(
+                    /[^A-Za-zÀ-ÿ]/g,
+                    ""
+                )
+                .toUpperCase()
+                .substring(0, 2);
+
+    }
+);
+
+
+/* ==================================================
+   NÚMERO
+================================================== */
+
+numberInput.addEventListener(
+    "input",
+    () => {
+
+        numberInput.value =
+            numberInput.value.replace(
+                /\D/g,
+                ""
+            );
+
+    }
+);
+
+
+/* ==================================================
+   E-MAIL
+================================================== */
+
+function isValidEmail(email) {
+
+    return /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/
+        .test(email);
+
+}
+
+
+emailInput.addEventListener(
+    "input",
+    () => {
+
+        emailInput.setCustomValidity("");
+
+    }
+);
+
+
+emailInput.addEventListener(
+    "blur",
+    () => {
+
+        const email =
+            emailInput.value.trim();
+
+
+        if (
+            email &&
+            !isValidEmail(email)
+        ) {
+
+            emailInput.setCustomValidity(
+                "Digite um e-mail válido."
+            );
+
+
+            emailInput.reportValidity();
+
+        } else {
+
+            emailInput.setCustomValidity("");
+
+        }
+
+    }
+);
+
+
+/* ==================================================
+   TROCA DE TIPO DE FRETE
+================================================== */
+
+document
+    .querySelectorAll(
+        'input[name="shipping"]'
+    )
+    .forEach(radio => {
+
+        radio.addEventListener(
+            "change",
+            () => {
+
+                updateShipping();
+
+            }
+        );
+
+    });
+
+
+/* ==================================================
+   FINALIZAR PEDIDO
+================================================== */
+
+finishOrder.addEventListener(
+    "click",
+    () => {
+
+        const name =
+            nameInput.value.trim();
+
+
+        const email =
+            emailInput.value.trim();
+
+
+        const phone =
+            phoneInput.value.replace(
+                /\D/g,
+                ""
+            );
+
+
+        const cep =
+            cepInput.value.replace(
+                /\D/g,
+                ""
+            );
+
+
+        const state =
+            stateInput.value.trim();
+
+
+        const address =
+            addressInput.value.trim();
+
+
+        const number =
+            numberInput.value.trim();
+
+
+        const complement =
+            complementInput.value.trim();
+
+
+        const neighborhood =
+            neighborhoodInput.value.trim();
+
+
+        const city =
+            cityInput.value.trim();
+
+
+        /* ==========================================
+           NOME
+        ========================================== */
+
+        if (!name) {
+
+            alert(
+                "Digite seu nome completo."
+            );
+
+            nameInput.focus();
+
+            return;
+
+        }
+
+
+        /* ==========================================
+           E-MAIL
+        ========================================== */
+
+        if (!isValidEmail(email)) {
+
+            emailInput.setCustomValidity(
+                "Digite um e-mail válido."
+            );
+
+            emailInput.reportValidity();
+
+            emailInput.focus();
+
+            return;
+
+        }
+
+
+        emailInput.setCustomValidity("");
+
+
+        /* ==========================================
+           TELEFONE
+        ========================================== */
+
+        if (phone.length !== 11) {
+
+            phoneInput.setCustomValidity(
+                "Digite um telefone celular válido com DDD."
+            );
+
+            phoneInput.reportValidity();
+
+            phoneInput.focus();
+
+            return;
+
+        }
+
+
+        phoneInput.setCustomValidity("");
+
+
+        /* ==========================================
+           CEP
+        ========================================== */
+
+        if (cep.length !== 8) {
+
+            cepInput.setCustomValidity(
+                "Digite um CEP válido com 8 números."
+            );
+
+            cepInput.reportValidity();
+
+            cepInput.focus();
+
+            return;
+
+        }
+
+
+        cepInput.setCustomValidity("");
+
+
+        /* ==========================================
+           ENDEREÇO
+        ========================================== */
+
+        if (
+            !state ||
+            !address ||
+            !number ||
+            !neighborhood ||
+            !city
+        ) {
+
+            alert(
+                "Preencha todos os dados do endereço."
+            );
+
+            return;
+
+        }
+
+
+        /* ==========================================
+           CARRINHO
+        ========================================== */
+
+        const cart =
+            getCart();
+
+
+        if (cart.length === 0) {
+
+            alert(
+                "Seu carrinho está vazio."
+            );
+
+            return;
+
+        }
+
+
+        /* ==========================================
+           FRETE
+        ========================================== */
+
+        const shippingType =
+            document.querySelector(
+                'input[name="shipping"]:checked'
+            )?.value || "standard";
+
+
+        const shippingCost =
+            calculateShipping(
+                cep,
+                shippingType
+            );
+
+
+        if (shippingCost === null) {
+
+            alert(
+                "Não foi possível calcular o frete. Verifique o CEP."
+            );
+
+            cepInput.focus();
+
+            return;
+
+        }
+
+
+        /* ==========================================
+           SUBTOTAL E TOTAL
+        ========================================== */
+
+        const subtotal =
+            calculateSubtotal();
+
+
+        const total =
+            subtotal + shippingCost;
+
+
+        /* ==========================================
+           DADOS DO CHECKOUT
+        ========================================== */
+
+        const checkoutData = {
+
+            customer: {
+
+                name: name,
+
+                email: email,
+
+                phone: phone
+
+            },
+
+
+            address: {
+
+                cep: cep,
+
+                state: state,
+
+                address: address,
+
+                number: number,
+
+                complement: complement,
+
+                neighborhood: neighborhood,
+
+                city: city
+
+            },
+
+
+            shipping: {
+
+                type: shippingType,
+
+                label:
+                    shippingType === "express"
+                        ? "Envio expresso"
+                        : "Envio padrão",
+
+                cost: shippingCost
+
+            },
+
+
+            cart: cart,
+
+
+            subtotal: subtotal,
+
+            total: total,
+
+
+            createdAt:
+                new Date().toISOString()
+
+        };
+
+
+        /* ==========================================
+           SALVAR
+        ========================================== */
+
+        localStorage.setItem(
+            "vellorCheckout",
+            JSON.stringify(
+                checkoutData
+            )
+        );
+
+
+      /* ==========================================
+   IR PARA PAGAMENTO
+========================================== */
+
+window.location.href = "pagamento.html";
+    }
+);
+
+
+/* ==================================================
+   INICIAR
+================================================== */
+
+renderCheckout();
+
+</script>
+    <script src="script.js"></script>
+
+
+<script type="module">
+    import {
+        initializeApp
+    } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
+
+    import {
+        getFirestore,
+        collection,
+        query,
+        where,
+        getDocs
+    } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
+
+    const firebaseConfig = {
+        apiKey: "AIzaSyDQdaiVEWUeIFQOMXzI9DluqDkl8ZeMS5o",
+        authDomain: "vellor-shoes.firebaseapp.com",
+        projectId: "vellor-shoes",
+        storageBucket: "vellor-shoes.firebasestorage.app",
+        messagingSenderId: "455357493198",
+        appId: "1:455357493198:web:f36451b846420b4dfde83f"
+    };
+
+    const app = initializeApp(firebaseConfig);
+    const db = getFirestore(app);
+
+    const navigation =
+    document.getElementById("store-navigation");
+
+let storeMenuItems = [];
+
+function getMenuChildren(parentId) {
+
+    return storeMenuItems.filter(
+        item => item.parentId === parentId
+    );
+
+}
+
+function buildMenuItem(item, isRoot = false) {
+
+    const children =
+        getMenuChildren(item.id);
+
+    const wrapper =
+        document.createElement("div");
+
+    wrapper.className =
+        "navigation-item";
+
+    const link =
+        document.createElement("a");
+
+    const itemName =
+        String(item.name || "")
+            .trim()
+            .toLowerCase();
+
+    link.href =
+        (
+            isRoot &&
+            ["masculino", "feminino"].includes(itemName)
+        )
+            ? `categoria.html?menu=${encodeURIComponent(item.id)}&all=1`
+            : `categoria.html?menu=${encodeURIComponent(item.id)}`;
+
+    link.dataset.menuId =
+        item.id;
+
+    link.innerHTML =
+        `<span>${String(item.name || "")}</span>` +
+        (
+            children.length
+                ? '<span class="navigation-arrow">›</span>'
+                : ''
+        );
+
+    wrapper.appendChild(link);
+
+    if (children.length) {
+
+        const dropdown =
+            document.createElement("div");
+
+        dropdown.className =
+            "navigation-dropdown";
+
+        children.forEach(child => {
+
+            dropdown.appendChild(
+                buildMenuItem(child, false)
+            );
+
+        });
+
+        wrapper.appendChild(dropdown);
+    }
+
+    return wrapper;
+}
+
+async function loadStoreMenu() {
+
+    try {
+
+        const menuRef =
+            collection(db, "store_menu");
+
+        const menuQuery =
+            query(
+                menuRef,
+                where("active", "==", true)
+            );
+
+        const result =
+            await getDocs(menuQuery);
+
+        storeMenuItems =
+            result.docs.map(doc => ({
+                id: doc.id,
+                ...doc.data()
+            }));
+
+        navigation.innerHTML = "";
+
+        const homeLink =
+            document.createElement("a");
+
+        homeLink.href =
+            "index.html";
+
+        homeLink.textContent =
+            "Início";
+
+        homeLink.dataset.homeLink =
+            "true";
+
+        navigation.appendChild(
+            homeLink
+        );
+const rootItems =
+    storeMenuItems.filter(
+        item =>
+            !item.parentId ||
+            item.parentId === null ||
+            item.parentId === ""
+    );
+
+const menuOrder = [
+    "Masculino",
+    "Feminino",
+    "Acessórios",
+    "Promoções"
+];
+
+rootItems.sort((a, b) => {
+
+    const indexA =
+        menuOrder.indexOf(
+            String(a.name || "").trim()
+        );
+
+    const indexB =
+        menuOrder.indexOf(
+            String(b.name || "").trim()
+        );
+
+    return (
+        (indexA === -1 ? 999 : indexA) -
+        (indexB === -1 ? 999 : indexB)
+    );
+
+});
+
+rootItems.forEach(item => {
+
+    navigation.appendChild(
+        buildMenuItem(item, true)
+    );
+
+});
+
+    } catch (error) {
+
+        console.error(
+            "Erro ao carregar menu da loja:",
+            error
+        );
+
+    }
+
+}
+
+loadStoreMenu();
+const mobileMenuToggle =
+    document.getElementById("mobile-menu-toggle");
+
+const storeNavigation =
+    document.getElementById("store-navigation");
+
+if (
+    mobileMenuToggle &&
+    storeNavigation
+) {
+
+    mobileMenuToggle.addEventListener(
+        "click",
+        () => {
+
+            const isOpen =
+                document.body.classList.toggle(
+                    "mobile-menu-open"
+                );
+
+            mobileMenuToggle.setAttribute(
+                "aria-expanded",
+                String(isOpen)
+            );
+
+            mobileMenuToggle.setAttribute(
+                "aria-label",
+                isOpen
+                    ? "Fechar menu"
+                    : "Abrir menu"
+            );
+
+            mobileMenuToggle.textContent =
+                isOpen ? "×" : "☰";
+
+        }
+    );
+
+}
+storeNavigation.addEventListener(
+    "click",
+    event => {
+
+        const link =
+            event.target.closest(
+                ".navigation-item > a"
+            );
+
+        if (!link) return;
+
+        const item =
+            link.parentElement;
+
+        const submenu =
+            item.querySelector(
+                ":scope > .navigation-dropdown"
+            );
+
+        if (!submenu) return;
+
+        if (window.innerWidth <= 700) {
+
+            event.preventDefault();
+
+            item.classList.toggle(
+                "mobile-expanded"
+            );
+
+        }
+
+    }
+);
+
+    const searchToggle =
+        document.getElementById("search-toggle");
+
+    const searchPanel =
+        document.getElementById("search-panel");
+
+    const searchClose =
+        document.getElementById("search-close");
+
+    const searchInput =
+        document.getElementById("store-search");
+
+    const searchResults =
+        document.getElementById("search-results");
+
+
+    async function searchProducts(term) {
+
+        const cleanTerm =
+            term.trim().toLowerCase();
+
+        if (!cleanTerm) {
+            searchResults.innerHTML = "";
+            return;
+        }
+
+        searchResults.innerHTML =
+            "<div>Pesquisando...</div>";
+
+        try {
+
+            const productsRef =
+                collection(db, "products");
+
+            const productsQuery =
+                query(
+                    productsRef,
+                    where("active", "==", true)
+                );
+
+            const snapshot =
+                await getDocs(productsQuery);
+
+            const products = [];
+
+            snapshot.forEach(doc => {
+
+                const product = {
+                    id: doc.id,
+                    ...doc.data()
+                };
+
+                const name =
+                    String(product.name || "")
+                        .toLowerCase();
+
+                const brand =
+                    String(product.brand || "")
+                        .toLowerCase();
+
+                const sku =
+                    String(product.sku || "")
+                        .toLowerCase();
+
+                if (
+                    name.includes(cleanTerm) ||
+                    brand.includes(cleanTerm) ||
+                    sku.includes(cleanTerm)
+                ) {
+                    products.push(product);
+                }
+
+            });
+
+            if (products.length === 0) {
+
+                searchResults.innerHTML =
+                    "<div>Nenhum produto encontrado.</div>";
+
+                return;
+            }
+
+            searchResults.innerHTML =
+                products.map(product => {
+
+                    const price =
+                        Number(product.price || 0);
+
+                    return `
+                        <div
+                            class="search-result"
+                            data-id="${product.id}"
+                        >
+                            <div class="search-result-image">
+                                ${
+                                    product.image
+                                        ? `<img src="${product.image}" alt="${product.name || "Produto"}">`
+                                        : ""
+                                }
+                            </div>
+
+                            <div class="search-result-info">
+                                <strong>
+                                    ${product.name || "Produto"}
+                                </strong>
+
+                                <span>
+                                    ${product.brand || ""}
+                                </span>
+
+                                <b>
+                                    ${new Intl.NumberFormat(
+                                        "pt-BR",
+                                        {
+                                            style: "currency",
+                                            currency: "BRL"
+                                        }
+                                    ).format(price)}
+                                </b>
+                            </div>
+                        </div>
+                    `;
+
+                }).join("");
+
+        } catch (error) {
+
+            console.error(
+                "Erro ao pesquisar produtos:",
+                error
+            );
+
+            searchResults.innerHTML =
+                "<div>Não foi possível realizar a pesquisa.</div>";
+        }
+    }
+
+
+    searchToggle.addEventListener(
+        "click",
+        () => {
+
+            searchPanel.classList.add(
+                "search-open"
+            );
+
+            searchInput.focus();
+        }
+    );
+
+
+    searchClose.addEventListener(
+        "click",
+        () => {
+
+            searchPanel.classList.remove(
+                "search-open"
+            );
+        }
+    );
+
+
+    searchInput.addEventListener(
+        "input",
+        () => {
+
+            searchProducts(
+                searchInput.value
+            );
+        }
+    );
+
+
+    searchResults.addEventListener(
+        "click",
+        event => {
+
+            const result =
+                event.target.closest(
+                    ".search-result"
+                );
+
+            if (!result) return;
+
+            const id =
+                result.dataset.id;
+
+            if (!id) return;
+
+            window.location.href =
+                `produto.html?id=${encodeURIComponent(id)}`;
+        }
+    );
+
+
+    document.addEventListener(
+        "keydown",
+        event => {
+
+            if (
+                event.key === "Escape"
+            ) {
+
+                searchPanel.classList.remove(
+                    "search-open"
+                );
+            }
+        }
+    );
+
+</script>
+
+</body>
+
+</html>

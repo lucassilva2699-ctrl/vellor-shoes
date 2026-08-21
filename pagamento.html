@@ -1,0 +1,1917 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <meta
+        name="description"
+        content="Pagamento | Vellor Shoes"
+    >
+
+    <title>Pagamento | Vellor Shoes</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+
+    <link
+        rel="preconnect"
+        href="https://fonts.gstatic.com"
+        crossorigin
+    >
+
+    <link
+        href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap"
+        rel="stylesheet"
+    >
+
+    <link
+        rel="stylesheet"
+        href="style.css"
+    >
+
+    <style>
+
+        /* =========================================================
+           PAGAMENTO — PADRÃO VISUAL VELLOR SHOES
+           ========================================================= */
+
+        .payment-page {
+            padding: 70px 0 90px;
+        }
+
+        .payment-header-title {
+            margin-bottom: 42px;
+        }
+
+        .payment-header-title .section-label {
+            display: block;
+            margin-bottom: 12px;
+            color: #007BFF;
+            font-size: 13px;
+            font-weight: 600;
+            letter-spacing: 2px;
+        }
+
+        .payment-header-title h1 {
+            margin: 0 0 10px;
+            font-size: 42px;
+            line-height: 1.15;
+            font-weight: 700;
+        }
+
+        .payment-header-title p {
+            margin: 0;
+            font-size: 16px;
+            color: #777;
+        }
+
+
+        /* =========================================================
+           LAYOUT
+           ========================================================= */
+
+        .payment-layout {
+            display: grid;
+            grid-template-columns: minmax(0, 1fr) 390px;
+            gap: 28px;
+            align-items: start;
+        }
+
+
+        /* =========================================================
+           CARD PRINCIPAL
+           ========================================================= */
+
+        .payment-card {
+            background: #ffffff;
+            border: 1px solid #e5e5e5;
+            border-radius: 18px;
+            padding: 32px;
+        }
+
+        .payment-card-title {
+            margin: 0 0 25px;
+            font-size: 23px;
+            line-height: 1.3;
+            font-weight: 700;
+            color: #111111;
+        }
+
+
+        /* =========================================================
+           MÉTODOS DE PAGAMENTO
+           ========================================================= */
+
+        .payment-methods {
+            display: grid;
+            gap: 14px;
+        }
+
+        .payment-method {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+
+            width: 100%;
+            min-height: 82px;
+
+            padding: 18px 20px;
+
+            background: #ffffff;
+            border: 1px solid #dedede;
+            border-radius: 14px;
+
+            cursor: pointer;
+
+            transition:
+                border-color .2s ease,
+                background .2s ease,
+                box-shadow .2s ease;
+        }
+
+        .payment-method:hover {
+            border-color: rgba(0, 123, 255, .45);
+        }
+
+        .payment-method.selected {
+            border-color: #007BFF;
+            background: rgba(0, 123, 255, .045);
+            box-shadow: 0 0 0 1px rgba(0, 123, 255, .08);
+        }
+
+        .payment-method input {
+            width: 20px;
+            height: 20px;
+            flex-shrink: 0;
+            accent-color: #007BFF;
+        }
+
+        .payment-method-info {
+            display: flex;
+            flex-direction: column;
+            gap: 4px;
+        }
+
+        .payment-method-name {
+            color: #111111;
+            font-size: 15px;
+            font-weight: 600;
+        }
+
+        .payment-method-description {
+            color: #777777;
+            font-size: 13px;
+        }
+
+
+        /* =========================================================
+           PIX
+           ========================================================= */
+
+        .pix-info {
+            display: none;
+
+            margin-top: 22px;
+            padding: 20px;
+
+            background: #f7f7f7;
+            border: 1px solid #e5e5e5;
+            border-radius: 14px;
+        }
+
+        .pix-info.active {
+            display: block;
+        }
+
+        .pix-info-title {
+            margin-bottom: 8px;
+            color: #111111;
+            font-size: 15px;
+            font-weight: 700;
+        }
+
+        .pix-info-text {
+            color: #777777;
+            font-size: 13px;
+            line-height: 1.65;
+        }
+
+
+        /* =========================================================
+           CARTÃO
+           ========================================================= */
+
+        .card-fields {
+            display: none;
+
+            margin-top: 25px;
+            padding-top: 25px;
+
+            border-top: 1px solid #e5e5e5;
+        }
+
+        .card-fields.active {
+            display: block;
+        }
+
+        .field {
+            margin-bottom: 18px;
+        }
+
+        .field label {
+            display: block;
+            margin-bottom: 8px;
+
+            color: #111111;
+            font-size: 13px;
+            font-weight: 600;
+        }
+
+        .field input {
+            width: 100%;
+            height: 50px;
+
+            padding: 0 15px;
+
+            background: #ffffff;
+            border: 1px solid #dcdcdc;
+            border-radius: 10px;
+
+            color: #111111;
+            font-family: "Poppins", sans-serif;
+            font-size: 14px;
+
+            outline: none;
+
+            transition: border-color .2s ease,
+                        box-shadow .2s ease;
+        }
+
+        .field input:focus {
+            border-color: #007BFF;
+            box-shadow: 0 0 0 3px rgba(0, 123, 255, .08);
+        }
+
+        .field input::placeholder {
+            color: #999999;
+        }
+
+        .field-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 16px;
+        }
+
+
+        /* =========================================================
+           BOTÃO
+           ========================================================= */
+
+        .finish-payment {
+            width: 100%;
+            height: 54px;
+
+            margin-top: 10px;
+
+            border: 0;
+            border-radius: 11px;
+
+            background: #007BFF;
+            color: #ffffff;
+
+            font-family: "Poppins", sans-serif;
+            font-size: 14px;
+            font-weight: 700;
+
+            cursor: pointer;
+
+            transition:
+                background .2s ease,
+                transform .15s ease;
+        }
+
+        .finish-payment:hover {
+            background: #1688ff;
+        }
+
+        .finish-payment:active {
+            transform: scale(.99);
+        }
+
+        .payment-note {
+            margin-top: 13px;
+
+            text-align: center;
+
+            color: #999999;
+            font-size: 11px;
+        }
+
+
+        /* =========================================================
+           RESUMO
+           ========================================================= */
+
+        .summary-items {
+            display: grid;
+            gap: 18px;
+        }
+
+        .summary-item {
+            display: flex;
+            align-items: center;
+            gap: 14px;
+        }
+
+        .summary-image {
+            width: 72px;
+            height: 72px;
+
+            flex-shrink: 0;
+
+            object-fit: contain;
+
+            background: #f5f5f5;
+            border: 1px solid #eeeeee;
+            border-radius: 11px;
+        }
+
+        .summary-item-info {
+            flex: 1;
+            min-width: 0;
+        }
+
+        .summary-item-name {
+            margin-bottom: 4px;
+
+            color: #111111;
+            font-size: 14px;
+            font-weight: 700;
+
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        .summary-item-details {
+            color: #777777;
+            font-size: 12px;
+        }
+
+        .summary-item-price {
+            color: #111111;
+            font-size: 13px;
+            font-weight: 600;
+            white-space: nowrap;
+        }
+
+        .summary-divider {
+            height: 1px;
+            margin: 24px 0;
+            background: #e5e5e5;
+        }
+
+        .summary-row {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+
+            margin-bottom: 15px;
+
+            color: #777777;
+            font-size: 14px;
+        }
+
+        .summary-row strong {
+            color: #111111;
+            font-weight: 600;
+        }
+
+        .summary-total {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+
+            color: #111111;
+            font-size: 20px;
+            font-weight: 700;
+        }
+
+        .summary-total strong {
+            color: #007BFF;
+            font-size: 27px;
+        }
+
+
+        /* =========================================================
+           SUCESSO
+           ========================================================= */
+
+        .success-screen {
+            display: none;
+
+            max-width: 700px;
+
+            margin: 30px auto 0;
+
+            padding: 55px 35px;
+
+            text-align: center;
+
+            background: #ffffff;
+            border: 1px solid #e5e5e5;
+            border-radius: 18px;
+        }
+
+        .success-screen.active {
+            display: block;
+        }
+
+        .success-icon {
+            width: 72px;
+            height: 72px;
+
+            margin: 0 auto 22px;
+
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+            border-radius: 50%;
+
+            background: rgba(0, 123, 255, .10);
+            color: #007BFF;
+
+            font-size: 32px;
+            font-weight: 700;
+        }
+
+        .success-screen h2 {
+            margin-bottom: 10px;
+
+            color: #111111;
+            font-size: 28px;
+        }
+
+        .success-screen p {
+            margin-bottom: 7px;
+
+            color: #777777;
+            font-size: 14px;
+            line-height: 1.6;
+        }
+
+        .order-number {
+            display: inline-block;
+
+            margin: 20px 0;
+
+            padding: 13px 22px;
+
+            background: #f7f7f7;
+            border: 1px solid #e5e5e5;
+            border-radius: 10px;
+
+            color: #111111;
+            font-weight: 700;
+        }
+
+        .back-store {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+
+            height: 48px;
+
+            padding: 0 28px;
+
+            margin-top: 12px;
+
+            border-radius: 10px;
+
+            background: #007BFF;
+            color: #ffffff;
+
+            font-size: 13px;
+            font-weight: 700;
+
+            transition: background .2s ease;
+        }
+
+        .back-store:hover {
+            background: #1688ff;
+        }
+
+
+        /* =========================================================
+           VAZIO
+           ========================================================= */
+
+        .empty-screen {
+            display: none;
+
+            max-width: 700px;
+
+            margin: 30px auto 0;
+
+            padding: 70px 25px;
+
+            text-align: center;
+
+            background: #ffffff;
+            border: 1px solid #e5e5e5;
+            border-radius: 18px;
+        }
+
+        .empty-screen h2 {
+            margin-bottom: 10px;
+            color: #111111;
+        }
+
+        .empty-screen p {
+            margin-bottom: 25px;
+            color: #777777;
+            font-size: 14px;
+        }
+
+
+        /* =========================================================
+           RESPONSIVO
+           ========================================================= */
+
+        @media (max-width: 900px) {
+
+            .payment-layout {
+                grid-template-columns: 1fr;
+            }
+
+        }
+
+
+        @media (max-width: 600px) {
+
+            .payment-page {
+                padding: 45px 0 70px;
+            }
+
+            .payment-header-title {
+                margin-bottom: 30px;
+            }
+
+            .payment-header-title h1 {
+                font-size: 30px;
+            }
+
+            .payment-header-title p {
+                font-size: 14px;
+            }
+
+            .payment-card {
+                padding: 22px;
+            }
+
+            .payment-card-title {
+                font-size: 20px;
+            }
+
+            .field-row {
+                grid-template-columns: 1fr;
+                gap: 0;
+            }
+
+            .summary-total strong {
+                font-size: 23px;
+            }
+
+        }
+
+    </style>
+
+</head>
+
+
+<body>
+
+
+    <!-- ==================================================
+         HEADER — MESMO PADRÃO DO CHECKOUT
+    ================================================== -->
+
+    <header class="header">
+
+        <div class="container header-content">
+
+            <a
+                href="index.html"
+                class="logo"
+            >
+
+                <img
+                    src="assets/logo.png"
+                    alt="Vellor Shoes"
+                >
+
+            </a>
+
+
+            <nav class="navigation">
+
+                <a href="index.html">
+                    Início
+                </a>
+
+                <a href="index.html#masculino">
+                    Masculino
+                </a>
+
+                <a href="index.html#feminino">
+                    Feminino
+                </a>
+
+                <a href="index.html#acessorios">
+                    Acessórios
+                </a>
+
+                <a href="index.html#promocoes">
+                    Promoções
+                </a>
+
+            </nav>
+
+
+            <div class="header-actions">
+
+                <button
+                    class="icon-button"
+                    type="button"
+                    aria-label="Pesquisar"
+                >
+                    🔍
+                </button>
+
+
+                <button
+                    class="icon-button"
+                    type="button"
+                    aria-label="Minha conta"
+                >
+                    ♙
+                </button>
+
+
+                <a
+                    href="carrinho.html"
+                    class="icon-button cart-button"
+                    aria-label="Carrinho"
+                >
+
+                    🛒
+
+                    <span class="cart-count">
+                        0
+                    </span>
+
+                </a>
+
+            </div>
+
+        </div>
+
+    </header>
+
+
+    <!-- ==================================================
+         PAGAMENTO
+    ================================================== -->
+
+    <main class="payment-page">
+
+        <div class="container">
+
+
+            <!-- TÍTULO -->
+
+            <div class="payment-header-title">
+
+                <span class="section-label">
+                    VELLOR SHOES
+                </span>
+
+                <h1>
+                    Finalizar pagamento
+                </h1>
+
+                <p>
+                    Revise seu pedido e escolha a forma de pagamento.
+                </p>
+
+            </div>
+
+
+            <div id="payment-area">
+
+                <div class="payment-layout">
+
+
+                    <!-- =================================================
+                         FORMA DE PAGAMENTO
+                    ================================================== -->
+
+                    <section class="payment-card">
+
+                        <h2 class="payment-card-title">
+                            Forma de pagamento
+                        </h2>
+
+
+                        <div class="payment-methods">
+
+
+                            <label
+                                class="payment-method selected"
+                                data-method="pix"
+                            >
+
+                                <input
+                                    type="radio"
+                                    name="payment-method"
+                                    value="pix"
+                                    checked
+                                >
+
+                                <div class="payment-method-info">
+
+                                    <span class="payment-method-name">
+                                        Pix
+                                    </span>
+
+                                    <span class="payment-method-description">
+                                        Pagamento instantâneo
+                                    </span>
+
+                                </div>
+
+                            </label>
+
+
+                            <label
+                                class="payment-method"
+                                data-method="credit-card"
+                            >
+
+                                <input
+                                    type="radio"
+                                    name="payment-method"
+                                    value="credit-card"
+                                >
+
+                                <div class="payment-method-info">
+
+                                    <span class="payment-method-name">
+                                        Cartão de crédito
+                                    </span>
+
+                                    <span class="payment-method-description">
+                                        Pagamento com cartão
+                                    </span>
+
+                                </div>
+
+                            </label>
+
+
+                        </div>
+</div>
+
+
+<div id="paymentBrick_container"></div>
+
+
+<!-- PIX -->
+
+<div
+    id="pix-info"
+    class="pix-info active"
+>
+
+                        <!-- PIX -->
+
+                        <div
+                            id="pix-info"
+                            class="pix-info active"
+                        >
+
+                            <div class="pix-info-title">
+                                Pagamento via Pix
+                            </div>
+
+                            <div class="pix-info-text">
+                                Nesta etapa estamos apenas preparando o pedido.
+                                A geração do QR Code Pix será conectada ao
+                                gateway de pagamento posteriormente.
+                            </div>
+
+                        </div>
+
+
+                        <!-- CARTÃO -->
+
+                        <div
+                            id="card-fields"
+                            class="card-fields"
+                        >
+
+                            <div class="field">
+
+                                <label for="card-number">
+                                    Número do cartão
+                                </label>
+
+                                <input
+                                    type="text"
+                                    id="card-number"
+                                    placeholder="0000 0000 0000 0000"
+                                    maxlength="19"
+                                    inputmode="numeric"
+                                >
+
+                            </div>
+
+
+                            <div class="field">
+
+                                <label for="card-name">
+                                    Nome no cartão
+                                </label>
+
+                                <input
+                                    type="text"
+                                    id="card-name"
+                                    placeholder="Nome completo"
+                                >
+
+                            </div>
+
+
+                            <div class="field-row">
+
+                                <div class="field">
+
+                                    <label for="card-expiry">
+                                        Validade
+                                    </label>
+
+                                    <input
+                                        type="text"
+                                        id="card-expiry"
+                                        placeholder="MM/AA"
+                                        maxlength="5"
+                                        inputmode="numeric"
+                                    >
+
+                                </div>
+
+
+                                <div class="field">
+
+                                    <label for="card-cvv">
+                                        CVV
+                                    </label>
+
+                                    <input
+                                        type="text"
+                                        id="card-cvv"
+                                        placeholder="123"
+                                        maxlength="4"
+                                        inputmode="numeric"
+                                    >
+
+                                </div>
+
+                            </div>
+
+                        </div>
+
+
+                        <button
+                            type="button"
+                            id="finish-payment"
+                            class="finish-payment"
+                        >
+                            FINALIZAR PEDIDO
+                        </button>
+
+
+                        <div class="payment-note">
+                            O pagamento real será conectado ao gateway na próxima etapa.
+                        </div>
+
+                    </section>
+
+
+                    <!-- =================================================
+                         RESUMO DO PEDIDO
+                    ================================================== -->
+
+                    <aside class="payment-card">
+
+                        <h2 class="payment-card-title">
+                            Resumo do pedido
+                        </h2>
+
+
+                        <div
+                            id="summary-items"
+                            class="summary-items"
+                        >
+                        </div>
+
+
+                        <div class="summary-divider">
+                        </div>
+
+
+                        <div class="summary-row">
+
+                            <span>
+                                Subtotal
+                            </span>
+
+                            <strong id="summary-subtotal">
+                                R$ 0,00
+                            </strong>
+
+                        </div>
+
+
+                        <div class="summary-row">
+
+                            <span>
+                                Frete
+                            </span>
+
+                            <strong id="summary-shipping">
+                                R$ 0,00
+                            </strong>
+
+                        </div>
+
+
+                        <div class="summary-divider">
+                        </div>
+
+
+                        <div class="summary-total">
+
+                            <span>
+                                Total
+                            </span>
+
+                            <strong id="summary-total">
+                                R$ 0,00
+                            </strong>
+
+                        </div>
+
+                    </aside>
+
+
+                </div>
+
+            </div>
+
+
+            <!-- =========================================================
+                 SUCESSO
+            ========================================================= -->
+
+            <section
+                id="success-screen"
+                class="success-screen"
+            >
+
+                <div class="success-icon">
+                    ✓
+                </div>
+
+                <h2>
+                    Pedido realizado!
+                </h2>
+
+                <p>
+                    Seu pedido foi preparado com sucesso.
+                </p>
+
+                <p>
+                    Número do pedido:
+                </p>
+
+
+                <div
+                    id="order-number"
+                    class="order-number"
+                >
+                    VEL-000000
+                </div>
+
+
+                <p>
+                    O pagamento real será conectado posteriormente.
+                </p>
+
+
+                <a
+                    href="index.html"
+                    class="back-store"
+                >
+                    VOLTAR PARA A LOJA
+                </a>
+
+            </section>
+
+
+            <!-- =========================================================
+                 VAZIO
+            ========================================================= -->
+
+            <section
+                id="empty-screen"
+                class="empty-screen"
+            >
+
+                <h2>
+                    Nenhum pedido encontrado
+                </h2>
+
+                <p>
+                    Volte para a loja e adicione um produto ao carrinho.
+                </p>
+
+                <a
+                    href="index.html"
+                    class="back-store"
+                >
+                    VOLTAR PARA A LOJA
+                </a>
+
+            </section>
+
+
+        </div>
+
+    </main>
+
+
+    <!-- ==================================================
+         FOOTER — MESMO PADRÃO DO CHECKOUT
+    ================================================== -->
+
+    <footer class="footer">
+
+        <div class="container">
+
+            <img
+                src="assets/logo.png"
+                alt="Vellor Shoes"
+                class="footer-logo"
+            >
+
+            <p>
+                ESTILO • QUALIDADE • PRESENÇA
+            </p>
+
+            <span>
+                © 2026 Vellor Shoes. Todos os direitos reservados.
+            </span>
+
+        </div>
+
+    </footer>
+
+
+
+
+    <!-- =========================================================
+         JAVASCRIPT
+    ========================================================= -->
+    <script type="module">
+    import {
+        initializeApp
+    } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
+
+    import {
+        getFirestore,
+        collection,
+        addDoc,
+        serverTimestamp
+    } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
+
+    const firebaseConfig = {
+        apiKey: "AIzaSyDQ7mIhUeifQOMXzI9DluqDkl8ZeMS5o",
+        authDomain: "vellor-shoes.firebaseapp.com",
+        projectId: "vellor-shoes",
+        storageBucket: "vellor-shoes.firebasestorage.app",
+        messagingSenderId: "455357493198",
+        appId: "1:455357493198:web:f36451b846420b4dfde83f"
+    };
+
+    const app = initializeApp(firebaseConfig);
+    const db = getFirestore(app);
+
+    window.vellorFirestore = {
+        db,
+        collection,
+        addDoc,
+        serverTimestamp
+    };
+</script>
+
+<script src="https://sdk.mercadopago.com/js/v2"></script>
+
+    <script>
+        const mp = new MercadoPago(
+    "TEST-735e8228-0776-490f-8787-0e3c25f416b8"
+);
+
+const bricksBuilder = mp.bricks();
+        
+
+        /* =========================================================
+           FORMATAR PREÇO
+        ========================================================= */
+
+        function formatPrice(value) {
+
+            return Number(value || 0).toLocaleString(
+                "pt-BR",
+                {
+                    style: "currency",
+                    currency: "BRL"
+                }
+            );
+
+        }
+
+
+        /* =========================================================
+           RECUPERAR CHECKOUT
+        ========================================================= */
+
+        function getCheckout() {
+
+            try {
+
+                return JSON.parse(
+                    localStorage.getItem("vellorCheckout")
+                );
+
+            } catch (error) {
+
+                console.error(
+                    "Erro ao recuperar checkout:",
+                    error
+                );
+
+                return null;
+
+            }
+
+        }
+
+
+        /* =========================================================
+           CALCULAR SUBTOTAL
+        ========================================================= */
+
+        function calculateSubtotal(cart) {
+
+            return cart.reduce(
+                (total, item) => {
+
+                    return total +
+                        (
+                            Number(item.price || 0) *
+                            Number(item.quantity || 1)
+                        );
+
+                },
+                0
+            );
+
+        }
+
+
+        /* =========================================================
+           CARREGAR RESUMO
+        ========================================================= */
+
+        function loadSummary() {
+
+            const checkout =
+                getCheckout();
+
+            const paymentArea =
+                document.getElementById(
+                    "payment-area"
+                );
+
+            const emptyScreen =
+                document.getElementById(
+                    "empty-screen"
+                );
+
+
+            if (
+                !checkout ||
+                !Array.isArray(checkout.cart) ||
+                checkout.cart.length === 0
+            ) {
+
+                paymentArea.style.display = "none";
+
+                emptyScreen.style.display = "block";
+
+                return;
+
+            }
+
+
+            const cart =
+                checkout.cart;
+
+
+            const summaryItems =
+                document.getElementById(
+                    "summary-items"
+                );
+
+
+            summaryItems.innerHTML = "";
+
+
+            cart.forEach(item => {
+
+                const row =
+                    document.createElement("div");
+
+                row.className =
+                    "summary-item";
+
+
+                const image =
+                    document.createElement("img");
+
+                image.className =
+                    "summary-image";
+
+                image.alt =
+                    item.name || "Produto";
+
+
+                image.src =
+                    item.image ||
+                    "assets/logo.png";
+
+
+                const info =
+                    document.createElement("div");
+
+                info.className =
+                    "summary-item-info";
+
+
+                const name =
+                    document.createElement("div");
+
+                name.className =
+                    "summary-item-name";
+
+                name.textContent =
+                    item.name || "Produto";
+
+
+                const details =
+                    document.createElement("div");
+
+                details.className =
+                    "summary-item-details";
+
+                details.textContent =
+                    `Tamanho: ${item.size || "-"} • Qtd.: ${item.quantity || 1}`;
+
+
+                info.appendChild(name);
+
+                info.appendChild(details);
+
+
+                const price =
+                    document.createElement("div");
+
+                price.className =
+                    "summary-item-price";
+
+                price.textContent =
+                    formatPrice(
+                        Number(item.price || 0) *
+                        Number(item.quantity || 1)
+                    );
+
+
+                row.appendChild(image);
+
+                row.appendChild(info);
+
+                row.appendChild(price);
+
+
+                summaryItems.appendChild(row);
+
+            });
+
+
+            const subtotal =
+                calculateSubtotal(cart);
+
+
+            const shipping =
+                Number(
+                    checkout.shipping?.cost || 0
+                );
+
+
+            const total =
+                subtotal + shipping;
+
+
+            document.getElementById(
+                "summary-subtotal"
+            ).textContent =
+                formatPrice(subtotal);
+
+
+            document.getElementById(
+                "summary-shipping"
+            ).textContent =
+                formatPrice(shipping);
+
+
+            document.getElementById(
+                "summary-total"
+            ).textContent =
+                formatPrice(total);
+
+
+            checkout.subtotal =
+                subtotal;
+
+            checkout.total =
+                total;
+
+
+            localStorage.setItem(
+                "vellorCheckout",
+                JSON.stringify(checkout)
+            );
+
+        }
+
+
+        /* =========================================================
+           MÉTODOS DE PAGAMENTO
+        ========================================================= */
+
+        const paymentMethods =
+            document.querySelectorAll(
+                ".payment-method"
+            );
+
+
+        const pixInfo =
+            document.getElementById(
+                "pix-info"
+            );
+
+
+        const cardFields =
+            document.getElementById(
+                "card-fields"
+            );
+
+
+        paymentMethods.forEach(method => {
+
+            method.addEventListener(
+                "click",
+                () => {
+
+                    paymentMethods.forEach(item => {
+
+                        item.classList.remove(
+                            "selected"
+                        );
+
+                    });
+
+
+                    method.classList.add(
+                        "selected"
+                    );
+
+
+                    const radio =
+                        method.querySelector(
+                            "input"
+                        );
+
+
+                    radio.checked = true;
+
+
+                    if (
+                        radio.value === "pix"
+                    ) {
+
+                        pixInfo.classList.add(
+                            "active"
+                        );
+
+                        cardFields.classList.remove(
+                            "active"
+                        );
+
+                    }
+
+
+                    if (
+                        radio.value === "credit-card"
+                    ) {
+
+                        pixInfo.classList.remove(
+                            "active"
+                        );
+
+                        cardFields.classList.add(
+                            "active"
+                        );
+
+                    }
+
+                }
+            );
+
+        });
+
+
+        /* =========================================================
+           MÁSCARA CARTÃO
+        ========================================================= */
+
+        const cardNumber =
+            document.getElementById(
+                "card-number"
+            );
+
+
+        cardNumber.addEventListener(
+            "input",
+            () => {
+
+                let value =
+                    cardNumber.value
+                    .replace(/\D/g, "")
+                    .slice(0, 16);
+
+
+                value =
+                    value.replace(
+                        /(\d{4})(?=\d)/g,
+                        "$1 "
+                    );
+
+
+                cardNumber.value =
+                    value;
+
+            }
+        );
+
+
+        /* =========================================================
+           MÁSCARA VALIDADE
+        ========================================================= */
+
+        const cardExpiry =
+            document.getElementById(
+                "card-expiry"
+            );
+
+
+        cardExpiry.addEventListener(
+            "input",
+            () => {
+
+                let value =
+                    cardExpiry.value
+                    .replace(/\D/g, "")
+                    .slice(0, 4);
+
+
+                if (value.length > 2) {
+
+                    value =
+                        value.slice(0, 2) +
+                        "/" +
+                        value.slice(2);
+
+                }
+
+
+                cardExpiry.value =
+                    value;
+
+            }
+        );
+
+
+        /* =========================================================
+           MÁSCARA CVV
+        ========================================================= */
+
+        const cardCvv =
+            document.getElementById(
+                "card-cvv"
+            );
+
+
+        cardCvv.addEventListener(
+            "input",
+            () => {
+
+                cardCvv.value =
+                    cardCvv.value
+                    .replace(/\D/g, "")
+                    .slice(0, 4);
+
+            }
+        );
+
+
+        /* =========================================================
+           FINALIZAR PEDIDO
+        ========================================================= */
+
+        document
+            .getElementById("finish-payment")
+            .addEventListener(
+                "click",
+             async () => {
+
+                    const checkout =
+                        getCheckout();
+
+
+                    if (
+                        !checkout ||
+                        !checkout.cart ||
+                        !checkout.cart.length
+                    ) {
+
+                        alert(
+                            "Não encontramos um pedido para finalizar."
+                        );
+
+                        return;
+
+                    }
+
+
+                    const selectedMethod =
+                        document.querySelector(
+                            'input[name="payment-method"]:checked'
+                        );
+
+
+                    if (!selectedMethod) {
+
+                        alert(
+                            "Selecione uma forma de pagamento."
+                        );
+
+                        return;
+
+                    }
+
+
+                    const paymentMethod =
+                        selectedMethod.value;
+
+
+                    if (
+                        paymentMethod === "credit-card"
+                    ) {
+
+                        const number =
+                            cardNumber.value
+                            .replace(/\D/g, "");
+
+
+                        const name =
+                            document.getElementById(
+                                "card-name"
+                            ).value.trim();
+
+
+                        const expiry =
+                            cardExpiry.value.trim();
+
+
+                        const cvv =
+                            cardCvv.value
+                            .replace(/\D/g, "");
+
+
+                        if (
+                            number.length < 16 ||
+                            !name ||
+                            expiry.length !== 5 ||
+                            cvv.length < 3
+                        ) {
+
+                            alert(
+                                "Preencha os dados do cartão para continuar."
+                            );
+
+                            return;
+
+                        }
+
+                    }
+
+
+                    /* =================================================
+                       NÚMERO DO PEDIDO
+                    ================================================== */
+
+                    const orderNumber =
+                        "VEL-" +
+                        Date.now()
+                            .toString()
+                            .slice(-8);
+
+
+                    const orderData = {
+
+                        orderNumber:
+                            orderNumber,
+
+                        paymentMethod:
+                            paymentMethod,
+
+                        customer:
+                            checkout.customer,
+
+                        address:
+                            checkout.address,
+
+                        shipping:
+                            checkout.shipping,
+
+                        cart:
+                            checkout.cart,
+
+                        subtotal:
+                            checkout.subtotal,
+
+                        total:
+                            checkout.total,
+
+                        status:
+                            "aguardando_pagamento",
+
+                        createdAt:
+                            new Date().toISOString()
+
+                    };
+
+try {
+
+    const {
+        db,
+        collection,
+        addDoc,
+        serverTimestamp
+    } = window.vellorFirestore;
+
+    const orderRef = await addDoc(
+        collection(db, "orders"),
+        {
+            ...orderData,
+            createdAt: serverTimestamp()
+        }
+    );
+
+    orderData.id = orderRef.id;
+
+    localStorage.setItem(
+        "vellorOrder",
+        JSON.stringify(orderData)
+    );
+
+} catch (error) {
+
+    console.error(
+        "Erro ao salvar pedido no Firestore:",
+        error
+    );
+
+    alert(
+        "Não foi possível registrar o pedido. Tente novamente."
+    );
+
+    return;
+}
+
+
+                    /* =================================================
+                       MOSTRAR SUCESSO
+                    ================================================== */
+
+                    document.getElementById(
+                        "payment-area"
+                    ).style.display = "none";
+
+
+                    document.getElementById(
+                        "success-screen"
+                    ).classList.add(
+                        "active"
+                    );
+
+
+                    document.getElementById(
+                        "order-number"
+                    ).textContent =
+                        orderNumber;
+
+
+                    console.log(
+                        "Pedido Vellor Shoes:",
+                        orderData
+                    );
+
+                }
+            );
+
+
+        /* =========================================================
+           INICIAR
+        ========================================================= */
+loadSummary();
+
+
+/* =========================================================
+   MERCADO PAGO — PAYMENT BRICK
+========================================================= */
+
+async function renderPaymentBrick() {
+
+    const checkout = getCheckout();
+
+    if (!checkout || !checkout.cart || !checkout.cart.length) {
+        return;
+    }
+
+    const amount = Number(checkout.total || 0);
+
+    const settings = {
+
+        initialization: {
+            amount: amount,
+            payer: {
+                email: checkout.customer?.email || ""
+            }
+        },
+
+        customization: {
+
+            paymentMethods: {
+                bankTransfer: "all",
+                creditCard: "all",
+                debitCard: "all"
+            },
+
+            visual: {
+                hideFormTitle: true
+            }
+
+        },
+
+        callbacks: {
+
+            onReady: () => {
+
+                console.log(
+                    "Mercado Pago: Payment Brick carregado."
+                );
+
+            },
+onSubmit: async ({ selectedPaymentMethod, formData }) => {
+
+    console.log(
+        "Método selecionado:",
+        selectedPaymentMethod
+    );
+
+    console.log(
+        "Dados enviados pelo Brick:",
+        formData
+    );
+
+    try {
+
+        const response = await fetch(
+            "/api/process_payment.js",
+            {
+                method: "POST",
+
+                headers: {
+                    "Content-Type": "application/json"
+                },
+
+                body: JSON.stringify(
+                    formData
+                )
+            }
+        );
+
+        const data =
+            await response.json();
+
+        console.log(
+            "Resposta do backend:",
+            data
+        );
+
+        if (!response.ok) {
+
+            throw new Error(
+                data.error ||
+                "Erro ao processar pagamento."
+            );
+
+        }
+
+        return Promise.resolve();
+
+    } catch (error) {
+
+        console.error(
+            "Erro ao enviar pagamento:",
+            error
+        );
+
+        throw error;
+
+    }
+
+},
+
+            onError: (error) => {
+
+                console.error(
+                    "Erro no Mercado Pago:",
+                    error
+                );
+
+            }
+
+        }
+
+    };
+
+
+    window.paymentBrickController =
+        await bricksBuilder.create(
+            "payment",
+            "paymentBrick_container",
+            settings
+        );
+
+}
+
+
+renderPaymentBrick();
+
+    </script>
+    
+
+</body>
+
+</html>
