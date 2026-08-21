@@ -110,12 +110,11 @@
                 href="#"
                 class="logo"
             >
-
-                <img
-                    src="assets/logo.png"
-                    alt="Vellor Shoes"
-                >
-
+<img
+    id="header-logo"
+    src="assets/logo.png"
+    alt="Vellor Shoes"
+>
             </a>
 
 
@@ -735,19 +734,30 @@ async function loadStoreSettings() {
         /* LOGO */
 
         const footerLogo =
-            document.getElementById(
-                "footer-logo"
-            );
+    document.getElementById(
+        "footer-logo"
+    );
 
-        if (
-            footerLogo &&
-            store.logoUrl
-        ) {
+const headerLogo =
+    document.getElementById(
+        "header-logo"
+    );
 
-            footerLogo.src =
-                store.logoUrl;
+if (
+    store.logoUrl
+) {
 
-        }
+    if (footerLogo) {
+        footerLogo.src =
+            store.logoUrl;
+    }
+
+    if (headerLogo) {
+        headerLogo.src =
+            store.logoUrl;
+    }
+
+}
 
 
         /* INSTAGRAM */
