@@ -1970,3 +1970,544 @@ if (saveHomeBanner) {
     loadMenu();
 
 }
+/* =========================================================
+   DASHBOARD — DADOS DA LOJA
+========================================================= */
+
+if (
+    document.getElementById("total-products")
+) {
+
+    const totalProductsElement =
+        document.getElementById(
+            "total-products"
+        );
+
+    const activeProductsElement =
+        document.getElementById(
+            "active-products"
+        );
+
+    const lowStockProductsElement =
+        document.getElementById(
+            "low-stock-products"
+        );
+
+    const totalOrdersElement =
+        document.getElementById(
+            "total-orders"
+        );
+
+    const recentProductsElement =
+        document.getElementById(
+            "recent-products"
+        );
+
+    const recentOrdersElement =
+        document.getElementById(
+            "recent-orders"
+        );
+
+
+    function getDashboardStock(product) {
+
+        if (Array.isArray(product.sizes)) {
+
+            return product.sizes.reduce(
+                (total, size) => {
+
+                    return (
+                        total +
+                        Number(
+                            size.stock || 0
+                        )
+                    );
+
+                },
+                0
+            );
+        }
+
+        return Number(
+            product.stock || 0
+        );
+    }
+
+
+    function formatDashboardPrice(value) {
+
+        return Number(
+            value || 0
+        ).toLocaleString(
+            "pt-BR",
+            {
+                style: "currency",
+                currency: "BRL"
+            }
+        );
+    }
+
+
+    function formatDashboardDate(timestamp) {
+
+        if (!timestamp) {
+            return "-";
+        }
+
+        let date;
+
+        if (
+            timestamp &&
+            typeof timestamp.toDate ===
+                "function"
+        ) {
+
+            date =
+                timestamp.toDate();
+
+        } else {
+
+            date =
+                new Date(timestamp);
+        }
+
+        if (
+            Number.isNaN(
+                date.getTime()
+            )
+        ) {
+
+            return "-";
+        }
+
+        return date.toLocaleDateString(
+            "pt-BR"
+        );
+    }
+
+
+    function getDashboardStatus(status) {
+
+        const labels = {
+
+            aguardando_pagamento:
+                "Aguardando pagamento",
+
+            pago:
+                "Pagamento confirmado",
+
+            em_preparacao:
+                "Em preparação",
+
+            enviado:
+                "Enviado",
+
+            concluido:
+                "Concluído",
+
+            cancelado:
+                "Cancelado"
+
+        };
+
+        return (
+            labels[status] ||
+            status ||
+            "Indefinido"
+        );
+    }
+
+
+    async function loadDashboard() {
+
+        try {
+
+            /* =================================================
+               PRODUTOS
+            ================================================= */
+
+            const productsQuery =
+                query(
+                    collection(
+                        db,
+                        "products"
+                    ),
+                    where(
+                        "active",
+                        "==",
+                        true
+                    )
+                );
+
+
+            const productsSnapshot =
+                await getDocs(
+                    productsQuery
+                );
+
+
+            const products =
+                productsSnapshot.docs.map(
+                    document => ({
+                        id:
+                            document.id,
+                        ...document.data()
+                    })
+                );
+
+
+            const lowStockProducts =
+                products.filter(
+                    product => {
+
+                        const stock =
+                            getDashboardStock(
+                                product
+                            );
+
+                        return (
+                            stock > 0 &&
+                            stock <= 3
+                        );
+                    }
+                );
+
+
+            totalProductsElement.textContent =
+                products.length;
+
+
+            activeProductsElement.textContent =
+                products.filter(
+                    product =>
+                        product.active === true
+                ).length;
+
+
+            lowStockProductsElement.textContent =
+                lowStockProducts.length;
+
+
+            /* =================================================
+               PRODUTOS RECENTES
+            ================================================= */
+
+            const recentProducts =
+                [...products]
+                    .sort(
+                        (a, b) => {
+
+                            const dateA =
+                                a.createdAt?.toMillis
+                                    ? a.createdAt.toMillis()
+                                    : 0;
+
+                            const dateB =
+                                b.createdAt?.toMillis
+                                    ? b.createdAt.toMillis()
+                                    : 0;
+
+                            return (
+                                dateB -
+                                dateA
+                            );
+                        }
+                    )
+                    .slice(0, 5);
+
+
+            if (
+                recentProducts.length
+            ) {
+
+                recentProductsElement.innerHTML =
+                    recentProducts
+                        .map(
+                            product => {
+
+                                const stock =
+                                    getDashboardStock(
+                                        product
+                                    );
+
+                                const price =
+                                    product.promotion &&
+                                    Number(
+                                        product.promotionalPrice
+                                    ) > 0
+                                        ? product.promotionalPrice
+                                        : product.price;
+
+
+                                return `
+                                    <div
+                                        style="
+                                            display:flex;
+                                            align-items:center;
+                                            justify-content:space-between;
+                                            gap:15px;
+                                            padding:14px 0;
+                                            border-bottom:1px solid #25252a;
+                                        "
+                                    >
+
+                                        <div>
+                                            <strong
+                                                style="
+                                                    display:block;
+                                                    color:#fff;
+                                                    font-size:13px;
+                                                    margin-bottom:4px;
+                                                "
+                                            >
+                                                ${product.name || "Produto sem nome"}
+                                            </strong>
+
+                                            <span
+                                                style="
+                                                    color:#777;
+                                                    font-size:11px;
+                                                "
+                                            >
+                                                ${product.brand || ""}
+                                                ${product.brand ? " • " : ""}
+                                                Estoque: ${stock}
+                                            </span>
+                                        </div>
+
+                                        <strong
+                                            style="
+                                                color:#007BFF;
+                                                font-size:13px;
+                                                white-space:nowrap;
+                                            "
+                                        >
+                                            ${formatDashboardPrice(price)}
+                                        </strong>
+
+                                    </div>
+                                `;
+                            }
+                        )
+                        .join("");
+
+            } else {
+
+                recentProductsElement.innerHTML = `
+                    <div class="admin-empty-state">
+
+                        <div class="admin-empty-icon">
+                            ◈
+                        </div>
+
+                        <h3>
+                            Nenhum produto cadastrado
+                        </h3>
+
+                        <p>
+                            Cadastre seu primeiro produto para começar.
+                        </p>
+
+                    </div>
+                `;
+            }
+
+
+            /* =================================================
+               PEDIDOS
+            ================================================= */
+
+            const ordersSnapshot =
+                await getDocs(
+                    collection(
+                        db,
+                        "orders"
+                    )
+                );
+
+
+            const orders =
+                ordersSnapshot.docs.map(
+                    document => ({
+                        id:
+                            document.id,
+                        ...document.data()
+                    })
+                );
+
+
+            totalOrdersElement.textContent =
+                orders.length;
+
+
+            /* =================================================
+               PEDIDOS RECENTES
+            ================================================= */
+
+            const recentOrders =
+                [...orders]
+                    .sort(
+                        (a, b) => {
+
+                            const dateA =
+                                a.createdAt?.toMillis
+                                    ? a.createdAt.toMillis()
+                                    : 0;
+
+                            const dateB =
+                                b.createdAt?.toMillis
+                                    ? b.createdAt.toMillis()
+                                    : 0;
+
+                            return (
+                                dateB -
+                                dateA
+                            );
+                        }
+                    )
+                    .slice(0, 5);
+
+
+            if (
+                recentOrders.length
+            ) {
+
+                recentOrdersElement.innerHTML =
+                    recentOrders
+                        .map(
+                            order => {
+
+                                return `
+                                    <div
+                                        style="
+                                            display:flex;
+                                            align-items:center;
+                                            justify-content:space-between;
+                                            gap:15px;
+                                            padding:14px 0;
+                                            border-bottom:1px solid #25252a;
+                                        "
+                                    >
+
+                                        <div>
+
+                                            <strong
+                                                style="
+                                                    display:block;
+                                                    color:#fff;
+                                                    font-size:13px;
+                                                    margin-bottom:4px;
+                                                "
+                                            >
+                                                ${order.orderNumber || "Pedido"}
+                                            </strong>
+
+                                            <span
+                                                style="
+                                                    color:#777;
+                                                    font-size:11px;
+                                                "
+                                            >
+                                                ${order.customer?.name || "Cliente"}
+                                                •
+                                                ${formatDashboardDate(order.createdAt)}
+                                            </span>
+
+                                        </div>
+
+                                        <div
+                                            style="
+                                                text-align:right;
+                                            "
+                                        >
+
+                                            <strong
+                                                style="
+                                                    display:block;
+                                                    color:#007BFF;
+                                                    font-size:13px;
+                                                "
+                                            >
+                                                ${formatDashboardPrice(order.total)}
+                                            </strong>
+
+                                            <span
+                                                style="
+                                                    color:#999;
+                                                    font-size:10px;
+                                                "
+                                            >
+                                                ${getDashboardStatus(order.status)}
+                                            </span>
+
+                                        </div>
+
+                                    </div>
+                                `;
+                            }
+                        )
+                        .join("");
+
+            } else {
+
+                recentOrdersElement.innerHTML = `
+                    <div class="admin-empty-state">
+
+                        <div class="admin-empty-icon">
+                            ▣
+                        </div>
+
+                        <h3>
+                            Nenhum pedido ainda
+                        </h3>
+
+                        <p>
+                            Os pedidos dos seus clientes aparecerão aqui.
+                        </p>
+
+                    </div>
+                `;
+            }
+
+
+            console.log(
+                "Dashboard carregada:",
+                {
+                    produtos:
+                        products.length,
+
+                    estoqueBaixo:
+                        lowStockProducts.length,
+
+                    pedidos:
+                        orders.length
+                }
+            );
+
+
+        } catch (error) {
+
+            console.error(
+                "Erro ao carregar Dashboard:",
+                error
+            );
+
+        }
+
+    }
+
+
+    onAuthStateChanged(
+        auth,
+        user => {
+
+            if (!user) {
+                return;
+            }
+
+            loadDashboard();
+
+        }
+    );
+
+}
