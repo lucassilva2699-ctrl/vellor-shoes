@@ -636,6 +636,7 @@ document.addEventListener("DOMContentLoaded", function () {
                 "result-status"
             ).textContent =
                 formatStatus(data.order.status);
+            updateTimeline(data.order.status);
 
             document
                 .getElementById("tracking-result")
@@ -670,6 +671,40 @@ function formatStatus(status) {
     };
 
     return statuses[status] || status;
+}
+    function updateTimeline(status) {
+
+    const statusOrder = [
+        "aguardando_pagamento",
+        "pago",
+        "em_preparacao",
+        "enviado",
+        "concluido"
+    ];
+
+    const items =
+        document.querySelectorAll(
+            ".timeline-item"
+        );
+
+    const currentIndex =
+        statusOrder.indexOf(status);
+
+    items.forEach((item, index) => {
+
+        item.classList.remove(
+            "active",
+            "completed"
+        );
+
+        if (
+            currentIndex >= 0 &&
+            index <= currentIndex
+        ) {
+            item.classList.add("active");
+        }
+
+    });
 }
 </script>
 </body>
