@@ -169,14 +169,35 @@ logoFile.addEventListener(
                 );
             }
 
-            console.log(
-                "Logo enviada:",
-                uploadData.secure_url
-            );
+            const settingsRef =
+    doc(
+        db,
+        "store_settings",
+        "general"
+    );
 
-            alert(
-                "Logo enviada com sucesso!"
-            );
+await setDoc(
+    settingsRef,
+    {
+        logoUrl:
+            uploadData.secure_url,
+
+        updatedAt:
+            new Date()
+    },
+    {
+        merge: true
+    }
+);
+
+console.log(
+    "Logo salva no Firebase:",
+    uploadData.secure_url
+);
+
+alert(
+    "Logo enviada e salva com sucesso!"
+);
 
         } catch (error) {
 
