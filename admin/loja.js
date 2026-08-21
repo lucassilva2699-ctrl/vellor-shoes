@@ -97,6 +97,7 @@ const saveButton =
     document.getElementById(
         "save-store-button"
     );
+
 const logoFile =
     document.getElementById(
         "logo-file"
@@ -106,123 +107,175 @@ const changeLogoButton =
     document.getElementById(
         "change-logo-button"
     );
+
+
+/* =========================================================
+   ALTERAR LOGO
+========================================================= */
+
 if (changeLogoButton && logoFile) {
 
     changeLogoButton.addEventListener(
         "click",
         () => {
+
             logoFile.click();
+
         }
     );
 
 }
-logoFile.addEventListener(
-    "change",
-    async () => {
 
-        const file =
-            logoFile.files[0];
 
-        if (!file) {
-            return;
-        }
+if (logoFile) {
 
-        try {
+    logoFile.addEventListener(
+        "change",
+        async () => {
 
-            changeLogoButton.disabled = true;
-            changeLogoButton.textContent =
-                "Enviando...";
+            const file =
+                logoFile.files[0];
 
-            const formData =
-                new FormData();
 
-            formData.append(
-                "file",
-                file
-            );
+            if (!file) {
 
-            formData.append(
-                "upload_preset",
-                "vellor_products"
-            );
+                return;
 
-            formData.append(
-                "folder",
-                "vellor-shoes/store"
-            );
+            }
 
-            const uploadResponse =
-                await fetch(
-                    "https://api.cloudinary.com/v1_1/mvxldxuz/image/upload",
+
+            try {
+
+                if (changeLogoButton) {
+
+                    changeLogoButton.disabled =
+                        true;
+
+                    changeLogoButton.textContent =
+                        "Enviando...";
+
+                }
+
+
+                const formData =
+                    new FormData();
+
+
+                formData.append(
+                    "file",
+                    file
+                );
+
+
+                formData.append(
+                    "upload_preset",
+                    "vellor_products"
+                );
+
+
+                formData.append(
+                    "folder",
+                    "vellor-shoes/store"
+                );
+
+
+                const uploadResponse =
+                    await fetch(
+                        "https://api.cloudinary.com/v1_1/mvxldxuz/image/upload",
+                        {
+                            method: "POST",
+                            body: formData
+                        }
+                    );
+
+
+                const uploadData =
+                    await uploadResponse.json();
+
+
+                if (!uploadData.secure_url) {
+
+                    throw new Error(
+                        "Não foi possível enviar a logo."
+                    );
+
+                }
+
+
+                /* =================================================
+                   SALVAR LOGO NO FIREBASE
+                ================================================= */
+
+                const settingsRef =
+                    doc(
+                        db,
+                        "store_settings",
+                        "general"
+                    );
+
+
+                await setDoc(
+                    settingsRef,
                     {
-                        method: "POST",
-                        body: formData
+
+                        logoUrl:
+                            uploadData.secure_url,
+
+                        updatedAt:
+                            new Date()
+
+                    },
+                    {
+                        merge: true
                     }
                 );
 
-            const uploadData =
-                await uploadResponse.json();
 
-            if (!uploadData.secure_url) {
-                throw new Error(
+                console.log(
+                    "Logo salva no Firebase:",
+                    uploadData.secure_url
+                );
+
+
+                alert(
+                    "Logo enviada e salva com sucesso!"
+                );
+
+
+            } catch (error) {
+
+                console.error(
+                    "Erro ao enviar logo:",
+                    error
+                );
+
+
+                alert(
                     "Não foi possível enviar a logo."
                 );
+
+
+            } finally {
+
+                if (changeLogoButton) {
+
+                    changeLogoButton.disabled =
+                        false;
+
+                    changeLogoButton.textContent =
+                        "Alterar logo";
+
+                }
+
+
+                logoFile.value = "";
+
             }
 
-            const settingsRef =
-    doc(
-        db,
-        "store_settings",
-        "general"
+        }
     );
 
-await setDoc(
-    settingsRef,
-    {
-        logoUrl:
-            uploadData.secure_url,
-
-        updatedAt:
-            new Date()
-    },
-    {
-        merge: true
-    }
-);
-
-console.log(
-    "Logo salva no Firebase:",
-    uploadData.secure_url
-);
-
-alert(
-    "Logo enviada e salva com sucesso!"
-);
-
-        } catch (error) {
-
-            console.error(
-                "Erro ao enviar logo:",
-                error
-            );
-
-            alert(
-                "Não foi possível enviar a logo."
-            );
-
-        } finally {
-
-            changeLogoButton.disabled = false;
-
-            changeLogoButton.textContent =
-                "Alterar logo";
-
-            logoFile.value = "";
-
-        }
-
-    }
-);
+}
 
 
 /* =========================================================
@@ -256,6 +309,7 @@ async function loadStoreSettings() {
             );
 
             return;
+
         }
 
 
@@ -412,6 +466,7 @@ onAuthStateChanged(
                 "login.html";
 
             return;
+
         }
 
 
