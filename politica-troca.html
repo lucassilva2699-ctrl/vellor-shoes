@@ -1,1 +1,208 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
+    <title>Política de Troca | Vellor Shoes</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            background: #0B0B0D;
+            color: #fff;
+            min-height: 100vh;
+        }
+
+        .container {
+            width: 90%;
+            max-width: 900px;
+            margin: 0 auto;
+        }
+
+        header {
+            padding: 25px 0;
+            border-bottom: 1px solid #1A1A1D;
+        }
+
+        .back {
+            color: #aaa;
+            text-decoration: none;
+            font-size: 14px;
+            transition: 0.2s;
+        }
+
+        .back:hover {
+            color: #007BFF;
+        }
+
+        main {
+            padding: 60px 0 80px;
+        }
+
+        h1 {
+            font-size: 32px;
+            margin-bottom: 30px;
+        }
+
+        .content {
+            background: #1A1A1D;
+            border-radius: 12px;
+            padding: 30px;
+            color: #ccc;
+            line-height: 1.8;
+            white-space: pre-wrap;
+            word-break: break-word;
+        }
+
+        .loading {
+            color: #888;
+        }
+
+        .error {
+            color: #ff6b6b;
+        }
+
+        footer {
+            border-top: 1px solid #1A1A1D;
+            padding: 25px 0;
+            color: #777;
+            font-size: 13px;
+            text-align: center;
+        }
+
+        @media (max-width: 600px) {
+            main {
+                padding: 40px 0 60px;
+            }
+
+            h1 {
+                font-size: 25px;
+            }
+
+            .content {
+                padding: 20px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <header>
+        <div class="container">
+            <a href="index.html" class="back">← Voltar para a loja</a>
+        </div>
+    </header>
+
+    <main>
+        <div class="container">
+
+            <h1>Política de Troca</h1>
+
+            <div id="policy-content" class="content">
+                <span class="loading">Carregando política de troca...</span>
+            </div>
+
+        </div>
+    </main>
+
+    <footer>
+        <div class="container">
+            © 2026 Vellor Shoes. Todos os direitos reservados.
+        </div>
+    </footer>
+
+
+    <script type="module">
+
+        import { initializeApp }
+            from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
+
+        import {
+            getFirestore,
+            doc,
+            getDoc
+        } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
+
+
+        const firebaseConfig = {
+            apiKey: "AIzaSyDQdaiVEWUeIFQOMXzI9DluqDkl8ZeMS5o",
+            authDomain: "vellor-shoes.firebaseapp.com",
+            projectId: "vellor-shoes",
+            storageBucket: "vellor-shoes.firebasestorage.app",
+            messagingSenderId: "455357473198",
+            appId: "1:455357473198:web:f36451b846420b4dfde83f"
+        };
+
+
+        const app = initializeApp(firebaseConfig);
+        const db = getFirestore(app);
+
+
+        async function loadExchangePolicy() {
+
+            const content = document.getElementById("policy-content");
+
+            try {
+
+                const settingsRef =
+                    doc(db, "store_settings", "general");
+
+                const settingsSnap =
+                    await getDoc(settingsRef);
+
+
+                if (!settingsSnap.exists()) {
+
+                    content.innerHTML =
+                        '<span class="error">Política de troca não encontrada.</span>';
+
+                    return;
+                }
+
+
+                const store = settingsSnap.data();
+
+
+                if (!store.exchangePolicy) {
+
+                    content.innerHTML =
+                        '<span class="error">A política de troca ainda não foi cadastrada.</span>';
+
+                    return;
+                }
+
+
+                content.textContent = store.exchangePolicy;
+
+
+            } catch (error) {
+
+                console.error(
+                    "Erro ao carregar política de troca:",
+                    error
+                );
+
+                content.innerHTML =
+                    '<span class="error">Não foi possível carregar a política de troca.</span>';
+            }
+        }
+
+
+        loadExchangePolicy();
+
+    </script>
+
+</body>
+</html>
