@@ -1878,11 +1878,94 @@ const response = await fetch(
 );
 
             const data = await response.json();
+console.log(
+    "Resposta do backend:",
+    data
+);
 
-            console.log(
-                "Resposta do backend:",
-                data
-            );
+/*
+ * Salvar o pedido no Firestore
+ * usando o MESMO número enviado ao Mercado Pago.
+ */
+try {
+
+    const {
+        db,
+        collection,
+        addDoc,
+        serverTimestamp
+    } = window.vellorFirestore;
+
+    const orderData = {
+
+        orderNumber:
+            orderNumber,
+
+        paymentId:
+            data.id || null,
+
+        paymentStatus:
+            data.status || "pending",
+
+        paymentMethod:
+            formData.payment_method_id,
+
+        customer:
+            checkout.customer,
+
+        address:
+            checkout.address,
+
+        shipping:
+            checkout.shipping,
+
+        cart:
+            checkout.cart,
+
+        subtotal:
+            checkout.subtotal,
+
+        total:
+            checkout.total,
+
+        externalReference:
+            orderNumber,
+
+        createdAt:
+            serverTimestamp()
+
+    };
+
+    const orderRef = await addDoc(
+        collection(db, "orders"),
+        orderData
+    );
+
+    console.log(
+        "Pedido salvo no Firestore:",
+        orderRef.id
+    );
+
+    localStorage.setItem(
+        "vellorOrder",
+        JSON.stringify({
+            ...orderData,
+            id: orderRef.id
+        })
+    );
+
+} catch (firestoreError) {
+
+    console.error(
+        "Erro ao salvar pedido no Firestore:",
+        firestoreError
+    );
+
+    throw new Error(
+        "O pagamento foi processado, mas não foi possível registrar o pedido."
+    );
+
+}
 
             if (!response.ok) {
 
