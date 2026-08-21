@@ -504,31 +504,81 @@
          FOOTER
     ================================================== -->
 
-    <footer class="footer">
+<footer class="footer">
 
-        <div class="container">
+    <div class="container">
+
+        <img
+            id="footer-logo"
+            src="assets/logo.png"
+            alt="Vellor Shoes"
+            class="footer-logo"
+        >
+
+        <p id="footer-slogan">
+            ESTILO • QUALIDADE • PRESENÇA
+        </p>
 
 
-            <img
-                src="assets/logo.png"
-                alt="Vellor Shoes"
-                class="footer-logo"
+        <div
+            id="footer-contact"
+            style="
+                margin-top:25px;
+                display:flex;
+                justify-content:center;
+                align-items:center;
+                gap:20px;
+                flex-wrap:wrap;
+                font-size:12px;
+            "
+        >
+
+            <a
+                id="footer-instagram"
+                href="#"
+                target="_blank"
+                rel="noopener noreferrer"
+                style="
+                    color:#aaa;
+                    text-decoration:none;
+                "
             >
+                Instagram
+            </a>
 
 
-            <p>
-                ESTILO • QUALIDADE • PRESENÇA
-            </p>
-
-
-            <span>
-                © 2026 Vellor Shoes. Todos os direitos reservados.
+            <span
+                style="
+                    color:#444;
+                "
+            >
+                |
             </span>
 
 
+            <a
+                id="footer-email"
+                href="#"
+                style="
+                    color:#aaa;
+                    text-decoration:none;
+                "
+            >
+                E-mail
+            </a>
+
         </div>
 
-    </footer>
+
+        <span id="footer-copyright">
+
+            © 2026 Vellor Shoes. Todos os direitos reservados.
+
+        </span>
+
+    </div>
+
+</footer>
 
 
 
@@ -585,7 +635,137 @@
 
         const db = getFirestore(app);
 
+/* ==================================================
+   CONFIGURAÇÕES DA LOJA
+================================================== */
 
+async function loadStoreSettings() {
+
+    try {
+
+        const settingsRef =
+            doc(
+                db,
+                "store_settings",
+                "general"
+            );
+
+        const settingsSnap =
+            await getDoc(
+                settingsRef
+            );
+
+        if (!settingsSnap.exists()) {
+            return;
+        }
+
+        const store =
+            settingsSnap.data();
+
+
+        /* NOME */
+
+        if (store.name) {
+
+            document.title =
+                store.name;
+
+        }
+
+
+        /* LOGO */
+
+        const footerLogo =
+            document.getElementById(
+                "footer-logo"
+            );
+
+        if (
+            footerLogo &&
+            store.logoUrl
+        ) {
+
+            footerLogo.src =
+                store.logoUrl;
+
+        }
+
+
+        /* INSTAGRAM */
+
+        const instagram =
+            document.getElementById(
+                "footer-instagram"
+            );
+
+        if (
+            instagram &&
+            store.instagram
+        ) {
+
+            const username =
+                store.instagram
+                    .replace("@", "")
+                    .trim();
+
+            instagram.textContent =
+                "Instagram";
+
+            instagram.href =
+                `https://instagram.com/${username}`;
+
+        }
+
+
+        /* E-MAIL */
+
+        const email =
+            document.getElementById(
+                "footer-email"
+            );
+
+        if (
+            email &&
+            store.email
+        ) {
+
+            email.textContent =
+                store.email;
+
+            email.href =
+                `mailto:${store.email}`;
+
+        }
+
+
+        /* COPYRIGHT */
+
+        const copyright =
+            document.getElementById(
+                "footer-copyright"
+            );
+
+        if (
+            copyright &&
+            store.name
+        ) {
+
+            copyright.textContent =
+                `© 2026 ${store.name}. Todos os direitos reservados.`;
+
+        }
+
+
+    } catch (error) {
+
+        console.error(
+            "Erro ao carregar configurações da loja:",
+            error
+        );
+
+    }
+
+}
         /* ==================================================
    BANNER DA HOME
 ================================================== */
@@ -1526,6 +1706,7 @@ window.vellorSearchProducts = async function (term) {
             loadFeaturedProducts();
             loadBestSellingProducts();
             loadOfferProducts();
+            loadStoreSettings();
         });
 
 
