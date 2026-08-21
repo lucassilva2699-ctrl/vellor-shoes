@@ -1837,7 +1837,7 @@ onSubmit: async ({ selectedPaymentMethod, formData }) => {
     try {
 
         const response = await fetch(
-            "/api/process_payment.js",
+            "/api/process_payment",
             {
                 method: "POST",
 
@@ -1845,25 +1845,44 @@ onSubmit: async ({ selectedPaymentMethod, formData }) => {
                     "Content-Type": "application/json"
                 },
 
-                body: JSON.stringify(formData)
+                body: JSON.stringify(
+                    formData
+                )
             }
         );
 
-        const data = await response.json();
+        const data =
+            await response.json();
 
         console.log(
-            "Resposta do Mercado Pago:",
+            "Resposta do backend:",
             data
         );
 
         if (!response.ok) {
 
             throw new Error(
-                data.message ||
                 data.error ||
+                data.message ||
                 "Erro ao processar pagamento."
             );
 
+        }
+
+        return Promise.resolve();
+
+    } catch (error) {
+
+        console.error(
+            "Erro ao enviar pagamento:",
+            error
+        );
+
+        throw error;
+
+    }
+
+},
         }
 
         /*
