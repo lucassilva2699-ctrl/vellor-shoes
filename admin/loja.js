@@ -97,6 +97,111 @@ const saveButton =
     document.getElementById(
         "save-store-button"
     );
+const logoFile =
+    document.getElementById(
+        "logo-file"
+    );
+
+const changeLogoButton =
+    document.getElementById(
+        "change-logo-button"
+    );
+if (changeLogoButton && logoFile) {
+
+    changeLogoButton.addEventListener(
+        "click",
+        () => {
+            logoFile.click();
+        }
+    );
+
+}
+logoFile.addEventListener(
+    "change",
+    async () => {
+
+        const file =
+            logoFile.files[0];
+
+        if (!file) {
+            return;
+        }
+
+        try {
+
+            changeLogoButton.disabled = true;
+            changeLogoButton.textContent =
+                "Enviando...";
+
+            const formData =
+                new FormData();
+
+            formData.append(
+                "file",
+                file
+            );
+
+            formData.append(
+                "upload_preset",
+                "vellor_products"
+            );
+
+            formData.append(
+                "folder",
+                "vellor-shoes/store"
+            );
+
+            const uploadResponse =
+                await fetch(
+                    "https://api.cloudinary.com/v1_1/mvxldxuz/image/upload",
+                    {
+                        method: "POST",
+                        body: formData
+                    }
+                );
+
+            const uploadData =
+                await uploadResponse.json();
+
+            if (!uploadData.secure_url) {
+                throw new Error(
+                    "Não foi possível enviar a logo."
+                );
+            }
+
+            console.log(
+                "Logo enviada:",
+                uploadData.secure_url
+            );
+
+            alert(
+                "Logo enviada com sucesso!"
+            );
+
+        } catch (error) {
+
+            console.error(
+                "Erro ao enviar logo:",
+                error
+            );
+
+            alert(
+                "Não foi possível enviar a logo."
+            );
+
+        } finally {
+
+            changeLogoButton.disabled = false;
+
+            changeLogoButton.textContent =
+                "Alterar logo";
+
+            logoFile.value = "";
+
+        }
+
+    }
+);
 
 
 /* =========================================================
