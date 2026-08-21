@@ -1822,314 +1822,247 @@ async function renderPaymentBrick() {
                 );
 
             },
-onSubmit: async ({ selectedPaymentMethod, formData }) => {
 
-    console.log(
-        "Método selecionado:",
-        selectedPaymentMethod
-    );
-
-    console.log(
-        "Dados enviados pelo Brick:",
-        formData
-    );
-
-    try {
-
-        const response = await fetch(
-            "/api/process_payment",
-            {
-                method: "POST",
-
-                headers: {
-                    "Content-Type": "application/json"
-                },
-
-                body: JSON.stringify(
-                    formData
-                )
-            }
-        );
-
-        const data =
-            await response.json();
+                onSubmit: async ({ selectedPaymentMethod, formData }) => {
 
         console.log(
-            "Resposta do backend:",
-            data
+            "Método selecionado:",
+            selectedPaymentMethod
         );
 
-        if (!response.ok) {
+        console.log(
+            "Dados enviados pelo Brick:",
+            formData
+        );
 
-            throw new Error(
-                data.error ||
-                data.message ||
-                "Erro ao processar pagamento."
+        try {
+
+            const response = await fetch(
+                "/api/process_payment",
+                {
+                    method: "POST",
+
+                    headers: {
+                        "Content-Type": "application/json"
+                    },
+
+                    body: JSON.stringify(formData)
+                }
             );
 
-        }
+            const data = await response.json();
 
-        return Promise.resolve();
+            console.log(
+                "Resposta do backend:",
+                data
+            );
 
-    } catch (error) {
+            if (!response.ok) {
 
-        console.error(
-            "Erro ao enviar pagamento:",
-            error
-        );
-
-        throw error;
-
-    }
-
-},
-        }
-
-        /*
-         * =====================================================
-         * PIX
-         * =====================================================
-         */
-
-        if (
-            formData.payment_method_id === "pix" &&
-            data.point_of_interaction &&
-            data.point_of_interaction.transaction_data
-        ) {
-
-            const transactionData =
-                data.point_of_interaction.transaction_data;
-
-            const qrCode =
-                transactionData.qr_code;
-
-            const qrCodeBase64 =
-                transactionData.qr_code_base64;
-
-            const pixInfo =
-                document.getElementById("pix-info");
-
-            pixInfo.innerHTML = `
-                <div class="pix-info-title">
-                    Pix gerado com sucesso
-                </div>
-
-                <div class="pix-info-text">
-                    Escaneie o QR Code pelo aplicativo do seu banco
-                    ou copie o código Pix abaixo.
-                </div>
-
-                ${
-                    qrCodeBase64
-                    ? `
-                        <div style="
-                            display:flex;
-                            justify-content:center;
-                            margin:25px 0;
-                        ">
-                            <img
-                                src="data:image/png;base64,${qrCodeBase64}"
-                                alt="QR Code Pix"
-                                style="
-                                    width:240px;
-                                    height:240px;
-                                    object-fit:contain;
-                                    background:#fff;
-                                    padding:10px;
-                                    border-radius:12px;
-                                    border:1px solid #e5e5e5;
-                                "
-                            >
-                        </div>
-                    `
-                    : ""
-                }
-
-                ${
-                    qrCode
-                    ? `
-                        <div style="margin-top:20px;">
-
-                            <div style="
-                                margin-bottom:8px;
-                                color:#111;
-                                font-size:13px;
-                                font-weight:600;
-                            ">
-                                Pix copia e cola
-                            </div>
-
-                            <textarea
-                                id="pix-copy-code"
-                                readonly
-                                style="
-                                    width:100%;
-                                    min-height:100px;
-                                    padding:12px;
-                                    box-sizing:border-box;
-                                    resize:none;
-                                    border:1px solid #ddd;
-                                    border-radius:10px;
-                                    font-family:monospace;
-                                    font-size:12px;
-                                    color:#333;
-                                    background:#fafafa;
-                                "
-                            >${qrCode}</textarea>
-
-                            <button
-                                type="button"
-                                id="copy-pix"
-                                style="
-                                    width:100%;
-                                    height:48px;
-                                    margin-top:10px;
-                                    border:0;
-                                    border-radius:10px;
-                                    background:#007BFF;
-                                    color:#fff;
-                                    font-family:Poppins,sans-serif;
-                                    font-weight:700;
-                                    cursor:pointer;
-                                "
-                            >
-                                COPIAR PIX
-                            </button>
-
-                        </div>
-                    `
-                    : ""
-                }
-
-                <div style="
-                    margin-top:20px;
-                    padding:15px;
-                    background:#f7f7f7;
-                    border-radius:10px;
-                    font-size:13px;
-                    color:#777;
-                    text-align:center;
-                ">
-                    Após realizar o pagamento, aguarde a confirmação.
-                </div>
-            `;
-
-            pixInfo.classList.add("active");
-
-            /*
-             * Botão copiar Pix
-             */
-
-            const copyPix =
-                document.getElementById("copy-pix");
-
-            if (copyPix && qrCode) {
-
-                copyPix.addEventListener(
-                    "click",
-                    async () => {
-
-                        try {
-
-                            await navigator.clipboard.writeText(
-                                qrCode
-                            );
-
-                            copyPix.textContent =
-                                "PIX COPIADO ✓";
-
-                        } catch (error) {
-
-                            console.error(
-                                "Erro ao copiar Pix:",
-                                error
-                            );
-
-                            alert(
-                                "Não foi possível copiar o código Pix."
-                            );
-
-                        }
-
-                    }
+                throw new Error(
+                    data.error ||
+                    data.message ||
+                    "Erro ao processar pagamento."
                 );
 
             }
 
-            /*
-             * Não permitir que o botão antigo
-             * finalize o pedido sem pagamento.
-             */
+            if (
+                formData.payment_method_id === "pix" &&
+                data.point_of_interaction &&
+                data.point_of_interaction.transaction_data
+            ) {
+
+                const transactionData =
+                    data.point_of_interaction.transaction_data;
+
+                const qrCode =
+                    transactionData.qr_code;
+
+                const qrCodeBase64 =
+                    transactionData.qr_code_base64;
+
+                const pixInfo =
+                    document.getElementById("pix-info");
+
+                if (pixInfo) {
+
+                    pixInfo.innerHTML = `
+                        <div class="pix-info-title">
+                            Pix gerado com sucesso
+                        </div>
+
+                        <div class="pix-info-text">
+                            Escaneie o QR Code pelo aplicativo do seu banco
+                            ou copie o código Pix abaixo.
+                        </div>
+
+                        ${
+                            qrCodeBase64
+                                ? `
+                                    <div style="
+                                        display:flex;
+                                        justify-content:center;
+                                        margin:25px 0;
+                                    ">
+                                        <img
+                                            src="data:image/png;base64,${qrCodeBase64}"
+                                            alt="QR Code Pix"
+                                            style="
+                                                width:240px;
+                                                height:240px;
+                                                object-fit:contain;
+                                                background:#fff;
+                                                padding:10px;
+                                                border-radius:12px;
+                                                border:1px solid #e5e5e5;
+                                            "
+                                        >
+                                    </div>
+                                `
+                                : ""
+                        }
+
+                        ${
+                            qrCode
+                                ? `
+                                    <div style="margin-top:20px;">
+
+                                        <div style="
+                                            margin-bottom:8px;
+                                            color:#111;
+                                            font-size:13px;
+                                            font-weight:600;
+                                        ">
+                                            Pix copia e cola
+                                        </div>
+
+                                        <textarea
+                                            id="pix-copy-code"
+                                            readonly
+                                            style="
+                                                width:100%;
+                                                min-height:100px;
+                                                padding:12px;
+                                                box-sizing:border-box;
+                                                resize:none;
+                                                border:1px solid #ddd;
+                                                border-radius:10px;
+                                                font-family:monospace;
+                                                font-size:12px;
+                                                color:#333;
+                                                background:#fafafa;
+                                            "
+                                        >${qrCode}</textarea>
+
+                                        <button
+                                            type="button"
+                                            id="copy-pix"
+                                            style="
+                                                width:100%;
+                                                height:48px;
+                                                margin-top:10px;
+                                                border:0;
+                                                border-radius:10px;
+                                                background:#007BFF;
+                                                color:#fff;
+                                                font-family:Poppins,sans-serif;
+                                                font-weight:700;
+                                                cursor:pointer;
+                                            "
+                                        >
+                                            COPIAR PIX
+                                        </button>
+
+                                    </div>
+                                `
+                                : ""
+                        }
+
+                        <div style="
+                            margin-top:20px;
+                            padding:15px;
+                            background:#f7f7f7;
+                            border-radius:10px;
+                            font-size:13px;
+                            color:#777;
+                            text-align:center;
+                        ">
+                            Após realizar o pagamento,
+                            aguarde a confirmação.
+                        </div>
+                    `;
+
+                    pixInfo.classList.add("active");
+
+                    const copyPix =
+                        document.getElementById("copy-pix");
+
+                    if (copyPix && qrCode) {
+
+                        copyPix.addEventListener(
+                            "click",
+                            async () => {
+
+                                try {
+
+                                    await navigator.clipboard.writeText(
+                                        qrCode
+                                    );
+
+                                    copyPix.textContent =
+                                        "PIX COPIADO ✓";
+
+                                } catch (error) {
+
+                                    console.error(
+                                        "Erro ao copiar Pix:",
+                                        error
+                                    );
+
+                                    alert(
+                                        "Não foi possível copiar o código Pix."
+                                    );
+
+                                }
+
+                            }
+                        );
+
+                    }
+
+                }
+
+            }
 
             const finishButton =
-                document.getElementById(
-                    "finish-payment"
-                );
+                document.getElementById("finish-payment");
 
             if (finishButton) {
 
-                finishButton.style.display =
-                    "none";
+                finishButton.style.display = "none";
 
             }
 
-        }
+            return Promise.resolve();
 
-        /*
-         * O Payment Brick já recebeu a resposta.
-         */
+        } catch (error) {
 
-        return Promise.resolve();
-
-    } catch (error) {
-
-        console.error(
-            "Erro ao enviar pagamento:",
-            error
-        );
-
-        alert(
-            error.message ||
-            "Não foi possível processar o pagamento."
-        );
-
-        throw error;
-
-    }
-
-},
-
-        const data =
-            await response.json();
-
-        console.log(
-            "Resposta do backend:",
-            data
-        );
-
-        if (!response.ok) {
-
-            throw new Error(
-                data.error ||
-                "Erro ao processar pagamento."
+            console.error(
+                "Erro ao enviar pagamento:",
+                error
             );
 
+            alert(
+                error.message ||
+                "Não foi possível processar o pagamento."
+            );
+
+            throw error;
+
         }
 
-        return Promise.resolve();
-
-    } catch (error) {
-
-        console.error(
-            "Erro ao enviar pagamento:",
-            error
-        );
-
-        throw error;
-
-    }
-
-},
+    },
 
             onError: (error) => {
 
