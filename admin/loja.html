@@ -232,50 +232,72 @@
                             font-size:13px;
                         "
                     >
-                        Favicon
-                    </label>
+                <label>
+    Favicon
+</label>
 
 
-                    <div
-                        style="
-                            width:120px;
-                            height:120px;
-                            display:flex;
-                            align-items:center;
-                            justify-content:center;
-                            border:1px solid #303036;
-                            border-radius:12px;
-                            background:#0b0b0d;
-                        "
-                    >
+<div
+    style="
+        width:120px;
+        height:120px;
+        display:flex;
+        align-items:center;
+        justify-content:center;
+        border:1px solid #303036;
+        border-radius:12px;
+        background:#0b0b0d;
+        overflow:hidden;
+    "
+>
+    <img
+        id="favicon-preview"
+        src=""
+        alt="Favicon"
+        style="
+            max-width:64px;
+            max-height:64px;
+            object-fit:contain;
+            display:none;
+        "
+    >
 
-                        <span
-                            style="
-                                color:#555;
-                                font-size:12px;
-                            "
-                        >
-                            Sem favicon
-                        </span>
+    <span
+        id="favicon-empty"
+        style="
+            color:#555;
+            font-size:12px;
+        "
+    >
+        Sem favicon
+    </span>
 
-                    </div>
+</div>
 
 
-                    <button
-                        type="button"
-                        style="
-                            margin-top:12px;
-                            padding:9px 14px;
-                            border:1px solid #303036;
-                            border-radius:7px;
-                            background:#18181c;
-                            color:#fff;
-                            cursor:pointer;
-                        "
-                    >
-                        Alterar favicon
-                    </button>
+<input
+    type="file"
+    id="favicon-file"
+    accept="image/png,image/jpeg,image/webp,image/x-icon"
+    style="display:none;"
+>
 
+
+<button
+    type="button"
+    id="change-favicon-button"
+    style="
+        margin-top:12px;
+        padding:9px 14px;
+        border:1px solid #303036;
+        border-radius:7px;
+        background:#18181c;
+        color:#fff;
+        cursor:pointer;
+    "
+>
+    Alterar favicon
+</button>
                 </div>
 
 
