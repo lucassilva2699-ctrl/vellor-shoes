@@ -1967,16 +1967,32 @@ try {
 
 }
 
-            if (!response.ok) {
+        if (!response.ok) {
+    throw new Error(
+        data.error ||
+        data.message ||
+        "Erro ao processar pagamento."
+    );
+}
 
-                throw new Error(
-                    data.error ||
-                    data.message ||
-                    "Erro ao processar pagamento."
-                );
+/*
+ * PAGAMENTO APROVADO
+ * Mostrar confirmação para o cliente.
+ */
+if (data.status === "approved") {
 
-            }
+    document.getElementById(
+        "payment-area"
+    ).style.display = "none";
 
+    document.getElementById(
+        "success-screen"
+    ).classList.add("active");
+
+    document.getElementById(
+        "order-number"
+    ).textContent = orderNumber;
+}
             if (
                 formData.payment_method_id === "pix" &&
                 data.point_of_interaction &&
