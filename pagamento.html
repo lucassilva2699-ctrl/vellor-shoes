@@ -1880,7 +1880,7 @@ const response = await fetch(
             const data = await response.json();
 console.log(
     "Resposta do backend:",
-    data
+    JSON.stringify(data, null, 2)
 );
 
 /*
