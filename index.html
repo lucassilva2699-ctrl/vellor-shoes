@@ -736,14 +736,18 @@ async function loadStoreSettings() {
             store.instagram
         ) {
 
-            const username =
-                store.instagram
-                    .replace("@", "")
-                    .trim();
+const instagramValue =
+    String(store.instagram).trim();
 
-            instagram.href =
-                `https://instagram.com/${username}`;
+if (instagramValue.startsWith("http")) {
+    instagram.href = instagramValue;
+} else {
+    const username =
+        instagramValue.replace(/^@/, "");
 
+    instagram.href =
+        `https://instagram.com/${username}`;
+}
         }
 
 
