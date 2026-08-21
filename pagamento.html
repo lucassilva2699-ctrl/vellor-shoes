@@ -1882,6 +1882,7 @@ console.log(
     "Resposta do backend:",
     JSON.stringify(data, null, 2)
 );
+            
             if (!response.ok) {
     throw new Error(
         data.error ||
@@ -1889,7 +1890,11 @@ console.log(
         "Erro ao processar pagamento."
     );
 }
-
+if (data.status === "rejected") {
+    throw new Error(
+        "Pagamento recusado. Verifique os dados do cartão e tente novamente."
+    );
+}
 /*
  * Salvar o pedido no Firestore
  * usando o MESMO número enviado ao Mercado Pago.
