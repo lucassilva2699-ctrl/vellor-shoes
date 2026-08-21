@@ -1837,7 +1837,7 @@ onSubmit: async ({ selectedPaymentMethod, formData }) => {
     try {
 
         const response = await fetch(
-            "/api/process_payment"
+            "/api/process_payment",
             {
                 method: "POST",
 
