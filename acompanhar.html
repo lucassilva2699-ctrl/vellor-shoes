@@ -916,20 +916,43 @@ function updateTimeline(status) {
 
     const statusOrder = [
         "aguardando_pagamento",
-        "pagamento_confirmado",
+        "pago",
         "em_preparacao",
         "enviado",
         "concluido"
     ];
 
-    const items =
-        document.querySelectorAll(
-            ".timeline-item"
-        );
+    const items = document.querySelectorAll(
+        ".timeline-item"
+    );
 
+    /*
+     * Normaliza o status recebido
+     */
+    const normalizedStatus =
+        String(status || "")
+            .trim()
+            .toLowerCase();
+
+    /*
+     * Descobre em qual etapa o pedido está
+     */
     const currentIndex =
-        statusOrder.indexOf(status);
+        statusOrder.indexOf(normalizedStatus);
 
+    console.log(
+        "Status recebido na timeline:",
+        normalizedStatus
+    );
+
+    console.log(
+        "Índice da timeline:",
+        currentIndex
+    );
+
+    /*
+     * Atualiza todas as etapas
+     */
     items.forEach((item, index) => {
 
         item.classList.remove(
@@ -937,25 +960,16 @@ function updateTimeline(status) {
             "completed"
         );
 
+        /*
+         * Todas as etapas anteriores
+         * e a etapa atual ficam preenchidas.
+         */
         if (
             currentIndex >= 0 &&
-            index < currentIndex
+            index <= currentIndex
         ) {
 
-            item.classList.add(
-                "completed"
-            );
-
-        }
-
-        if (
-            currentIndex >= 0 &&
-            index === currentIndex
-        ) {
-
-            item.classList.add(
-                "active"
-            );
+            item.classList.add("active");
 
         }
 
