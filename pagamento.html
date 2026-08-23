@@ -792,125 +792,11 @@
 
 <div id="paymentBrick_container"></div>
 
-
-<!-- PIX -->
-
 <div
     id="pix-info"
-    class="pix-info active"
+    class="pix-info"
 >
-
-                        <!-- PIX -->
-
-                        <div
-                            id="pix-info"
-                            class="pix-info active"
-                        >
-
-                            <div class="pix-info-title">
-                                Pagamento via Pix
-                            </div>
-
-                            <div class="pix-info-text">
-                                Nesta etapa estamos apenas preparando o pedido.
-                                A geração do QR Code Pix será conectada ao
-                                gateway de pagamento posteriormente.
-                            </div>
-
-                        </div>
-
-
-                        <!-- CARTÃO -->
-
-                        <div
-                            id="card-fields"
-                            class="card-fields"
-                        >
-
-                            <div class="field">
-
-                                <label for="card-number">
-                                    Número do cartão
-                                </label>
-
-                                <input
-                                    type="text"
-                                    id="card-number"
-                                    placeholder="0000 0000 0000 0000"
-                                    maxlength="19"
-                                    inputmode="numeric"
-                                >
-
-                            </div>
-
-
-                            <div class="field">
-
-                                <label for="card-name">
-                                    Nome no cartão
-                                </label>
-
-                                <input
-                                    type="text"
-                                    id="card-name"
-                                    placeholder="Nome completo"
-                                >
-
-                            </div>
-
-
-                            <div class="field-row">
-
-                                <div class="field">
-
-                                    <label for="card-expiry">
-                                        Validade
-                                    </label>
-
-                                    <input
-                                        type="text"
-                                        id="card-expiry"
-                                        placeholder="MM/AA"
-                                        maxlength="5"
-                                        inputmode="numeric"
-                                    >
-
-                                </div>
-
-
-                                <div class="field">
-
-                                    <label for="card-cvv">
-                                        CVV
-                                    </label>
-
-                                    <input
-                                        type="text"
-                                        id="card-cvv"
-                                        placeholder="123"
-                                        maxlength="4"
-                                        inputmode="numeric"
-                                    >
-
-                                </div>
-
-                            </div>
-
-                        </div>
-
-
-                        <button
-                            type="button"
-                            id="finish-payment"
-                            class="finish-payment"
-                        >
-                            FINALIZAR PEDIDO
-                        </button>
-
-
-                        <div class="payment-note">
-                            O pagamento real será conectado ao gateway na próxima etapa.
-                        </div>
+</div>
 
                     </section>
 
@@ -1022,7 +908,7 @@
 
 
                 <p>
-                    O pagamento real será conectado posteriormente.
+                    Seu pagamento será confirmado conforme o status informado pelo Mercado Pago.
                 </p>
 
 
@@ -1258,11 +1144,172 @@ const bricksBuilder = mp.bricks();
             cart.forEach(item => {
 
                 const row =
+                  <script type="module">
+        import {
+            initializeApp
+        } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
+
+        import {
+            getFirestore,
+            collection,
+            addDoc,
+            serverTimestamp
+        } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
+
+        const firebaseConfig = {
+            apiKey: "AIzaSyDQdaiVEWUeIFQOMXzI9DluqDkl8ZeMS5o",
+            authDomain: "vellor-shoes.firebaseapp.com",
+            projectId: "vellor-shoes",
+            storageBucket: "vellor-shoes.firebasestorage.app",
+            messagingSenderId: "455357493198",
+            appId: "1:455357493198:web:f36451b846420b4dfde83f"
+        };
+
+        const app = initializeApp(firebaseConfig);
+        const db = getFirestore(app);
+
+        window.vellorFirestore = {
+            db,
+            collection,
+            addDoc,
+            serverTimestamp
+        };
+    </script>
+
+    <script src="https://sdk.mercadopago.com/js/v2"></script>
+
+    <script>
+        /* =========================================================
+           MERCADO PAGO
+        ========================================================= */
+
+        const mp = new MercadoPago(
+            "APP_USR-6475dd37-2821-4112-b402-540ce531935a",
+            {
+                locale: "pt-BR"
+            }
+        );
+
+        const bricksBuilder = mp.bricks();
+
+
+        /* =========================================================
+           FORMATAR PREÇO
+        ========================================================= */
+
+        function formatPrice(value) {
+
+            return Number(value || 0).toLocaleString(
+                "pt-BR",
+                {
+                    style: "currency",
+                    currency: "BRL"
+                }
+            );
+
+        }
+
+
+        /* =========================================================
+           CHECKOUT
+        ========================================================= */
+
+        function getCheckout() {
+
+            try {
+
+                return JSON.parse(
+                    localStorage.getItem("vellorCheckout")
+                );
+
+            } catch (error) {
+
+                console.error(
+                    "Erro ao recuperar checkout:",
+                    error
+                );
+
+                return null;
+
+            }
+
+        }
+
+
+        /* =========================================================
+           SUBTOTAL
+        ========================================================= */
+
+        function calculateSubtotal(cart) {
+
+            return cart.reduce(
+                (total, item) => {
+
+                    return total +
+                        (
+                            Number(item.price || 0) *
+                            Number(item.quantity || 1)
+                        );
+
+                },
+                0
+            );
+
+        }
+
+
+        /* =========================================================
+           RESUMO
+        ========================================================= */
+
+        function loadSummary() {
+
+            const checkout =
+                getCheckout();
+
+            const paymentArea =
+                document.getElementById(
+                    "payment-area"
+                );
+
+            const emptyScreen =
+                document.getElementById(
+                    "empty-screen"
+                );
+
+            if (
+                !checkout ||
+                !Array.isArray(checkout.cart) ||
+                checkout.cart.length === 0
+            ) {
+
+                paymentArea.style.display =
+                    "none";
+
+                emptyScreen.style.display =
+                    "block";
+
+                return;
+
+            }
+
+            const cart =
+                checkout.cart;
+
+            const summaryItems =
+                document.getElementById(
+                    "summary-items"
+                );
+
+            summaryItems.innerHTML = "";
+
+            cart.forEach(item => {
+
+                const row =
                     document.createElement("div");
 
                 row.className =
                     "summary-item";
-
 
                 const image =
                     document.createElement("img");
@@ -1273,18 +1320,15 @@ const bricksBuilder = mp.bricks();
                 image.alt =
                     item.name || "Produto";
 
-
                 image.src =
                     item.image ||
                     "assets/logo.png";
-
 
                 const info =
                     document.createElement("div");
 
                 info.className =
                     "summary-item-info";
-
 
                 const name =
                     document.createElement("div");
@@ -1295,7 +1339,6 @@ const bricksBuilder = mp.bricks();
                 name.textContent =
                     item.name || "Produto";
 
-
                 const details =
                     document.createElement("div");
 
@@ -1305,11 +1348,8 @@ const bricksBuilder = mp.bricks();
                 details.textContent =
                     `Tamanho: ${item.size || "-"} • Qtd.: ${item.quantity || 1}`;
 
-
                 info.appendChild(name);
-
                 info.appendChild(details);
-
 
                 const price =
                     document.createElement("div");
@@ -1323,57 +1363,45 @@ const bricksBuilder = mp.bricks();
                         Number(item.quantity || 1)
                     );
 
-
                 row.appendChild(image);
-
                 row.appendChild(info);
-
                 row.appendChild(price);
-
 
                 summaryItems.appendChild(row);
 
             });
 
-
             const subtotal =
                 calculateSubtotal(cart);
-
 
             const shipping =
                 Number(
                     checkout.shipping?.cost || 0
                 );
 
-
             const total =
                 subtotal + shipping;
-
 
             document.getElementById(
                 "summary-subtotal"
             ).textContent =
                 formatPrice(subtotal);
 
-
             document.getElementById(
                 "summary-shipping"
             ).textContent =
                 formatPrice(shipping);
-
 
             document.getElementById(
                 "summary-total"
             ).textContent =
                 formatPrice(total);
 
-
             checkout.subtotal =
                 subtotal;
 
             checkout.total =
                 total;
-
 
             localStorage.setItem(
                 "vellorCheckout",
@@ -1384,853 +1412,611 @@ const bricksBuilder = mp.bricks();
 
 
         /* =========================================================
-           MÉTODOS DE PAGAMENTO
+           STATUS / SUCESSO
         ========================================================= */
 
-        const paymentMethods =
-            document.querySelectorAll(
-                ".payment-method"
-            );
+        function showSuccess(orderNumber) {
 
-
-        const pixInfo =
             document.getElementById(
-                "pix-info"
-            );
+                "payment-area"
+            ).style.display =
+                "none";
 
-
-        const cardFields =
             document.getElementById(
-                "card-fields"
+                "success-screen"
+            ).classList.add(
+                "active"
             );
 
-
-        paymentMethods.forEach(method => {
-
-            method.addEventListener(
-                "click",
-                () => {
-
-                    paymentMethods.forEach(item => {
-
-                        item.classList.remove(
-                            "selected"
-                        );
-
-                    });
-
-
-                    method.classList.add(
-                        "selected"
-                    );
-
-
-                    const radio =
-                        method.querySelector(
-                            "input"
-                        );
-
-
-                    radio.checked = true;
-
-
-                    if (
-                        radio.value === "pix"
-                    ) {
-
-                        pixInfo.classList.add(
-                            "active"
-                        );
-
-                        cardFields.classList.remove(
-                            "active"
-                        );
-
-                    }
-
-
-                    if (
-                        radio.value === "credit-card"
-                    ) {
-
-                        pixInfo.classList.remove(
-                            "active"
-                        );
-
-                        cardFields.classList.add(
-                            "active"
-                        );
-
-                    }
-
-                }
-            );
-
-        });
-
-
-        /* =========================================================
-           MÁSCARA CARTÃO
-        ========================================================= */
-
-        const cardNumber =
             document.getElementById(
-                "card-number"
-            );
+                "order-number"
+            ).textContent =
+                orderNumber;
+
+        }
 
 
-        cardNumber.addEventListener(
-            "input",
-            () => {
+        function showPending(orderNumber) {
 
-                let value =
-                    cardNumber.value
-                    .replace(/\D/g, "")
-                    .slice(0, 16);
+            const pixInfo =
+                document.getElementById(
+                    "pix-info"
+                );
 
+            if (pixInfo) {
 
-                value =
-                    value.replace(
-                        /(\d{4})(?=\d)/g,
-                        "$1 "
-                    );
+                pixInfo.innerHTML = `
+                    <div class="pix-info-title">
+                        Pagamento pendente
+                    </div>
 
+                    <div class="pix-info-text">
+                        Seu pedido foi registrado, mas o pagamento
+                        ainda não foi confirmado.
+                    </div>
 
-                cardNumber.value =
-                    value;
+                    <div style="
+                        margin-top:15px;
+                        padding:12px;
+                        background:#fff;
+                        border:1px solid #e5e5e5;
+                        border-radius:10px;
+                        color:#333;
+                        font-size:13px;
+                    ">
+                        Pedido: <strong>${orderNumber}</strong>
+                    </div>
+                `;
+
+                pixInfo.classList.add(
+                    "active"
+                );
 
             }
-        );
+
+        }
 
 
         /* =========================================================
-           MÁSCARA VALIDADE
+           PIX
         ========================================================= */
 
-        const cardExpiry =
-            document.getElementById(
-                "card-expiry"
-            );
+        function showPix(data, orderNumber) {
 
+            const transactionData =
+                data.point_of_interaction?.transaction_data;
 
-        cardExpiry.addEventListener(
-            "input",
-            () => {
+            const pixInfo =
+                document.getElementById(
+                    "pix-info"
+                );
 
-                let value =
-                    cardExpiry.value
-                    .replace(/\D/g, "")
-                    .slice(0, 4);
+            if (
+                !pixInfo ||
+                !transactionData
+            ) {
 
+                showPending(orderNumber);
+                return;
 
-                if (value.length > 2) {
+            }
 
-                    value =
-                        value.slice(0, 2) +
-                        "/" +
-                        value.slice(2);
+            const qrCode =
+                transactionData.qr_code;
 
+            const qrCodeBase64 =
+                transactionData.qr_code_base64;
+
+            pixInfo.innerHTML = `
+                <div class="pix-info-title">
+                    Pix gerado com sucesso
+                </div>
+
+                <div class="pix-info-text">
+                    Escaneie o QR Code pelo aplicativo do seu banco
+                    ou copie o código Pix abaixo.
+                </div>
+
+                ${
+                    qrCodeBase64
+                        ? `
+                            <div style="
+                                display:flex;
+                                justify-content:center;
+                                margin:25px 0;
+                            ">
+                                <img
+                                    src="data:image/png;base64,${qrCodeBase64}"
+                                    alt="QR Code Pix"
+                                    style="
+                                        width:240px;
+                                        height:240px;
+                                        object-fit:contain;
+                                        background:#fff;
+                                        padding:10px;
+                                        border-radius:12px;
+                                        border:1px solid #e5e5e5;
+                                    "
+                                >
+                            </div>
+                        `
+                        : ""
                 }
 
+                ${
+                    qrCode
+                        ? `
+                            <div style="margin-top:20px;">
 
-                cardExpiry.value =
-                    value;
+                                <div style="
+                                    margin-bottom:8px;
+                                    color:#111;
+                                    font-size:13px;
+                                    font-weight:600;
+                                ">
+                                    Pix copia e cola
+                                </div>
 
-            }
-        );
+                                <textarea
+                                    id="pix-copy-code"
+                                    readonly
+                                    style="
+                                        width:100%;
+                                        min-height:100px;
+                                        padding:12px;
+                                        box-sizing:border-box;
+                                        resize:none;
+                                        border:1px solid #ddd;
+                                        border-radius:10px;
+                                        font-family:monospace;
+                                        font-size:12px;
+                                        color:#333;
+                                        background:#fafafa;
+                                    "
+                                >${qrCode}</textarea>
 
+                                <button
+                                    type="button"
+                                    id="copy-pix"
+                                    style="
+                                        width:100%;
+                                        height:48px;
+                                        margin-top:10px;
+                                        border:0;
+                                        border-radius:10px;
+                                        background:#007BFF;
+                                        color:#fff;
+                                        font-family:Poppins,sans-serif;
+                                        font-weight:700;
+                                        cursor:pointer;
+                                    "
+                                >
+                                    COPIAR PIX
+                                </button>
 
-        /* =========================================================
-           MÁSCARA CVV
-        ========================================================= */
+                            </div>
+                        `
+                        : ""
+                }
 
-        const cardCvv =
-            document.getElementById(
-                "card-cvv"
+                <div style="
+                    margin-top:20px;
+                    padding:15px;
+                    background:#f7f7f7;
+                    border-radius:10px;
+                    font-size:13px;
+                    color:#777;
+                    text-align:center;
+                ">
+                    Após realizar o pagamento,
+                    aguarde a confirmação.
+                    <br>
+                    Pedido: <strong>${orderNumber}</strong>
+                </div>
+            `;
+
+            pixInfo.classList.add(
+                "active"
             );
 
+            const copyPix =
+                document.getElementById(
+                    "copy-pix"
+                );
 
-        cardCvv.addEventListener(
-            "input",
-            () => {
+            if (
+                copyPix &&
+                qrCode
+            ) {
 
-                cardCvv.value =
-                    cardCvv.value
-                    .replace(/\D/g, "")
-                    .slice(0, 4);
+                copyPix.addEventListener(
+                    "click",
+                    async () => {
 
-            }
-        );
+                        try {
 
-
-        /* =========================================================
-           FINALIZAR PEDIDO
-        ========================================================= */
-
-        document
-            .getElementById("finish-payment")
-            .addEventListener(
-                "click",
-             async () => {
-
-                    const checkout =
-                        getCheckout();
-
-
-                    if (
-                        !checkout ||
-                        !checkout.cart ||
-                        !checkout.cart.length
-                    ) {
-
-                        alert(
-                            "Não encontramos um pedido para finalizar."
-                        );
-
-                        return;
-
-                    }
-
-
-                    const selectedMethod =
-                        document.querySelector(
-                            'input[name="payment-method"]:checked'
-                        );
-
-
-                    if (!selectedMethod) {
-
-                        alert(
-                            "Selecione uma forma de pagamento."
-                        );
-
-                        return;
-
-                    }
-
-
-                    const paymentMethod =
-                        selectedMethod.value;
-
-
-                    if (
-                        paymentMethod === "credit-card"
-                    ) {
-
-                        const number =
-                            cardNumber.value
-                            .replace(/\D/g, "");
-
-
-                        const name =
-                            document.getElementById(
-                                "card-name"
-                            ).value.trim();
-
-
-                        const expiry =
-                            cardExpiry.value.trim();
-
-
-                        const cvv =
-                            cardCvv.value
-                            .replace(/\D/g, "");
-
-
-                        if (
-                            number.length < 16 ||
-                            !name ||
-                            expiry.length !== 5 ||
-                            cvv.length < 3
-                        ) {
-
-                            alert(
-                                "Preencha os dados do cartão para continuar."
+                            await navigator.clipboard.writeText(
+                                qrCode
                             );
 
-                            return;
+                            copyPix.textContent =
+                                "PIX COPIADO ✓";
+
+                        } catch (error) {
+
+                            console.error(
+                                "Erro ao copiar Pix:",
+                                error
+                            );
+
+                            alert(
+                                "Não foi possível copiar o código Pix."
+                            );
 
                         }
 
                     }
+                );
 
+            }
 
-                    /* =================================================
-                       NÚMERO DO PEDIDO
-                    ================================================== */
-
-                    const orderNumber =
-                        "VEL-" +
-                        Date.now()
-                            .toString()
-                            .slice(-8);
-
-
-                    const orderData = {
-
-                        orderNumber:
-                            orderNumber,
-
-                        paymentMethod:
-                            paymentMethod,
-
-                        customer:
-                            checkout.customer,
-
-                        address:
-                            checkout.address,
-
-                        shipping:
-                            checkout.shipping,
-
-                        cart:
-                            checkout.cart,
-
-                        subtotal:
-                            checkout.subtotal,
-
-                        total:
-                            checkout.total,
-
-                        status:
-                            "aguardando_pagamento",
-
-                        createdAt:
-                            new Date().toISOString()
-
-                    };
-
-try {
-
-    const {
-        db,
-        collection,
-        addDoc,
-        serverTimestamp
-    } = window.vellorFirestore;
-
-    const orderRef = await addDoc(
-        collection(db, "orders"),
-        {
-            ...orderData,
-            createdAt: serverTimestamp()
         }
-    );
-
-    orderData.id = orderRef.id;
-
-    localStorage.setItem(
-        "vellorOrder",
-        JSON.stringify(orderData)
-    );
-
-} catch (error) {
-
-    console.error(
-        "Erro ao salvar pedido no Firestore:",
-        error
-    );
-
-    alert(
-        "Não foi possível registrar o pedido. Tente novamente."
-    );
-
-    return;
-}
 
 
-                    /* =================================================
-                       MOSTRAR SUCESSO
-                    ================================================== */
+        /* =========================================================
+           SALVAR PEDIDO NO FIRESTORE
+        ========================================================= */
 
-                    document.getElementById(
-                        "payment-area"
-                    ).style.display = "none";
+        async function saveOrder(
+            orderNumber,
+            paymentData,
+            formData,
+            checkout
+        ) {
+
+            const {
+                db,
+                collection,
+                addDoc,
+                serverTimestamp
+            } = window.vellorFirestore;
+
+            const orderData = {
+
+                orderNumber:
+                    orderNumber,
+
+                paymentId:
+                    paymentData.id || null,
+
+                paymentStatus:
+                    paymentData.status || "pending",
+
+                paymentMethod:
+                    formData.payment_method_id ||
+                    null,
+
+                customer:
+                    checkout.customer,
+
+                address:
+                    checkout.address,
+
+                shipping:
+                    checkout.shipping,
+
+                cart:
+                    checkout.cart,
+
+                subtotal:
+                    checkout.subtotal,
+
+                total:
+                    checkout.total,
+
+                externalReference:
+                    orderNumber,
+
+                createdAt:
+                    serverTimestamp()
+
+            };
+
+            const orderRef =
+                await addDoc(
+                    collection(db, "orders"),
+                    orderData
+                );
+
+            orderData.id =
+                orderRef.id;
+
+            localStorage.setItem(
+                "vellorOrder",
+                JSON.stringify(orderData)
+            );
+
+            return orderData;
+
+        }
 
 
-                    document.getElementById(
-                        "success-screen"
-                    ).classList.add(
-                        "active"
-                    );
+        /* =========================================================
+           PAYMENT BRICK
+        ========================================================= */
 
+        async function renderPaymentBrick() {
 
-                    document.getElementById(
-                        "order-number"
-                    ).textContent =
-                        orderNumber;
+            const checkout =
+                getCheckout();
 
+            if (
+                !checkout ||
+                !checkout.cart ||
+                !checkout.cart.length
+            ) {
 
-                    console.log(
-                        "Pedido Vellor Shoes:",
-                        orderData
-                    );
+                return;
+
+            }
+
+            const amount =
+                Number(
+                    checkout.total || 0
+                );
+
+            const settings = {
+
+                initialization: {
+
+                    amount:
+                        amount,
+
+                    payer: {
+
+                        email:
+                            checkout.customer?.email ||
+                            ""
+
+                    }
+
+                },
+
+                customization: {
+
+                    paymentMethods: {
+
+                        bankTransfer:
+                            "all",
+
+                        creditCard:
+                            "all",
+
+                        debitCard:
+                            "all"
+
+                    },
+
+                    visual: {
+
+                        hideFormTitle:
+                            true
+
+                    }
+
+                },
+
+                callbacks: {
+
+                    onReady: () => {
+
+                        console.log(
+                            "Mercado Pago: Payment Brick carregado."
+                        );
+
+                    },
+
+                    onSubmit:
+                        async ({
+                            selectedPaymentMethod,
+                            formData
+                        }) => {
+
+                            console.log(
+                                "Método selecionado:",
+                                selectedPaymentMethod
+                            );
+
+                            console.log(
+                                "Dados enviados pelo Brick:",
+                                formData
+                            );
+
+                            try {
+
+                                const checkout =
+                                    getCheckout();
+
+                                if (
+                                    !checkout
+                                ) {
+
+                                    throw new Error(
+                                        "Não encontramos os dados do pedido."
+                                    );
+
+                                }
+
+                                const orderNumber =
+                                    "VEL-" +
+                                    Date.now()
+                                        .toString()
+                                        .slice(-8);
+
+                                const paymentData = {
+
+                                    ...formData,
+
+                                    external_reference:
+                                        orderNumber,
+
+                                    description:
+                                        "Pedido Vellor Shoes " +
+                                        orderNumber
+
+                                };
+
+                                console.log(
+                                    "Número do pedido:",
+                                    orderNumber
+                                );
+
+                                console.log(
+                                    "Dados enviados ao Mercado Pago:",
+                                    paymentData
+                                );
+
+                                const response =
+                                    await fetch(
+                                        "/api/process_payment",
+                                        {
+                                            method:
+                                                "POST",
+
+                                            headers: {
+                                                "Content-Type":
+                                                    "application/json"
+                                            },
+
+                                            body:
+                                                JSON.stringify(
+                                                    paymentData
+                                                )
+                                        }
+                                    );
+
+                                const data =
+                                    await response.json();
+
+                                console.log(
+                                    "Resposta do backend:",
+                                    JSON.stringify(
+                                        data,
+                                        null,
+                                        2
+                                    )
+                                );
+
+                                if (
+                                    !response.ok
+                                ) {
+
+                                    throw new Error(
+                                        data.error ||
+                                        data.message ||
+                                        "Erro ao processar pagamento."
+                                    );
+
+                                }
+
+                                if (
+                                    data.status ===
+                                    "rejected"
+                                ) {
+
+                                    throw new Error(
+                                        "Pagamento recusado. Verifique os dados e tente novamente."
+                                    );
+
+                                }
+
+                                const orderData =
+                                    await saveOrder(
+                                        orderNumber,
+                                        data,
+                                        formData,
+                                        checkout
+                                    );
+
+                                if (
+                                    data.status ===
+                                    "approved"
+                                ) {
+
+                                    showSuccess(
+                                        orderData.orderNumber
+                                    );
+
+                                    return;
+
+                                }
+
+                                if (
+                                    formData.payment_method_id ===
+                                    "pix" &&
+                                    data.point_of_interaction
+                                ) {
+
+                                    showPix(
+                                        data,
+                                        orderData.orderNumber
+                                    );
+
+                                    return;
+
+                                }
+
+                                showPending(
+                                    orderData.orderNumber
+                                );
+
+                            } catch (error) {
+
+                                console.error(
+                                    "Erro ao enviar pagamento:",
+                                    error
+                                );
+
+                                alert(
+                                    error.message ||
+                                    "Não foi possível processar o pagamento."
+                                );
+
+                                throw error;
+
+                            }
+
+                        },
+
+                    onError:
+                        (error) => {
+
+                            console.error(
+                                "Erro no Mercado Pago:",
+                                error
+                            );
+
+                        }
 
                 }
-            );
+
+            };
+
+            window.paymentBrickController =
+                await bricksBuilder.create(
+                    "payment",
+                    "paymentBrick_container",
+                    settings
+                );
+
+        }
 
 
         /* =========================================================
            INICIAR
         ========================================================= */
-loadSummary();
 
-
-/* =========================================================
-   MERCADO PAGO — PAYMENT BRICK
-========================================================= */
-
-async function renderPaymentBrick() {
-
-    const checkout = getCheckout();
-
-    if (!checkout || !checkout.cart || !checkout.cart.length) {
-        return;
-    }
-
-    const amount = Number(checkout.total || 0);
-
-    const settings = {
-
-        initialization: {
-            amount: amount,
-            payer: {
-                email: checkout.customer?.email || ""
-            }
-        },
-
-        customization: {
-
-            paymentMethods: {
-                bankTransfer: "all",
-                creditCard: "all",
-                debitCard: "all"
-            },
-
-            visual: {
-                hideFormTitle: true
-            }
-
-        },
-
-        callbacks: {
-
-            onReady: () => {
-
-                console.log(
-                    "Mercado Pago: Payment Brick carregado."
-                );
-
-            },
-
-                onSubmit: async ({ selectedPaymentMethod, formData }) => {
-
-        console.log(
-            "Método selecionado:",
-            selectedPaymentMethod
-        );
-
-        console.log(
-            "Dados enviados pelo Brick:",
-            formData
-        );
-
-        try {
-
-            const checkout = getCheckout();
-
-const orderNumber =
-    "VEL-" +
-    Date.now()
-        .toString()
-        .slice(-8);
-
-const paymentData = {
-    ...formData,
-
-    external_reference: orderNumber,
-
-    description:
-        "Pedido Vellor Shoes " + orderNumber
-};
-
-console.log(
-    "Número do pedido:",
-    orderNumber
-);
-
-console.log(
-    "Dados enviados ao Mercado Pago:",
-    paymentData
-);
-
-const response = await fetch(
-    "/api/process_payment",
-    {
-        method: "POST",
-
-        headers: {
-            "Content-Type": "application/json"
-        },
-
-        body: JSON.stringify(paymentData)
-    }
-);
-
-            const data = await response.json();
-console.log(
-    "Resposta do backend:",
-    JSON.stringify(data, null, 2)
-);
-            
-            if (!response.ok) {
-    throw new Error(
-        data.error ||
-        data.message ||
-        "Erro ao processar pagamento."
-    );
-}
-if (data.status === "rejected") {
-    throw new Error(
-        "Pagamento recusado. Verifique os dados do cartão e tente novamente."
-    );
-}
-/*
- * Salvar o pedido no Firestore
- * usando o MESMO número enviado ao Mercado Pago.
- */
-try {
-
-    const {
-        db,
-        collection,
-        addDoc,
-        serverTimestamp
-    } = window.vellorFirestore;
-
-    const orderData = {
-
-        orderNumber:
-            orderNumber,
-
-        paymentId:
-            data.id || null,
-
-        paymentStatus:
-            data.status || "pending",
-
-        paymentMethod:
-            formData.payment_method_id,
-
-        customer:
-            checkout.customer,
-
-        address:
-            checkout.address,
-
-        shipping:
-            checkout.shipping,
-
-        cart:
-            checkout.cart,
-
-        subtotal:
-            checkout.subtotal,
-
-        total:
-            checkout.total,
-
-        externalReference:
-            orderNumber,
-
-        createdAt:
-            serverTimestamp()
-
-    };
-
-    const orderRef = await addDoc(
-        collection(db, "orders"),
-        orderData
-    );
-
-    console.log(
-        "Pedido salvo no Firestore:",
-        orderRef.id
-    );
-
-    localStorage.setItem(
-        "vellorOrder",
-        JSON.stringify({
-            ...orderData,
-            id: orderRef.id
-        })
-    );
-
-} catch (firestoreError) {
-
-    console.error(
-        "Erro ao salvar pedido no Firestore:",
-        firestoreError
-    );
-
-    throw new Error(
-        "O pagamento foi processado, mas não foi possível registrar o pedido."
-    );
-
-}
-
-        if (!response.ok) {
-    throw new Error(
-        data.error ||
-        data.message ||
-        "Erro ao processar pagamento."
-    );
-}
-
-/*
- * PAGAMENTO APROVADO
- * Mostrar confirmação para o cliente.
- */
-if (data.status === "approved") {
-
-    document.getElementById(
-        "payment-area"
-    ).style.display = "none";
-
-    document.getElementById(
-        "success-screen"
-    ).classList.add("active");
-
-    document.getElementById(
-        "order-number"
-    ).textContent = orderNumber;
-}
-            if (
-                formData.payment_method_id === "pix" &&
-                data.point_of_interaction &&
-                data.point_of_interaction.transaction_data
-            ) {
-
-                const transactionData =
-                    data.point_of_interaction.transaction_data;
-
-                const qrCode =
-                    transactionData.qr_code;
-
-                const qrCodeBase64 =
-                    transactionData.qr_code_base64;
-
-                const pixInfo =
-                    document.getElementById("pix-info");
-
-                if (pixInfo) {
-
-                    pixInfo.innerHTML = `
-                        <div class="pix-info-title">
-                            Pix gerado com sucesso
-                        </div>
-
-                        <div class="pix-info-text">
-                            Escaneie o QR Code pelo aplicativo do seu banco
-                            ou copie o código Pix abaixo.
-                        </div>
-
-                        ${
-                            qrCodeBase64
-                                ? `
-                                    <div style="
-                                        display:flex;
-                                        justify-content:center;
-                                        margin:25px 0;
-                                    ">
-                                        <img
-                                            src="data:image/png;base64,${qrCodeBase64}"
-                                            alt="QR Code Pix"
-                                            style="
-                                                width:240px;
-                                                height:240px;
-                                                object-fit:contain;
-                                                background:#fff;
-                                                padding:10px;
-                                                border-radius:12px;
-                                                border:1px solid #e5e5e5;
-                                            "
-                                        >
-                                    </div>
-                                `
-                                : ""
-                        }
-
-                        ${
-                            qrCode
-                                ? `
-                                    <div style="margin-top:20px;">
-
-                                        <div style="
-                                            margin-bottom:8px;
-                                            color:#111;
-                                            font-size:13px;
-                                            font-weight:600;
-                                        ">
-                                            Pix copia e cola
-                                        </div>
-
-                                        <textarea
-                                            id="pix-copy-code"
-                                            readonly
-                                            style="
-                                                width:100%;
-                                                min-height:100px;
-                                                padding:12px;
-                                                box-sizing:border-box;
-                                                resize:none;
-                                                border:1px solid #ddd;
-                                                border-radius:10px;
-                                                font-family:monospace;
-                                                font-size:12px;
-                                                color:#333;
-                                                background:#fafafa;
-                                            "
-                                        >${qrCode}</textarea>
-
-                                        <button
-                                            type="button"
-                                            id="copy-pix"
-                                            style="
-                                                width:100%;
-                                                height:48px;
-                                                margin-top:10px;
-                                                border:0;
-                                                border-radius:10px;
-                                                background:#007BFF;
-                                                color:#fff;
-                                                font-family:Poppins,sans-serif;
-                                                font-weight:700;
-                                                cursor:pointer;
-                                            "
-                                        >
-                                            COPIAR PIX
-                                        </button>
-
-                                    </div>
-                                `
-                                : ""
-                        }
-
-                        <div style="
-                            margin-top:20px;
-                            padding:15px;
-                            background:#f7f7f7;
-                            border-radius:10px;
-                            font-size:13px;
-                            color:#777;
-                            text-align:center;
-                        ">
-                            Após realizar o pagamento,
-                            aguarde a confirmação.
-                        </div>
-                    `;
-
-                    pixInfo.classList.add("active");
-
-                    const copyPix =
-                        document.getElementById("copy-pix");
-
-                    if (copyPix && qrCode) {
-
-                        copyPix.addEventListener(
-                            "click",
-                            async () => {
-
-                                try {
-
-                                    await navigator.clipboard.writeText(
-                                        qrCode
-                                    );
-
-                                    copyPix.textContent =
-                                        "PIX COPIADO ✓";
-
-                                } catch (error) {
-
-                                    console.error(
-                                        "Erro ao copiar Pix:",
-                                        error
-                                    );
-
-                                    alert(
-                                        "Não foi possível copiar o código Pix."
-                                    );
-
-                                }
-
-                            }
-                        );
-
-                    }
-
-                }
-
-            }
-
-            const finishButton =
-                document.getElementById("finish-payment");
-
-            if (finishButton) {
-
-                finishButton.style.display = "none";
-
-            }
-
-            return Promise.resolve();
-
-        } catch (error) {
-
-            console.error(
-                "Erro ao enviar pagamento:",
-                error
-            );
-
-            alert(
-                error.message ||
-                "Não foi possível processar o pagamento."
-            );
-
-            throw error;
-
-        }
-
-    },
-
-            onError: (error) => {
-
-                console.error(
-                    "Erro no Mercado Pago:",
-                    error
-                );
-
-            }
-
-        }
-
-    };
-
-
-    window.paymentBrickController =
-        await bricksBuilder.create(
-            "payment",
-            "paymentBrick_container",
-            settings
-        );
-
-}
-
-
-renderPaymentBrick();
+        loadSummary();
+        renderPaymentBrick();
 
     </script>
-    
-
-</body>
-
-</html>
