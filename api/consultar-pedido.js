@@ -100,9 +100,13 @@ export default async function handler(req, res) {
                 orderNumber:
                     order.orderNumber,
 
-                status:
-                    order.status,
-
+               status:
+    order.status ||
+    (
+        order.paymentStatus === "approved"
+            ? "pagamento_confirmado"
+            : "aguardando_pagamento"
+    ),
                 statusHistory:
                     Array.isArray(
                         order.statusHistory
