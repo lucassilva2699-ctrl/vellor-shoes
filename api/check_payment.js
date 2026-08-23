@@ -82,7 +82,7 @@ export default async function handler(req, res) {
          */
         const response =
             await fetch(
-                `https://api.mercadopago.com/v1/payments/${paymentId}`,
+                `https://api.mercadopago.com/v1/payments/${encodeURIComponent(paymentId)}`
                 {
                     method: "GET",
 
@@ -90,9 +90,6 @@ export default async function handler(req, res) {
 
                         "Authorization":
                             `Bearer ${accessToken}`,
-
-                        "Content-Type":
-                            "application/json"
 
                     }
 
