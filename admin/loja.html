@@ -13,852 +13,991 @@
     <title>Loja | Vellor Shoes</title>
 
     <link
+        rel="preconnect"
+        href="https://fonts.googleapis.com"
+    >
+
+    <link
+        rel="preconnect"
+        href="https://fonts.gstatic.com"
+        crossorigin
+    >
+
+    <link
+        href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap"
+        rel="stylesheet"
+    >
+
+    <link
         rel="stylesheet"
         href="admin.css"
     >
 
 </head>
 
+
 <body>
 
-    <!-- ==================================================
-         SIDEBAR
-    ================================================== -->
 
-    <aside class="admin-sidebar">
+    <div class="admin-layout">
 
-        <div class="admin-sidebar-logo">
 
-            <img
-                src="../assets/logo.png"
-                alt="Vellor Shoes"
+        <!-- ==================================================
+             SIDEBAR
+        ================================================== -->
+
+        <aside class="admin-sidebar">
+
+
+            <!-- LOGO -->
+
+            <div class="admin-sidebar-logo">
+
+                <img
+                    src="../assets/logo.png"
+                    alt="Vellor Shoes"
+                >
+
+            </div>
+
+
+            <!-- NAVEGAÇÃO -->
+
+            <nav class="admin-navigation">
+
+
+                <!-- PRINCIPAL -->
+
+                <div class="admin-nav-section">
+
+                    <div class="admin-nav-title">
+                        PRINCIPAL
+                    </div>
+
+
+                    <a
+                        href="dashboard.html"
+                        class="admin-nav-link"
+                    >
+
+                        <span>▦</span>
+
+                        <span>
+                            Dashboard
+                        </span>
+
+                    </a>
+
+                </div>
+
+
+                <!-- CATÁLOGO -->
+
+                <div class="admin-nav-section">
+
+                    <div class="admin-nav-title">
+                        CATÁLOGO
+                    </div>
+
+
+                    <a
+                        href="produtos.html"
+                        class="admin-nav-link"
+                    >
+
+                        <span>◈</span>
+
+                        <span>
+                            Produtos
+                        </span>
+
+                    </a>
+
+
+                    <a
+                        href="menu.html"
+                        class="admin-nav-link"
+                    >
+
+                        <span>☰</span>
+
+                        <span>
+                            Menu da Loja
+                        </span>
+
+                    </a>
+
+                </div>
+
+
+                <!-- OPERAÇÃO -->
+
+                <div class="admin-nav-section">
+
+                    <div class="admin-nav-title">
+                        OPERAÇÃO
+                    </div>
+
+
+                    <a
+                        href="estoque.html"
+                        class="admin-nav-link"
+                    >
+
+                        <span>▤</span>
+
+                        <span>
+                            Estoque
+                        </span>
+
+                    </a>
+
+
+                    <a
+                        href="vendas.html"
+                        class="admin-nav-link"
+                    >
+
+                        <span>▣</span>
+
+                        <span>
+                            Vendas
+                        </span>
+
+                    </a>
+
+                </div>
+
+
+                <!-- LOJA -->
+
+                <div class="admin-nav-section">
+
+                    <div class="admin-nav-title">
+                        LOJA
+                    </div>
+
+
+                    <a
+                        href="loja.html"
+                        class="admin-nav-link active"
+                    >
+
+                        <span>⌂</span>
+
+                        <span>
+                            Loja
+                        </span>
+
+                    </a>
+
+                </div>
+
+
+                <!-- SISTEMA -->
+
+                <div class="admin-nav-section">
+
+                    <div class="admin-nav-title">
+                        SISTEMA
+                    </div>
+
+
+                    <a
+                        href="#"
+                        class="admin-nav-link"
+                    >
+
+                        <span>⚙</span>
+
+                        <span>
+                            Configurações
+                        </span>
+
+                    </a>
+
+                </div>
+
+
+            </nav>
+
+
+            <!-- ==================================================
+                 SIDEBAR BOTTOM
+            ================================================== -->
+
+            <div class="admin-sidebar-bottom">
+
+
+                <a
+                    href="../index.html"
+                    class="admin-sidebar-back"
+                >
+                    ← Voltar para a loja
+                </a>
+
+
+                <button
+                    type="button"
+                    class="admin-sidebar-logout"
+                    id="admin-logout"
+                >
+                    Sair da conta
+                </button>
+
+
+            </div>
+
+
+        </aside>
+
+
+
+        <!-- ==================================================
+             CONTEÚDO PRINCIPAL
+        ================================================== -->
+
+        <main class="admin-main">
+
+
+            <!-- CABEÇALHO -->
+
+            <header class="admin-header">
+
+                <div>
+
+                    <span class="admin-page-label">
+                        CONFIGURAÇÃO DA LOJA
+                    </span>
+
+                    <h1>
+                        Loja
+                    </h1>
+
+                    <p>
+                        Gerencie a identidade, os contatos e as informações públicas da Vellor Shoes.
+                    </p>
+
+                </div>
+
+
+                <div class="admin-user-area">
+
+                    <div class="admin-user-info">
+
+                        <span class="admin-user-name">
+                            Administrador
+                        </span>
+
+                        <span class="admin-user-role">
+                            Vellor Shoes
+                        </span>
+
+                    </div>
+
+
+                    <div class="admin-user-avatar">
+                        A
+                    </div>
+
+                </div>
+
+            </header>
+
+
+
+            <!-- ==================================================
+                 IDENTIDADE
+            ================================================== -->
+
+            <section class="admin-content-panel">
+
+
+                <div class="admin-panel-header">
+
+                    <div>
+
+                        <span class="admin-panel-kicker">
+                            IDENTIDADE
+                        </span>
+
+                        <h3>
+                            Identidade da loja
+                        </h3>
+
+                    </div>
+
+                </div>
+
+
+                <div style="padding:30px;">
+
+
+                    <div
+                        style="
+                            display:grid;
+                            grid-template-columns:220px minmax(0,1fr);
+                            gap:25px;
+                            align-items:start;
+                        "
+                    >
+
+
+                        <!-- FAVICON -->
+
+                        <div>
+
+                            <label
+                                style="
+                                    display:block;
+                                    margin-bottom:10px;
+                                    color:#aaa;
+                                    font-size:13px;
+                                "
+                            >
+                                Favicon
+                            </label>
+
+
+                            <div
+                                style="
+                                    width:120px;
+                                    height:120px;
+                                    display:flex;
+                                    align-items:center;
+                                    justify-content:center;
+                                    border:1px solid #303036;
+                                    border-radius:12px;
+                                    background:#0b0b0d;
+                                    overflow:hidden;
+                                "
+                            >
+
+                                <img
+                                    id="favicon-preview"
+                                    src=""
+                                    alt="Favicon"
+                                    style="
+                                        max-width:64px;
+                                        max-height:64px;
+                                        object-fit:contain;
+                                        display:none;
+                                    "
+                                >
+
+
+                                <span
+                                    id="favicon-empty"
+                                    style="
+                                        color:#555;
+                                        font-size:12px;
+                                    "
+                                >
+                                    Sem favicon
+                                </span>
+
+                            </div>
+
+
+                            <input
+                                type="file"
+                                id="favicon-file"
+                                accept="image/png,image/jpeg,image/webp,image/x-icon"
+                                style="display:none;"
+                            >
+
+
+                            <button
+                                type="button"
+                                id="change-favicon-button"
+                                style="
+                                    margin-top:12px;
+                                    padding:9px 14px;
+                                    border:1px solid #303036;
+                                    border-radius:7px;
+                                    background:#18181c;
+                                    color:#fff;
+                                    cursor:pointer;
+                                "
+                            >
+                                Alterar favicon
+                            </button>
+
+                        </div>
+
+
+
+                        <!-- NOME -->
+
+                        <div>
+
+                            <label
+                                for="store-name"
+                                style="
+                                    display:block;
+                                    margin-bottom:10px;
+                                    color:#aaa;
+                                    font-size:13px;
+                                "
+                            >
+                                Nome da loja
+                            </label>
+
+
+                            <input
+                                type="text"
+                                id="store-name"
+                                value="Vellor Shoes"
+                                placeholder="Nome da loja"
+                                style="
+                                    width:100%;
+                                    box-sizing:border-box;
+                                    padding:14px 15px;
+                                    border:1px solid #303036;
+                                    border-radius:8px;
+                                    background:#18181c;
+                                    color:#fff;
+                                    outline:none;
+                                "
+                            >
+
+
+                            <p
+                                style="
+                                    margin-top:9px;
+                                    color:#666;
+                                    font-size:11px;
+                                "
+                            >
+                                Será utilizado nas informações públicas da loja.
+                            </p>
+
+                        </div>
+
+
+                    </div>
+
+                </div>
+
+            </section>
+
+
+
+            <!-- ==================================================
+                 CONTATOS
+            ================================================== -->
+
+            <section
+                class="admin-content-panel"
+                style="margin-top:20px;"
             >
 
-        </div>
+
+                <div class="admin-panel-header">
+
+                    <div>
+
+                        <span class="admin-panel-kicker">
+                            CONTATO
+                        </span>
+
+                        <h3>
+                            Canais da loja
+                        </h3>
+
+                    </div>
+
+                </div>
 
 
-        <nav class="admin-sidebar-nav">
-
-            <div class="admin-nav-section">
-
-                <span class="admin-nav-label">
-                    CATÁLOGO
-                </span>
-
-                <a
-                    href="produtos.html"
-                    class="admin-nav-item"
-                >
-                    ◇
-                    <span>Produtos</span>
-                </a>
-
-                <a
-                    href="menu.html"
-                    class="admin-nav-item"
-                >
-                    ☰
-                    <span>Menu da Loja</span>
-                </a>
-
-            </div>
+                <div style="padding:30px;">
 
 
-            <div class="admin-nav-section">
-
-                <span class="admin-nav-label">
-                    OPERAÇÃO
-                </span>
-
-                <a
-                    href="estoque.html"
-                    class="admin-nav-item"
-                >
-                    ▤
-                    <span>Estoque</span>
-                </a>
-
-                <a
-                    href="vendas.html"
-                    class="admin-nav-item"
-                >
-                    ▣
-                    <span>Vendas</span>
-                </a>
-
-            </div>
+                    <div
+                        style="
+                            display:grid;
+                            grid-template-columns:repeat(2,minmax(0,1fr));
+                            gap:20px;
+                        "
+                    >
 
 
-            <div class="admin-nav-section">
+                        <!-- WHATSAPP -->
 
-                <span class="admin-nav-label">
-                    LOJA
-                </span>
+                        <div>
 
-                <a
-                    href="loja.html"
-                    class="admin-nav-item active"
-                >
-                    ♧
-                    <span>Loja</span>
-                </a>
+                            <label
+                                for="store-whatsapp"
+                                style="
+                                    display:block;
+                                    margin-bottom:9px;
+                                    color:#aaa;
+                                    font-size:13px;
+                                "
+                            >
+                                WhatsApp
+                            </label>
 
-            </div>
+
+                            <input
+                                type="tel"
+                                id="store-whatsapp"
+                                placeholder="(11) 99999-9999"
+                                style="
+                                    width:100%;
+                                    box-sizing:border-box;
+                                    padding:14px 15px;
+                                    border:1px solid #303036;
+                                    border-radius:8px;
+                                    background:#18181c;
+                                    color:#fff;
+                                    outline:none;
+                                "
+                            >
 
 
-            <div class="admin-nav-section">
+                            <p
+                                style="
+                                    margin-top:8px;
+                                    color:#666;
+                                    font-size:11px;
+                                "
+                            >
+                                Será utilizado no botão flutuante do WhatsApp.
+                            </p>
 
-                <span class="admin-nav-label">
-                    SISTEMA
-                </span>
-
-                <a
-                    href="#"
-                    class="admin-nav-item"
-                >
-                    ⚙
-                    <span>Configurações</span>
-                </a>
-
-            </div>
-
-        </nav>
-
-    </aside>
+                        </div>
 
 
 
-    <!-- ==================================================
-         CONTEÚDO
-    ================================================== -->
+                        <!-- INSTAGRAM -->
 
-  <main class="admin-main">
+                        <div>
 
-    <!-- ==================================================
-         CABEÇALHO
-    ================================================== -->
-
-    <header class="admin-topbar">
-
-        <div class="admin-topbar-heading">
-
-            <span class="admin-page-label">
-                CONFIGURAÇÃO DA LOJA
-            </span>
-
-            <h1>
-                Loja
-            </h1>
-
-            <p class="admin-topbar-subtitle">
-                Gerencie a identidade, os contatos e as informações públicas da Vellor Shoes.
-            </p>
-
-        </div>
+                            <label
+                                for="store-instagram"
+                                style="
+                                    display:block;
+                                    margin-bottom:9px;
+                                    color:#aaa;
+                                    font-size:13px;
+                                "
+                            >
+                                Instagram
+                            </label>
 
 
-        <div class="admin-user-area">
+                            <input
+                                type="text"
+                                id="store-instagram"
+                                placeholder="@vellorshoes"
+                                style="
+                                    width:100%;
+                                    box-sizing:border-box;
+                                    padding:14px 15px;
+                                    border:1px solid #303036;
+                                    border-radius:8px;
+                                    background:#18181c;
+                                    color:#fff;
+                                    outline:none;
+                                "
+                            >
 
-            <div class="admin-user-info">
 
-                <span class="admin-user-name">
-                    Administrador
-                </span>
+                            <p
+                                style="
+                                    margin-top:8px;
+                                    color:#666;
+                                    font-size:11px;
+                                "
+                            >
+                                Será exibido no rodapé da loja.
+                            </p>
 
-                <span class="admin-user-role">
-                    Vellor Shoes
-                </span>
-
-            </div>
-
-
-            <div class="admin-user-avatar">
-                A
-            </div>
-
-        </div>
-
-    </header>
+                        </div>
 
 
 
-    <!-- ==================================================
-         IDENTIDADE
-    ================================================== -->
+                        <!-- E-MAIL -->
 
-    <section class="admin-content-panel">
+                        <div
+                            style="
+                                grid-column:1 / -1;
+                            "
+                        >
 
-        <div class="admin-panel-header">
-
-            <div>
-
-                <span class="admin-panel-kicker">
-                    IDENTIDADE
-                </span>
-
-                <h3>
-                    Identidade da loja
-                </h3>
-
-            </div>
-
-        </div>
+                            <label
+                                for="store-email"
+                                style="
+                                    display:block;
+                                    margin-bottom:9px;
+                                    color:#aaa;
+                                    font-size:13px;
+                                "
+                            >
+                                E-mail
+                            </label>
 
 
-        <div
-            style="
-                padding:30px;
-            "
-        >
+                            <input
+                                type="email"
+                                id="store-email"
+                                placeholder="contato@vellorshoes.com.br"
+                                style="
+                                    width:100%;
+                                    box-sizing:border-box;
+                                    padding:14px 15px;
+                                    border:1px solid #303036;
+                                    border-radius:8px;
+                                    background:#18181c;
+                                    color:#fff;
+                                    outline:none;
+                                "
+                            >
 
-            <div
-                style="
-                    display:grid;
-                    grid-template-columns:220px minmax(0,1fr);
-                    gap:25px;
-                    align-items:start;
-                "
+
+                            <p
+                                style="
+                                    margin-top:8px;
+                                    color:#666;
+                                    font-size:11px;
+                                "
+                            >
+                                Será exibido no rodapé da loja.
+                            </p>
+
+                        </div>
+
+
+                    </div>
+
+                </div>
+
+            </section>
+
+
+
+            <!-- ==================================================
+                 LOGO
+            ================================================== -->
+
+            <section
+                class="admin-content-panel"
+                style="margin-top:20px;"
             >
 
-                <!-- FAVICON -->
 
-                <div>
+                <div class="admin-panel-header">
 
-                    <label
-                        style="
-                            display:block;
-                            margin-bottom:10px;
-                            color:#aaa;
-                            font-size:13px;
-                        "
-                    >
-                <label>
-    Favicon
-</label>
+                    <div>
 
+                        <span class="admin-panel-kicker">
+                            IDENTIDADE VISUAL
+                        </span>
 
-<div
-    style="
-        width:120px;
-        height:120px;
-        display:flex;
-        align-items:center;
-        justify-content:center;
-        border:1px solid #303036;
-        border-radius:12px;
-        background:#0b0b0d;
-        overflow:hidden;
-    "
->
-    <img
-        id="favicon-preview"
-        src=""
-        alt="Favicon"
-        style="
-            max-width:64px;
-            max-height:64px;
-            object-fit:contain;
-            display:none;
-        "
-    >
+                        <h3>
+                            Logo da loja
+                        </h3>
 
-    <span
-        id="favicon-empty"
-        style="
-            color:#555;
-            font-size:12px;
-        "
-    >
-        Sem favicon
-    </span>
-
-</div>
-
-
-<input
-    type="file"
-    id="favicon-file"
-    accept="image/png,image/jpeg,image/webp,image/x-icon"
-    style="display:none;"
->
-
-
-<button
-    type="button"
-    id="change-favicon-button"
-    style="
-        margin-top:12px;
-        padding:9px 14px;
-        border:1px solid #303036;
-        border-radius:7px;
-        background:#18181c;
-        color:#fff;
-        cursor:pointer;
-    "
->
-    Alterar favicon
-</button>
-                </div>
-
-
-                <!-- NOME -->
-
-                <div>
-
-                    <label
-                        for="store-name"
-                        style="
-                            display:block;
-                            margin-bottom:10px;
-                            color:#aaa;
-                            font-size:13px;
-                        "
-                    >
-                        Nome da loja
-                    </label>
-
-
-                    <input
-                        type="text"
-                        id="store-name"
-                        value="Vellor Shoes"
-                        placeholder="Nome da loja"
-                        style="
-                            width:100%;
-                            box-sizing:border-box;
-                            padding:14px 15px;
-                            border:1px solid #303036;
-                            border-radius:8px;
-                            background:#18181c;
-                            color:#fff;
-                            outline:none;
-                        "
-                    >
-
-                    <p
-                        style="
-                            margin-top:9px;
-                            color:#666;
-                            font-size:11px;
-                        "
-                    >
-                        Será utilizado nas informações públicas da loja.
-                    </p>
+                    </div>
 
                 </div>
 
-            </div>
 
-        </div>
-
-    </section>
+                <div style="padding:30px;">
 
 
-
-    <!-- ==================================================
-         CONTATOS
-    ================================================== -->
-
-    <section
-        class="admin-content-panel"
-        style="margin-top:20px;"
-    >
-
-        <div class="admin-panel-header">
-
-            <div>
-
-                <span class="admin-panel-kicker">
-                    CONTATO
-                </span>
-
-                <h3>
-                    Canais da loja
-                </h3>
-
-            </div>
-
-        </div>
+                    <div
+                        style="
+                            display:flex;
+                            align-items:center;
+                            gap:25px;
+                            flex-wrap:wrap;
+                        "
+                    >
 
 
-        <div
-            style="
-                padding:30px;
-            "
-        >
+                        <div
+                            style="
+                                width:260px;
+                                height:110px;
+                                display:flex;
+                                align-items:center;
+                                justify-content:center;
+                                padding:15px;
+                                box-sizing:border-box;
+                                background:#0b0b0d;
+                                border:1px solid #303036;
+                                border-radius:10px;
+                            "
+                        >
 
-            <div
-                style="
-                    display:grid;
-                    grid-template-columns:repeat(2,minmax(0,1fr));
-                    gap:20px;
-                "
+                            <img
+                                id="store-logo-preview"
+                                src="../assets/logo.png"
+                                alt="Logo Vellor Shoes"
+                                style="
+                                    max-width:100%;
+                                    max-height:100%;
+                                    object-fit:contain;
+                                "
+                            >
+
+                        </div>
+
+
+                        <div>
+
+                            <strong
+                                style="
+                                    display:block;
+                                    color:#fff;
+                                    margin-bottom:7px;
+                                "
+                            >
+                                Imagem atual
+                            </strong>
+
+
+                            <span
+                                style="
+                                    display:block;
+                                    color:#666;
+                                    font-size:12px;
+                                    margin-bottom:14px;
+                                "
+                            >
+                                Logo oficial utilizada atualmente na loja.
+                            </span>
+
+
+                            <input
+                                type="file"
+                                id="logo-file"
+                                accept="image/png,image/jpeg,image/webp"
+                                style="display:none;"
+                            >
+
+
+                            <button
+                                type="button"
+                                id="change-logo-button"
+                                style="
+                                    padding:10px 16px;
+                                    border:1px solid #303036;
+                                    border-radius:7px;
+                                    background:#18181c;
+                                    color:#fff;
+                                    cursor:pointer;
+                                "
+                            >
+                                Alterar logo
+                            </button>
+
+                        </div>
+
+
+                    </div>
+
+                </div>
+
+            </section>
+
+
+
+            <!-- ==================================================
+                 INFORMAÇÕES LEGAIS
+            ================================================== -->
+
+            <section
+                class="admin-content-panel"
+                style="margin-top:20px;"
             >
 
-                <!-- WHATSAPP -->
 
-                <div>
+                <div class="admin-panel-header">
 
-                    <label
-                        for="store-whatsapp"
-                        style="
-                            display:block;
-                            margin-bottom:9px;
-                            color:#aaa;
-                            font-size:13px;
-                        "
-                    >
-                        WhatsApp
-                    </label>
+                    <div>
 
+                        <span class="admin-panel-kicker">
+                            INFORMAÇÕES LEGAIS
+                        </span>
 
-                    <input
-                        type="tel"
-                        id="store-whatsapp"
-                        placeholder="(11) 99999-9999"
-                        style="
-                            width:100%;
-                            box-sizing:border-box;
-                            padding:14px 15px;
-                            border:1px solid #303036;
-                            border-radius:8px;
-                            background:#18181c;
-                            color:#fff;
-                            outline:none;
-                        "
-                    >
+                        <h3>
+                            Políticas e termos
+                        </h3>
 
-
-                    <p
-                        style="
-                            margin-top:8px;
-                            color:#666;
-                            font-size:11px;
-                        "
-                    >
-                        Será utilizado no botão flutuante do WhatsApp.
-                    </p>
+                    </div>
 
                 </div>
 
 
-                <!-- INSTAGRAM -->
+                <div style="padding:30px;">
 
-                <div>
 
-                    <label
-                        for="store-instagram"
+                    <!-- PRIVACIDADE -->
+
+                    <div>
+
+                        <label
+                            for="privacy-policy"
+                            style="
+                                display:block;
+                                margin-bottom:9px;
+                                color:#aaa;
+                                font-size:13px;
+                            "
+                        >
+                            Política de Privacidade
+                        </label>
+
+
+                        <textarea
+                            id="privacy-policy"
+                            rows="6"
+                            placeholder="Escreva aqui a Política de Privacidade da Vellor Shoes..."
+                            style="
+                                width:100%;
+                                box-sizing:border-box;
+                                padding:14px 15px;
+                                border:1px solid #303036;
+                                border-radius:8px;
+                                background:#18181c;
+                                color:#fff;
+                                outline:none;
+                                resize:vertical;
+                            "
+                        ></textarea>
+
+                    </div>
+
+
+
+                    <!-- TROCA -->
+
+                    <div
                         style="
-                            display:block;
-                            margin-bottom:9px;
-                            color:#aaa;
-                            font-size:13px;
+                            margin-top:25px;
                         "
                     >
-                        Instagram
-                    </label>
+
+                        <label
+                            for="exchange-policy"
+                            style="
+                                display:block;
+                                margin-bottom:9px;
+                                color:#aaa;
+                                font-size:13px;
+                            "
+                        >
+                            Política de Troca
+                        </label>
 
 
-                    <input
-                        type="text"
-                        id="store-instagram"
-                        placeholder="@vellorshoes"
+                        <textarea
+                            id="exchange-policy"
+                            rows="6"
+                            placeholder="Escreva aqui a Política de Troca da Vellor Shoes..."
+                            style="
+                                width:100%;
+                                box-sizing:border-box;
+                                padding:14px 15px;
+                                border:1px solid #303036;
+                                border-radius:8px;
+                                background:#18181c;
+                                color:#fff;
+                                outline:none;
+                                resize:vertical;
+                            "
+                        ></textarea>
+
+                    </div>
+
+
+
+                    <!-- TERMOS -->
+
+                    <div
                         style="
-                            width:100%;
-                            box-sizing:border-box;
-                            padding:14px 15px;
-                            border:1px solid #303036;
-                            border-radius:8px;
-                            background:#18181c;
-                            color:#fff;
-                            outline:none;
+                            margin-top:25px;
                         "
                     >
 
+                        <label
+                            for="terms-of-use"
+                            style="
+                                display:block;
+                                margin-bottom:9px;
+                                color:#aaa;
+                                font-size:13px;
+                            "
+                        >
+                            Termos de Uso
+                        </label>
 
-                    <p
-                        style="
-                            margin-top:8px;
-                            color:#666;
-                            font-size:11px;
-                        "
-                    >
-                        Será exibido no rodapé da loja.
-                    </p>
+
+                        <textarea
+                            id="terms-of-use"
+                            rows="6"
+                            placeholder="Escreva aqui os Termos de Uso da Vellor Shoes..."
+                            style="
+                                width:100%;
+                                box-sizing:border-box;
+                                padding:14px 15px;
+                                border:1px solid #303036;
+                                border-radius:8px;
+                                background:#18181c;
+                                color:#fff;
+                                outline:none;
+                                resize:vertical;
+                            "
+                        ></textarea>
+
+                    </div>
+
 
                 </div>
 
-
-                <!-- E-MAIL -->
-
-                <div
-                    style="
-                        grid-column:1 / -1;
-                    "
-                >
-
-                    <label
-                        for="store-email"
-                        style="
-                            display:block;
-                            margin-bottom:9px;
-                            color:#aaa;
-                            font-size:13px;
-                        "
-                    >
-                        E-mail
-                    </label>
-
-
-                    <input
-                        type="email"
-                        id="store-email"
-                        placeholder="contato@vellorshoes.com.br"
-                        style="
-                            width:100%;
-                            box-sizing:border-box;
-                            padding:14px 15px;
-                            border:1px solid #303036;
-                            border-radius:8px;
-                            background:#18181c;
-                            color:#fff;
-                            outline:none;
-                        "
-                    >
-
-
-                    <p
-                        style="
-                            margin-top:8px;
-                            color:#666;
-                            font-size:11px;
-                        "
-                    >
-                        Será exibido no rodapé da loja.
-                    </p>
-
-                </div>
-
-            </div>
-
-        </div>
-
-    </section>
+            </section>
 
 
 
-    <!-- ==================================================
-         LOGO
-    ================================================== -->
-
-    <section
-        class="admin-content-panel"
-        style="margin-top:20px;"
-    >
-
-        <div class="admin-panel-header">
-
-            <div>
-
-                <span class="admin-panel-kicker">
-                    IDENTIDADE VISUAL
-                </span>
-
-                <h3>
-                    Logo da loja
-                </h3>
-
-            </div>
-
-        </div>
-
-
-        <div
-            style="
-                padding:30px;
-            "
-        >
+            <!-- ==================================================
+                 SALVAR
+            ================================================== -->
 
             <div
                 style="
                     display:flex;
-                    align-items:center;
-                    gap:25px;
-                    flex-wrap:wrap;
+                    justify-content:flex-end;
+                    margin-top:20px;
+                    margin-bottom:40px;
                 "
             >
 
-                <div
-                    style="
-                        width:260px;
-                        height:110px;
-                        display:flex;
-                        align-items:center;
-                        justify-content:center;
-                        padding:15px;
-                        box-sizing:border-box;
-                        background:#0b0b0d;
-                        border:1px solid #303036;
-                        border-radius:10px;
-                    "
+                <button
+                    type="button"
+                    id="save-store-button"
+                    class="menu-add-button"
                 >
-
-                   <img
-    id="store-logo-preview"
-    src="../assets/logo.png"
-    alt="Logo Vellor Shoes"
-    style="
-        max-width:100%;
-        max-height:100%;
-        object-fit:contain;
-    "
->
-
-                </div>
-
-
-                <div>
-
-                    <strong
-                        style="
-                            display:block;
-                            color:#fff;
-                            margin-bottom:7px;
-                        "
-                    >
-                        Imagem atual
-                    </strong>
-
-                    <span
-                        style="
-                            display:block;
-                            color:#666;
-                            font-size:12px;
-                            margin-bottom:14px;
-                        "
-                    >
-                        Logo oficial utilizada atualmente na loja.
-                    </span>
-
-
-                  <input
-    type="file"
-    id="logo-file"
-    accept="image/png,image/jpeg,image/webp"
-    style="display:none;"
->
-
-<button
-    type="button"
-    id="change-logo-button"
-    style="
-        padding:10px 16px;
-        border:1px solid #303036;
-        border-radius:7px;
-        background:#18181c;
-        color:#fff;
-        cursor:pointer;
-    "
->
-    Alterar logo
-</button>
-
-                </div>
-
-            </div>
-
-        </div>
-
-    </section>
-
-
-
-    <!-- ==================================================
-         INFORMAÇÕES LEGAIS
-    ================================================== -->
-
-    <section
-        class="admin-content-panel"
-        style="margin-top:20px;"
-    >
-
-        <div class="admin-panel-header">
-
-            <div>
-
-                <span class="admin-panel-kicker">
-                    INFORMAÇÕES LEGAIS
-                </span>
-
-                <h3>
-                    Políticas e termos
-                </h3>
-
-            </div>
-
-        </div>
-
-
-        <div
-            style="
-                padding:30px;
-            "
-        >
-
-            <!-- PRIVACIDADE -->
-
-            <div>
-
-                <label
-                    for="privacy-policy"
-                    style="
-                        display:block;
-                        margin-bottom:9px;
-                        color:#aaa;
-                        font-size:13px;
-                    "
-                >
-                    Política de Privacidade
-                </label>
-
-
-                <textarea
-                    id="privacy-policy"
-                    rows="6"
-                    placeholder="Escreva aqui a Política de Privacidade da Vellor Shoes..."
-                    style="
-                        width:100%;
-                        box-sizing:border-box;
-                        padding:14px 15px;
-                        border:1px solid #303036;
-                        border-radius:8px;
-                        background:#18181c;
-                        color:#fff;
-                        outline:none;
-                        resize:vertical;
-                    "
-                ></textarea>
+                    Salvar alterações
+                </button>
 
             </div>
 
 
-            <!-- TROCA -->
-
-            <div
-                style="
-                    margin-top:25px;
-                "
-            >
-
-                <label
-                    for="exchange-policy"
-                    style="
-                        display:block;
-                        margin-bottom:9px;
-                        color:#aaa;
-                        font-size:13px;
-                    "
-                >
-                    Política de Troca
-                </label>
-
-
-                <textarea
-                    id="exchange-policy"
-                    rows="6"
-                    placeholder="Escreva aqui a Política de Troca da Vellor Shoes..."
-                    style="
-                        width:100%;
-                        box-sizing:border-box;
-                        padding:14px 15px;
-                        border:1px solid #303036;
-                        border-radius:8px;
-                        background:#18181c;
-                        color:#fff;
-                        outline:none;
-                        resize:vertical;
-                    "
-                ></textarea>
-
-            </div>
-
-
-            <!-- TERMOS -->
-
-            <div
-                style="
-                    margin-top:25px;
-                "
-            >
-
-                <label
-                    for="terms-of-use"
-                    style="
-                        display:block;
-                        margin-bottom:9px;
-                        color:#aaa;
-                        font-size:13px;
-                    "
-                >
-                    Termos de Uso
-                </label>
-
-
-                <textarea
-                    id="terms-of-use"
-                    rows="6"
-                    placeholder="Escreva aqui os Termos de Uso da Vellor Shoes..."
-                    style="
-                        width:100%;
-                        box-sizing:border-box;
-                        padding:14px 15px;
-                        border:1px solid #303036;
-                        border-radius:8px;
-                        background:#18181c;
-                        color:#fff;
-                        outline:none;
-                        resize:vertical;
-                    "
-                ></textarea>
-
-            </div>
-
-        </div>
-
-    </section>
-
-
-
-    <!-- ==================================================
-         SALVAR
-    ================================================== -->
-
-    <div
-        style="
-            display:flex;
-            justify-content:flex-end;
-            margin-top:20px;
-            margin-bottom:40px;
-        "
-    >
-
-        <button
-            type="button"
-            id="save-store-button"
-            class="menu-add-button"
-        >
-            Salvar alterações
-        </button>
+        </main>
 
     </div>
 
-</main>
+
 
     <script
-    type="module"
-    src="loja.js"
-></script>
-    
+        type="module"
+        src="loja.js"
+    ></script>
+
+
 </body>
 
 </html>
