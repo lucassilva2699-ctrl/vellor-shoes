@@ -1,6 +1,9 @@
 export default async function handler(req, res) {
 
-    // Permitir requisições do site
+    /* =========================================================
+       CORS
+    ========================================================= */
+
     res.setHeader(
         "Access-Control-Allow-Origin",
         "*"
@@ -17,166 +20,456 @@ export default async function handler(req, res) {
     );
 
 
-    // Responder ao preflight
+    /* =========================================================
+       PREFLIGHT
+    ========================================================= */
+
     if (req.method === "OPTIONS") {
-        return res.status(200).end();
+
+        return res
+            .status(200)
+            .end();
+
     }
 
 
-    // Aceitar somente POST
+    /* =========================================================
+       SOMENTE POST
+    ========================================================= */
+
     if (req.method !== "POST") {
-        return res.status(405).json({
-            error: "Método não permitido."
-        });
+
+        return res
+            .status(405)
+            .json({
+                error:
+                    "Método não permitido."
+            });
+
     }
 
 
     try {
 
-        const formData = req.body;
+        /* =====================================================
+           DADOS RECEBIDOS
+        ===================================================== */
+
+        const formData =
+            req.body;
 
 
-        if (!formData) {
-            return res.status(400).json({
-                error: "Dados do pagamento não recebidos."
-            });
+        if (
+            !formData ||
+            typeof formData !== "object"
+        ) {
+
+            return res
+                .status(400)
+                .json({
+                    error:
+                        "Dados do pagamento não recebidos."
+                });
+
         }
 
 
-        // Access Token do Mercado Pago
+        /* =====================================================
+           ACCESS TOKEN
+        ===================================================== */
+
         const accessToken =
             process.env.MERCADOPAGO_ACCESS_TOKEN;
 
 
         if (!accessToken) {
-            return res.status(500).json({
-                error:
-                    "Access Token do Mercado Pago não configurado."
-            });
+
+            console.error(
+                "MERCADOPAGO_ACCESS_TOKEN não configurado."
+            );
+
+            return res
+                .status(500)
+                .json({
+                    error:
+                        "Access Token do Mercado Pago não configurado."
+                });
+
         }
 
 
-        /*
-         * Referência do pedido da Vellor.
-         *
-         * O pagamento será vinculado ao pedido
-         * através deste identificador.
-         */
+        /* =====================================================
+           DADOS PRINCIPAIS
+        ===================================================== */
+
+        const amount =
+            Number(
+                formData.transaction_amount
+            );
+
+        const paymentMethodId =
+            formData.payment_method_id;
+
+        const payerEmail =
+            formData.payer?.email;
+
         const externalReference =
             formData.external_reference ||
             null;
 
 
+        /* =====================================================
+           VALIDAÇÕES BÁSICAS
+        ===================================================== */
+
+        if (
+            !Number.isFinite(amount) ||
+            amount <= 0
+        ) {
+
+            return res
+                .status(400)
+                .json({
+                    error:
+                        "Valor do pagamento inválido."
+                });
+
+        }
+
+
+        if (
+            !paymentMethodId ||
+            typeof paymentMethodId !== "string"
+        ) {
+
+            return res
+                .status(400)
+                .json({
+                    error:
+                        "Forma de pagamento não informada."
+                });
+
+        }
+
+
+        if (
+            !payerEmail ||
+            typeof payerEmail !== "string"
+        ) {
+
+            return res
+                .status(400)
+                .json({
+                    error:
+                        "E-mail do pagador não informado."
+                });
+
+        }
+
+
+        /* =====================================================
+           CORPO DO PAGAMENTO
+        ===================================================== */
+
         const paymentBody = {
 
             transaction_amount:
-                Number(
-                    formData.transaction_amount
-                ),
-
+                amount,
 
             description:
                 formData.description ||
                 "Pedido Vellor Shoes",
 
-
             payment_method_id:
-                formData.payment_method_id,
-
+                paymentMethodId,
 
             payer: {
-                email:
-                    formData.payer?.email,
 
-                identification:
-                    formData.payer?.identification
+                email:
+                    payerEmail
+
             }
 
         };
 
 
-        /*
-         * Vincula o pagamento ao pedido Vellor.
-         */
-        if (externalReference) {
+        /* =====================================================
+           IDENTIFICAÇÃO DO PAGADOR
+        ===================================================== */
 
-            paymentBody.external_reference =
-                externalReference;
+        if (
+            formData.payer?.identification?.type &&
+            formData.payer?.identification?.number
+        ) {
+
+            paymentBody.payer.identification = {
+
+                type:
+                    formData.payer.identification.type,
+
+                number:
+                    formData.payer.identification.number
+
+            };
 
         }
 
 
-        /*
-         * Cartão de crédito/débito.
-         *
-         * Esses campos só são enviados quando
-         * realmente existem no formData.
-         */
-        if (formData.token) {
+        /* =====================================================
+           NOME DO PAGADOR
+        ===================================================== */
+
+        if (
+            formData.payer?.first_name
+        ) {
+
+            paymentBody.payer.first_name =
+                formData.payer.first_name;
+
+        }
+
+
+        if (
+            formData.payer?.last_name
+        ) {
+
+            paymentBody.payer.last_name =
+                formData.payer.last_name;
+
+        }
+
+
+        /* =====================================================
+           REFERÊNCIA DO PEDIDO
+        ===================================================== */
+
+        if (externalReference) {
+
+            paymentBody.external_reference =
+                String(
+                    externalReference
+                );
+
+        }
+
+
+        /* =====================================================
+           CARTÃO
+        ===================================================== */
+
+        const isCard =
+            Boolean(
+                formData.token
+            ) ||
+            (
+                paymentMethodId !== "pix" &&
+                Boolean(
+                    formData.installments
+                )
+            );
+
+
+        if (isCard) {
+
+            if (!formData.token) {
+
+                return res
+                    .status(400)
+                    .json({
+                        error:
+                            "Token do cartão não recebido."
+                    });
+
+            }
+
+
+            const installments =
+                Number(
+                    formData.installments
+                );
+
+
+            if (
+                !Number.isInteger(
+                    installments
+                ) ||
+                installments < 1
+            ) {
+
+                return res
+                    .status(400)
+                    .json({
+                        error:
+                            "Número de parcelas inválido."
+                    });
+
+            }
+
 
             paymentBody.token =
                 formData.token;
 
-        }
-
-
-        if (formData.installments) {
-
             paymentBody.installments =
-                Number(formData.installments);
+                installments;
+
+
+            if (
+                formData.issuer_id
+            ) {
+
+                paymentBody.issuer_id =
+                    Number(
+                        formData.issuer_id
+                    );
+
+            }
 
         }
 
 
-        if (formData.issuer_id) {
+        /* =====================================================
+           PIX
+        ===================================================== */
 
-            paymentBody.issuer_id =
-                formData.issuer_id;
+        if (
+            paymentMethodId === "pix"
+        ) {
+
+            /*
+             * Para Pix não enviamos token,
+             * installments ou issuer_id.
+             *
+             * O Mercado Pago gera os dados
+             * do QR Code na resposta.
+             */
 
         }
 
 
-        /*
-         * Criar pagamento no Mercado Pago.
-         */
-        const response = await fetch(
-            "https://api.mercadopago.com/v1/payments",
+        /* =====================================================
+           LOG
+           Não registramos token do cartão.
+        ===================================================== */
+
+        console.log(
+            "Enviando pagamento ao Mercado Pago:",
             {
-                method: "POST",
+                transaction_amount:
+                    paymentBody.transaction_amount,
 
-                headers: {
+                payment_method_id:
+                    paymentBody.payment_method_id,
 
-                    "Content-Type":
-                        "application/json",
+                external_reference:
+                    paymentBody.external_reference || null,
 
-                    "Authorization":
-                        `Bearer ${accessToken}`,
-
-                    "X-Idempotency-Key":
-                        crypto.randomUUID()
-
-                },
-
-                body:
-                    JSON.stringify(paymentBody)
-
+                has_token:
+                    Boolean(
+                        paymentBody.token
+                    )
             }
         );
 
 
-        const data =
-            await response.json();
+        /* =====================================================
+           CRIAR PAGAMENTO
+        ===================================================== */
 
+        const response =
+            await fetch(
+                "https://api.mercadopago.com/v1/payments",
+                {
+
+                    method:
+                        "POST",
+
+                    headers: {
+
+                        "Content-Type":
+                            "application/json",
+
+                        "Accept":
+                            "application/json",
+
+                        "Authorization":
+                            `Bearer ${accessToken}`,
+
+                        "X-Idempotency-Key":
+                            crypto.randomUUID()
+
+                    },
+
+                    body:
+                        JSON.stringify(
+                            paymentBody
+                        )
+
+                }
+            );
+
+
+        const responseText =
+            await response.text();
+
+
+        let data;
+
+
+        try {
+
+            data =
+                JSON.parse(
+                    responseText
+                );
+
+        } catch {
+
+            data = {
+
+                error:
+                    "Resposta inválida do Mercado Pago.",
+
+                details:
+                    responseText
+
+            };
+
+        }
+
+
+        /* =====================================================
+           LOG DA RESPOSTA
+        ===================================================== */
 
         console.log(
-            "Resposta Mercado Pago:",
-            data
+            "Mercado Pago:",
+            {
+                statusCode:
+                    response.status,
+
+                paymentId:
+                    data.id || null,
+
+                paymentStatus:
+                    data.status || null,
+
+                statusDetail:
+                    data.status_detail || null
+            }
         );
 
 
+        /* =====================================================
+           DEVOLVER RESPOSTA ORIGINAL
+        ===================================================== */
+
         return res
-            .status(response.status)
-            .json(data);
+            .status(
+                response.status
+            )
+            .json(
+                data
+            );
 
 
     } catch (error) {
@@ -187,15 +480,17 @@ export default async function handler(req, res) {
         );
 
 
-        return res.status(500).json({
+        return res
+            .status(500)
+            .json({
 
-            error:
-                "Erro interno ao processar pagamento.",
+                error:
+                    "Erro interno ao processar pagamento.",
 
-            details:
-                error.message
+                details:
+                    error.message
 
-        });
+            });
 
     }
 
