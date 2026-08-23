@@ -851,9 +851,13 @@
                 </div>
 
 
-                <p>
-                    O pagamento real será conectado posteriormente.
-                </p>
+             <p>
+    Seu pagamento foi confirmado com sucesso.
+</p>
+
+<p>
+    Aguarde novas informações sobre o envio do seu pedido.
+</p>
 
 
                 <a
@@ -1484,6 +1488,218 @@ const total =
 
         }
 
+        /* =========================================================
+   VERIFICAR STATUS DO PAGAMENTO
+========================================================= */
+
+let paymentStatusInterval = null;
+
+
+function startPaymentStatusCheck(
+    paymentId,
+    orderNumber
+) {
+
+    if (!paymentId) {
+        console.error(
+            "ID do pagamento não encontrado."
+        );
+
+        return;
+    }
+
+
+    console.log(
+        "Iniciando acompanhamento do pagamento:",
+        paymentId
+    );
+
+
+    let attempts = 0;
+
+    const maxAttempts = 120;
+
+
+    paymentStatusInterval =
+        setInterval(
+            async () => {
+
+                attempts++;
+
+
+                if (
+                    attempts > maxAttempts
+                ) {
+
+                    clearInterval(
+                        paymentStatusInterval
+                    );
+
+                    console.log(
+                        "Tempo máximo de acompanhamento atingido."
+                    );
+
+                    return;
+
+                }
+
+
+                try {
+
+                    const response =
+                        await fetch(
+                            `/api/check_payment?id=${encodeURIComponent(paymentId)}`
+                        );
+
+
+                    const data =
+                        await response.json();
+
+
+                    console.log(
+                        "Status do pagamento:",
+                        data.status,
+                        data.status_detail
+                    );
+
+
+                    if (!response.ok) {
+
+                        console.error(
+                            "Erro ao consultar pagamento:",
+                            data
+                        );
+
+                        return;
+
+                    }
+
+
+                    /* =================================================
+                       PAGAMENTO APROVADO
+                    ================================================= */
+
+                    if (
+                        data.status ===
+                        "approved"
+                    ) {
+
+                        clearInterval(
+                            paymentStatusInterval
+                        );
+
+
+                        console.log(
+                            "Pagamento aprovado!"
+                        );
+
+
+                        const paymentArea =
+                            document.getElementById(
+                                "payment-area"
+                            );
+
+
+                        const pixInfo =
+                            document.getElementById(
+                                "pix-info"
+                            );
+
+
+                        const successScreen =
+                            document.getElementById(
+                                "success-screen"
+                            );
+
+
+                        if (paymentArea) {
+
+                            paymentArea.style.display =
+                                "none";
+
+                        }
+
+
+                        if (pixInfo) {
+
+                            pixInfo.classList.remove(
+                                "active"
+                            );
+
+                        }
+
+
+                        if (successScreen) {
+
+                            successScreen.classList.add(
+                                "active"
+                            );
+
+                        }
+
+
+                        const orderElement =
+                            document.getElementById(
+                                "order-number"
+                            );
+
+
+                        if (orderElement) {
+
+                            orderElement.textContent =
+                                orderNumber;
+
+                        }
+
+
+                        return;
+
+                    }
+
+
+                    /* =================================================
+                       PAGAMENTO RECUSADO
+                    ================================================= */
+
+                    if (
+                        data.status ===
+                        "rejected"
+                    ) {
+
+                        clearInterval(
+                            paymentStatusInterval
+                        );
+
+
+                        alert(
+                            "O pagamento foi recusado pelo Mercado Pago."
+                        );
+
+
+                        return;
+
+                    }
+
+
+                    /*
+                     * pending:
+                     * continua consultando normalmente.
+                     */
+
+                } catch (error) {
+
+                    console.error(
+                        "Erro ao verificar status do pagamento:",
+                        error
+                    );
+
+                }
+
+            },
+            5000
+        );
+
+}
 
         /* =========================================================
            PAYMENT BRICK
@@ -1678,7 +1894,21 @@ const total =
                                     );
 
                                 }
+/* =========================================================
+   ACOMPANHAR PAGAMENTO
+========================================================= */
 
+if (
+    data.id &&
+    data.status === "pending"
+) {
+
+    startPaymentStatusCheck(
+        data.id,
+        orderNumber
+    );
+
+}
                                 if (
                                     data.status ===
                                     "rejected"
