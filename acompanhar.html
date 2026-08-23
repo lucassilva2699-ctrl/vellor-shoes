@@ -908,63 +908,55 @@ function formatStatus(
    TIMELINE
 ========================================================= */
 
-function updateTimeline(
-    status
-) {
+function updateTimeline(status) {
 
     const statusOrder = [
-
         "aguardando_pagamento",
-
         "pagamento_confirmado",
-
         "em_preparacao",
-
         "enviado",
-
         "concluido"
-
     ];
-
 
     const items =
         document.querySelectorAll(
             ".timeline-item"
         );
 
-
     const currentIndex =
-        statusOrder.indexOf(
-            status
+        statusOrder.indexOf(status);
+
+    items.forEach((item, index) => {
+
+        item.classList.remove(
+            "active",
+            "completed"
         );
 
+        if (
+            currentIndex >= 0 &&
+            index < currentIndex
+        ) {
 
-    items.forEach(
-        (
-            item,
-            index
-        ) => {
-
-            item.classList.remove(
-                "active",
+            item.classList.add(
                 "completed"
             );
 
+        }
 
-            if (
-                currentIndex >= 0 &&
-                index <= currentIndex
-            ) {
+        if (
+            currentIndex >= 0 &&
+            index === currentIndex
+        ) {
 
-                item.classList.add(
-                    "active"
-                );
-
-            }
+            item.classList.add(
+                "active"
+            );
 
         }
-    );
 
+    });
+}
 }
 
 </script>
