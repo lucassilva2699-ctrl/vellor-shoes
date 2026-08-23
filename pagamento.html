@@ -730,73 +730,17 @@
                         </h2>
 
 
-                        <div class="payment-methods">
+                        <div id="paymentBrick_container"></div>
+
+                        <div
+                            id="pix-info"
+                            class="pix-info"
+                        ></div>
 
 
-                            <label
-                                class="payment-method selected"
-                                data-method="pix"
-                            >
-
-                                <input
-                                    type="radio"
-                                    name="payment-method"
-                                    value="pix"
-                                    checked
-                                >
-
-                                <div class="payment-method-info">
-
-                                    <span class="payment-method-name">
-                                        Pix
-                                    </span>
-
-                                    <span class="payment-method-description">
-                                        Pagamento instantâneo
-                                    </span>
-
-                                </div>
-
-                            </label>
-
-
-                            <label
-                                class="payment-method"
-                                data-method="credit-card"
-                            >
-
-                                <input
-                                    type="radio"
-                                    name="payment-method"
-                                    value="credit-card"
-                                >
-
-                                <div class="payment-method-info">
-
-                                    <span class="payment-method-name">
-                                        Cartão de crédito
-                                    </span>
-
-                                    <span class="payment-method-description">
-                                        Pagamento com cartão
-                                    </span>
-
-                                </div>
-
-                            </label>
-
-
+                        <div class="payment-note">
+                            O pagamento será processado com segurança pelo Mercado Pago.
                         </div>
-</div>
-
-
-<div id="paymentBrick_container"></div>
-
-<div
-    id="pix-info"
-    class="pix-info"
->
-</div>
 
                     </section>
 
@@ -908,7 +852,7 @@
 
 
                 <p>
-                    Seu pagamento será confirmado conforme o status informado pelo Mercado Pago.
+                    O pagamento real será conectado posteriormente.
                 </p>
 
 
@@ -1021,164 +965,7 @@
 <script src="https://sdk.mercadopago.com/js/v2"></script>
 
     <script>
-      const mp = new MercadoPago(
-    "APP_USR-6475dd37-2821-4112-b402-540ce531935a"
-);
 
-const bricksBuilder = mp.bricks();
-        
-
-        /* =========================================================
-           FORMATAR PREÇO
-        ========================================================= */
-
-        function formatPrice(value) {
-
-            return Number(value || 0).toLocaleString(
-                "pt-BR",
-                {
-                    style: "currency",
-                    currency: "BRL"
-                }
-            );
-
-        }
-
-
-        /* =========================================================
-           RECUPERAR CHECKOUT
-        ========================================================= */
-
-        function getCheckout() {
-
-            try {
-
-                return JSON.parse(
-                    localStorage.getItem("vellorCheckout")
-                );
-
-            } catch (error) {
-
-                console.error(
-                    "Erro ao recuperar checkout:",
-                    error
-                );
-
-                return null;
-
-            }
-
-        }
-
-
-        /* =========================================================
-           CALCULAR SUBTOTAL
-        ========================================================= */
-
-        function calculateSubtotal(cart) {
-
-            return cart.reduce(
-                (total, item) => {
-
-                    return total +
-                        (
-                            Number(item.price || 0) *
-                            Number(item.quantity || 1)
-                        );
-
-                },
-                0
-            );
-
-        }
-
-
-        /* =========================================================
-           CARREGAR RESUMO
-        ========================================================= */
-
-        function loadSummary() {
-
-            const checkout =
-                getCheckout();
-
-            const paymentArea =
-                document.getElementById(
-                    "payment-area"
-                );
-
-            const emptyScreen =
-                document.getElementById(
-                    "empty-screen"
-                );
-
-
-            if (
-                !checkout ||
-                !Array.isArray(checkout.cart) ||
-                checkout.cart.length === 0
-            ) {
-
-                paymentArea.style.display = "none";
-
-                emptyScreen.style.display = "block";
-
-                return;
-
-            }
-
-
-            const cart =
-                checkout.cart;
-
-
-            const summaryItems =
-                document.getElementById(
-                    "summary-items"
-                );
-
-
-            summaryItems.innerHTML = "";
-
-
-            cart.forEach(item => {
-
-                const row =
-                  <script type="module">
-        import {
-            initializeApp
-        } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
-
-        import {
-            getFirestore,
-            collection,
-            addDoc,
-            serverTimestamp
-        } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
-
-        const firebaseConfig = {
-            apiKey: "AIzaSyDQdaiVEWUeIFQOMXzI9DluqDkl8ZeMS5o",
-            authDomain: "vellor-shoes.firebaseapp.com",
-            projectId: "vellor-shoes",
-            storageBucket: "vellor-shoes.firebasestorage.app",
-            messagingSenderId: "455357493198",
-            appId: "1:455357493198:web:f36451b846420b4dfde83f"
-        };
-
-        const app = initializeApp(firebaseConfig);
-        const db = getFirestore(app);
-
-        window.vellorFirestore = {
-            db,
-            collection,
-            addDoc,
-            serverTimestamp
-        };
-    </script>
-
-    <script src="https://sdk.mercadopago.com/js/v2"></script>
-
-    <script>
         /* =========================================================
            MERCADO PAGO
         ========================================================= */
@@ -1237,29 +1024,7 @@ const bricksBuilder = mp.bricks();
 
 
         /* =========================================================
-           SUBTOTAL
-        ========================================================= */
-
-        function calculateSubtotal(cart) {
-
-            return cart.reduce(
-                (total, item) => {
-
-                    return total +
-                        (
-                            Number(item.price || 0) *
-                            Number(item.quantity || 1)
-                        );
-
-                },
-                0
-            );
-
-        }
-
-
-        /* =========================================================
-           RESUMO
+           RESUMO DO PEDIDO
         ========================================================= */
 
         function loadSummary() {
@@ -1268,14 +1033,10 @@ const bricksBuilder = mp.bricks();
                 getCheckout();
 
             const paymentArea =
-                document.getElementById(
-                    "payment-area"
-                );
+                document.getElementById("payment-area");
 
             const emptyScreen =
-                document.getElementById(
-                    "empty-screen"
-                );
+                document.getElementById("empty-screen");
 
             if (
                 !checkout ||
@@ -1283,23 +1044,26 @@ const bricksBuilder = mp.bricks();
                 checkout.cart.length === 0
             ) {
 
-                paymentArea.style.display =
-                    "none";
+                if (paymentArea) {
+                    paymentArea.style.display = "none";
+                }
 
-                emptyScreen.style.display =
-                    "block";
+                if (emptyScreen) {
+                    emptyScreen.style.display = "block";
+                }
 
                 return;
 
             }
 
-            const cart =
-                checkout.cart;
+            const cart = checkout.cart;
 
             const summaryItems =
-                document.getElementById(
-                    "summary-items"
-                );
+                document.getElementById("summary-items");
+
+            if (!summaryItems) {
+                return;
+            }
 
             summaryItems.innerHTML = "";
 
@@ -1308,43 +1072,30 @@ const bricksBuilder = mp.bricks();
                 const row =
                     document.createElement("div");
 
-                row.className =
-                    "summary-item";
+                row.className = "summary-item";
 
                 const image =
                     document.createElement("img");
 
-                image.className =
-                    "summary-image";
-
-                image.alt =
-                    item.name || "Produto";
-
-                image.src =
-                    item.image ||
-                    "assets/logo.png";
+                image.className = "summary-image";
+                image.alt = item.name || "Produto";
+                image.src = item.image || "assets/logo.png";
 
                 const info =
                     document.createElement("div");
 
-                info.className =
-                    "summary-item-info";
+                info.className = "summary-item-info";
 
                 const name =
                     document.createElement("div");
 
-                name.className =
-                    "summary-item-name";
-
-                name.textContent =
-                    item.name || "Produto";
+                name.className = "summary-item-name";
+                name.textContent = item.name || "Produto";
 
                 const details =
                     document.createElement("div");
 
-                details.className =
-                    "summary-item-details";
-
+                details.className = "summary-item-details";
                 details.textContent =
                     `Tamanho: ${item.size || "-"} • Qtd.: ${item.quantity || 1}`;
 
@@ -1354,14 +1105,11 @@ const bricksBuilder = mp.bricks();
                 const price =
                     document.createElement("div");
 
-                price.className =
-                    "summary-item-price";
-
-                price.textContent =
-                    formatPrice(
-                        Number(item.price || 0) *
-                        Number(item.quantity || 1)
-                    );
+                price.className = "summary-item-price";
+                price.textContent = formatPrice(
+                    Number(item.price || 0) *
+                    Number(item.quantity || 1)
+                );
 
                 row.appendChild(image);
                 row.appendChild(info);
@@ -1372,36 +1120,43 @@ const bricksBuilder = mp.bricks();
             });
 
             const subtotal =
-                calculateSubtotal(cart);
+                cart.reduce(
+                    (total, item) =>
+                        total +
+                        Number(item.price || 0) *
+                        Number(item.quantity || 1),
+                    0
+                );
 
             const shipping =
-                Number(
-                    checkout.shipping?.cost || 0
-                );
+                Number(checkout.shipping?.cost || 0);
 
             const total =
                 subtotal + shipping;
 
-            document.getElementById(
-                "summary-subtotal"
-            ).textContent =
-                formatPrice(subtotal);
+            const subtotalEl =
+                document.getElementById("summary-subtotal");
 
-            document.getElementById(
-                "summary-shipping"
-            ).textContent =
-                formatPrice(shipping);
+            const shippingEl =
+                document.getElementById("summary-shipping");
 
-            document.getElementById(
-                "summary-total"
-            ).textContent =
-                formatPrice(total);
+            const totalEl =
+                document.getElementById("summary-total");
 
-            checkout.subtotal =
-                subtotal;
+            if (subtotalEl) {
+                subtotalEl.textContent = formatPrice(subtotal);
+            }
 
-            checkout.total =
-                total;
+            if (shippingEl) {
+                shippingEl.textContent = formatPrice(shipping);
+            }
+
+            if (totalEl) {
+                totalEl.textContent = formatPrice(total);
+            }
+
+            checkout.subtotal = subtotal;
+            checkout.total = total;
 
             localStorage.setItem(
                 "vellorCheckout",
@@ -1412,67 +1167,71 @@ const bricksBuilder = mp.bricks();
 
 
         /* =========================================================
-           STATUS / SUCESSO
+           TELA DE SUCESSO
         ========================================================= */
 
         function showSuccess(orderNumber) {
 
-            document.getElementById(
-                "payment-area"
-            ).style.display =
-                "none";
+            const paymentArea =
+                document.getElementById("payment-area");
 
-            document.getElementById(
-                "success-screen"
-            ).classList.add(
-                "active"
-            );
+            const successScreen =
+                document.getElementById("success-screen");
 
-            document.getElementById(
-                "order-number"
-            ).textContent =
-                orderNumber;
+            const orderNumberElement =
+                document.getElementById("order-number");
+
+            if (paymentArea) {
+                paymentArea.style.display = "none";
+            }
+
+            if (successScreen) {
+                successScreen.classList.add("active");
+            }
+
+            if (orderNumberElement) {
+                orderNumberElement.textContent = orderNumber;
+            }
 
         }
 
 
+        /* =========================================================
+           PAGAMENTO PENDENTE
+        ========================================================= */
+
         function showPending(orderNumber) {
 
             const pixInfo =
-                document.getElementById(
-                    "pix-info"
-                );
+                document.getElementById("pix-info");
 
-            if (pixInfo) {
-
-                pixInfo.innerHTML = `
-                    <div class="pix-info-title">
-                        Pagamento pendente
-                    </div>
-
-                    <div class="pix-info-text">
-                        Seu pedido foi registrado, mas o pagamento
-                        ainda não foi confirmado.
-                    </div>
-
-                    <div style="
-                        margin-top:15px;
-                        padding:12px;
-                        background:#fff;
-                        border:1px solid #e5e5e5;
-                        border-radius:10px;
-                        color:#333;
-                        font-size:13px;
-                    ">
-                        Pedido: <strong>${orderNumber}</strong>
-                    </div>
-                `;
-
-                pixInfo.classList.add(
-                    "active"
-                );
-
+            if (!pixInfo) {
+                return;
             }
+
+            pixInfo.innerHTML = `
+                <div class="pix-info-title">
+                    Pagamento pendente
+                </div>
+
+                <div class="pix-info-text">
+                    Seu pedido foi registrado, mas o pagamento ainda não foi confirmado.
+                </div>
+
+                <div style="
+                    margin-top:15px;
+                    padding:12px;
+                    background:#fff;
+                    border:1px solid #e5e5e5;
+                    border-radius:10px;
+                    color:#333;
+                    font-size:13px;
+                ">
+                    Pedido: <strong>${orderNumber}</strong>
+                </div>
+            `;
+
+            pixInfo.classList.add("active");
 
         }
 
@@ -1487,14 +1246,9 @@ const bricksBuilder = mp.bricks();
                 data.point_of_interaction?.transaction_data;
 
             const pixInfo =
-                document.getElementById(
-                    "pix-info"
-                );
+                document.getElementById("pix-info");
 
-            if (
-                !pixInfo ||
-                !transactionData
-            ) {
+            if (!pixInfo || !transactionData) {
 
                 showPending(orderNumber);
                 return;
@@ -1513,8 +1267,7 @@ const bricksBuilder = mp.bricks();
                 </div>
 
                 <div class="pix-info-text">
-                    Escaneie o QR Code pelo aplicativo do seu banco
-                    ou copie o código Pix abaixo.
+                    Escaneie o QR Code pelo aplicativo do seu banco ou copie o código Pix abaixo.
                 </div>
 
                 ${
@@ -1608,26 +1361,18 @@ const bricksBuilder = mp.bricks();
                     color:#777;
                     text-align:center;
                 ">
-                    Após realizar o pagamento,
-                    aguarde a confirmação.
+                    Após realizar o pagamento, aguarde a confirmação.
                     <br>
                     Pedido: <strong>${orderNumber}</strong>
                 </div>
             `;
 
-            pixInfo.classList.add(
-                "active"
-            );
+            pixInfo.classList.add("active");
 
             const copyPix =
-                document.getElementById(
-                    "copy-pix"
-                );
+                document.getElementById("copy-pix");
 
-            if (
-                copyPix &&
-                qrCode
-            ) {
+            if (copyPix && qrCode) {
 
                 copyPix.addEventListener(
                     "click",
@@ -1635,9 +1380,7 @@ const bricksBuilder = mp.bricks();
 
                         try {
 
-                            await navigator.clipboard.writeText(
-                                qrCode
-                            );
+                            await navigator.clipboard.writeText(qrCode);
 
                             copyPix.textContent =
                                 "PIX COPIADO ✓";
@@ -1692,9 +1435,11 @@ const bricksBuilder = mp.bricks();
                 paymentStatus:
                     paymentData.status || "pending",
 
+                paymentStatusDetail:
+                    paymentData.status_detail || null,
+
                 paymentMethod:
-                    formData.payment_method_id ||
-                    null,
+                    formData.payment_method_id || null,
 
                 customer:
                     checkout.customer,
@@ -1752,8 +1497,8 @@ const bricksBuilder = mp.bricks();
 
             if (
                 !checkout ||
-                !checkout.cart ||
-                !checkout.cart.length
+                !Array.isArray(checkout.cart) ||
+                checkout.cart.length === 0
             ) {
 
                 return;
@@ -1761,9 +1506,18 @@ const bricksBuilder = mp.bricks();
             }
 
             const amount =
-                Number(
-                    checkout.total || 0
+                Number(checkout.total || 0);
+
+            if (!Number.isFinite(amount) || amount <= 0) {
+
+                console.error(
+                    "Valor do checkout inválido:",
+                    amount
                 );
+
+                return;
+
+            }
 
             const settings = {
 
@@ -1775,8 +1529,7 @@ const bricksBuilder = mp.bricks();
                     payer: {
 
                         email:
-                            checkout.customer?.email ||
-                            ""
+                            checkout.customer?.email || ""
 
                     }
 
@@ -1817,28 +1570,20 @@ const bricksBuilder = mp.bricks();
                     },
 
                     onSubmit:
-                        async ({
-                            selectedPaymentMethod,
-                            formData
-                        }) => {
+                        async ({ selectedPaymentMethod, formData }) => {
 
                             console.log(
                                 "Método selecionado:",
                                 selectedPaymentMethod
                             );
 
-                            console.log(
-                                "Dados enviados pelo Brick:",
-                                formData
-                            );
-
                             try {
 
-                                const checkout =
+                                const currentCheckout =
                                     getCheckout();
 
                                 if (
-                                    !checkout
+                                    !currentCheckout
                                 ) {
 
                                     throw new Error(
@@ -1871,11 +1616,6 @@ const bricksBuilder = mp.bricks();
                                     orderNumber
                                 );
 
-                                console.log(
-                                    "Dados enviados ao Mercado Pago:",
-                                    paymentData
-                                );
-
                                 const response =
                                     await fetch(
                                         "/api/process_payment",
@@ -1895,25 +1635,46 @@ const bricksBuilder = mp.bricks();
                                         }
                                     );
 
-                                const data =
-                                    await response.json();
+                                const responseText =
+                                    await response.text();
+
+                                let data;
+
+                                try {
+
+                                    data =
+                                        JSON.parse(
+                                            responseText
+                                        );
+
+                                } catch {
+
+                                    throw new Error(
+                                        "O servidor retornou uma resposta inválida."
+                                    );
+
+                                }
 
                                 console.log(
                                     "Resposta do backend:",
-                                    JSON.stringify(
-                                        data,
-                                        null,
-                                        2
-                                    )
+                                    {
+                                        httpStatus:
+                                            response.status,
+                                        paymentId:
+                                            data.id || null,
+                                        status:
+                                            data.status || null,
+                                        statusDetail:
+                                            data.status_detail || null
+                                    }
                                 );
 
-                                if (
-                                    !response.ok
-                                ) {
+                                if (!response.ok) {
 
                                     throw new Error(
                                         data.error ||
                                         data.message ||
+                                        data.cause?.[0]?.description ||
                                         "Erro ao processar pagamento."
                                     );
 
@@ -1935,7 +1696,7 @@ const bricksBuilder = mp.bricks();
                                         orderNumber,
                                         data,
                                         formData,
-                                        checkout
+                                        currentCheckout
                                     );
 
                                 if (
@@ -2020,3 +1781,8 @@ const bricksBuilder = mp.bricks();
         renderPaymentBrick();
 
     </script>
+    
+
+</body>
+
+</html>
