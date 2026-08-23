@@ -939,12 +939,14 @@
         initializeApp
     } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
 
-    import {
-        getFirestore,
-        collection,
-        addDoc,
-        serverTimestamp
-    } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
+   import {
+    getFirestore,
+    collection,
+    addDoc,
+    doc,
+    updateDoc,
+    serverTimestamp
+} from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
 
     const firebaseConfig = {
        apiKey: "AIzaSyDQdaiVEWUeIFQOMXzI9DluqDkl8ZeMS5o",
@@ -958,12 +960,14 @@
     const app = initializeApp(firebaseConfig);
     const db = getFirestore(app);
 
-    window.vellorFirestore = {
-        db,
-        collection,
-        addDoc,
-        serverTimestamp
-    };
+   window.vellorFirestore = {
+    db,
+    collection,
+    addDoc,
+    doc,
+    updateDoc,
+    serverTimestamp
+};
 </script>
 
 <script src="https://sdk.mercadopago.com/js/v2"></script>
@@ -1497,7 +1501,8 @@ let paymentStatusInterval = null;
 
 function startPaymentStatusCheck(
     paymentId,
-    orderNumber
+    orderNumber,
+    orderId
 ) {
 
     if (!paymentId) {
@@ -1592,7 +1597,58 @@ function startPaymentStatusCheck(
                         console.log(
                             "Pagamento aprovado!"
                         );
+                        
+/* =========================================================
+   ATUALIZAR PEDIDO NO FIRESTORE
+========================================================= */
 
+if (orderId) {
+
+    try {
+
+        const {
+            db,
+            doc,
+            updateDoc
+        } = window.vellorFirestore;
+
+        const orderRef =
+            doc(
+                db,
+                "orders",
+                orderId
+            );
+
+        await updateDoc(
+            orderRef,
+            {
+                paymentStatus:
+                    "approved",
+
+                paymentStatusDetail:
+                    data.status_detail ||
+                    "accredited",
+
+                paymentApprovedAt:
+                    new Date()
+            }
+        );
+
+        console.log(
+            "Pedido atualizado no Firestore:",
+            orderId
+        );
+
+    } catch (error) {
+
+        console.error(
+            "Erro ao atualizar pedido no Firestore:",
+            error
+        );
+
+    }
+
+}
 
                         const paymentArea =
                             document.getElementById(
@@ -1897,18 +1953,6 @@ function startPaymentStatusCheck(
 /* =========================================================
    ACOMPANHAR PAGAMENTO
 ========================================================= */
-
-if (
-    data.id &&
-    data.status === "pending"
-) {
-
-    startPaymentStatusCheck(
-        data.id,
-        orderNumber
-    );
-
-}
                                 if (
                                     data.status ===
                                     "rejected"
@@ -1927,7 +1971,22 @@ if (
                                         formData,
                                         currentCheckout
                                     );
+/* =========================================================
+   ACOMPANHAR PAGAMENTO
+========================================================= */
 
+if (
+    data.id &&
+    data.status === "pending"
+) {
+
+    startPaymentStatusCheck(
+        data.id,
+        orderNumber,
+        orderData.id
+    );
+
+}
                                 if (
                                     data.status ===
                                     "approved"
