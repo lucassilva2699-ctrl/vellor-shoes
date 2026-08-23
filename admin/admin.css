@@ -4345,3 +4345,146 @@ body {
 
     font-size: 12px;
 }
+/* =========================================================
+   RESPONSIVIDADE FINAL — PAINEL ADMINISTRATIVO
+   ========================================================= */
+
+/* TABLET / CELULAR */
+@media (max-width: 900px) {
+
+    /* Sidebar deixa de ficar sobre o conteúdo */
+    .admin-sidebar {
+        position: relative !important;
+        top: auto !important;
+        left: auto !important;
+        bottom: auto !important;
+
+        width: 100% !important;
+        height: auto !important;
+        min-height: 0 !important;
+
+        margin: 0 !important;
+
+        border-right: none !important;
+        border-bottom: 1px solid #29292e !important;
+
+        overflow: visible !important;
+    }
+
+    /* Logo */
+    .admin-sidebar-logo {
+        width: 100% !important;
+        height: 82px !important;
+
+        display: flex !important;
+        align-items: center !important;
+        justify-content: center !important;
+
+        padding: 0 20px !important;
+    }
+
+    .admin-sidebar-logo img {
+        width: 160px !important;
+        max-width: 100% !important;
+    }
+
+    /* Menu */
+    .admin-navigation {
+        width: 100% !important;
+
+        display: grid !important;
+        grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+
+        gap: 8px !important;
+
+        padding: 16px !important;
+
+        overflow: visible !important;
+    }
+
+    .admin-nav-section {
+        margin-bottom: 0 !important;
+    }
+
+    /* Área inferior da sidebar */
+    .admin-sidebar-bottom {
+        width: 100% !important;
+
+        display: flex !important;
+        flex-direction: row !important;
+
+        gap: 8px !important;
+
+        padding: 14px 16px !important;
+    }
+
+    .admin-store-link,
+    .admin-logout-button {
+        flex: 1 !important;
+        margin-bottom: 0 !important;
+    }
+
+    /* Conteúdo */
+    .admin-main {
+        width: 100% !important;
+        max-width: 100% !important;
+
+        margin-left: 0 !important;
+
+        padding: 28px 22px 42px !important;
+
+        box-sizing: border-box !important;
+    }
+}
+
+
+/* CELULAR */
+@media (max-width: 600px) {
+
+    .admin-sidebar-logo {
+        height: 72px !important;
+    }
+
+    .admin-sidebar-logo img {
+        width: 145px !important;
+    }
+
+    .admin-navigation {
+        grid-template-columns: 1fr !important;
+        padding: 12px !important;
+    }
+
+    .admin-nav-link {
+        min-height: 44px !important;
+    }
+
+    .admin-sidebar-bottom {
+        flex-direction: column !important;
+        padding: 12px !important;
+    }
+
+    .admin-store-link,
+    .admin-logout-button {
+        width: 100% !important;
+    }
+
+    .admin-main {
+        width: 100% !important;
+        margin-left: 0 !important;
+
+        padding: 24px 15px 34px !important;
+    }
+
+    .admin-topbar {
+        gap: 15px !important;
+        margin-bottom: 24px !important;
+    }
+
+    .admin-topbar h1 {
+        font-size: 24px !important;
+    }
+
+    .admin-user-area {
+        flex-shrink: 0 !important;
+    }
+}
