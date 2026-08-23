@@ -1248,10 +1248,10 @@ if (shouldRestoreStock) {
             );
 
 
-            alert(
-                "Não foi possível atualizar o status do pedido."
+                      alert(
+                "ERRO AO SALVAR STATUS:\n\n" +
+                (error?.message || error)
             );
-
 
             saveStatusButton.disabled = false;
 
