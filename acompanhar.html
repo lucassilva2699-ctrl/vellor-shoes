@@ -583,129 +583,390 @@
         © 2026 <span>Vellor Shoes</span>. Todos os direitos reservados.
     </footer>
 <script>
-document.addEventListener("DOMContentLoaded", function () {
 
-    const button = document.getElementById("track-button");
+let trackingInterval = null;
+let currentOrderNumber = null;
+let currentPhone = null;
 
-    button.addEventListener("click", async function () {
 
-        const orderNumber =
-            document.getElementById("order-number").value.trim();
+/* =========================================================
+   CONSULTAR PEDIDO
+========================================================= */
 
-        const phone =
-            document.getElementById("customer-phone").value.trim();
+async function consultarPedido(
+    orderNumber,
+    phone
+) {
 
-        if (!orderNumber || !phone) {
-            alert("Informe o número do pedido e o celular.");
-            return;
-        }
+    const response =
+        await fetch(
+            "/api/consultar-pedido",
+            {
+                method: "POST",
 
-        button.disabled = true;
-        button.textContent = "CONSULTANDO...";
+                headers: {
+                    "Content-Type":
+                        "application/json"
+                },
 
-        try {
+                body: JSON.stringify({
 
-            const response = await fetch(
-                "/api/consultar-pedido",
-                {
-                    method: "POST",
-                    headers: {
-                        "Content-Type": "application/json"
-                    },
-                    body: JSON.stringify({
+                    orderNumber:
                         orderNumber,
+
+                    phone:
                         phone
-                    })
+
+                })
+            }
+        );
+
+
+    const data =
+        await response.json();
+
+
+    if (!response.ok) {
+
+        throw new Error(
+            data.error ||
+            "Erro ao consultar pedido."
+        );
+
+    }
+
+
+    return data;
+
+}
+
+
+/* =========================================================
+   ATUALIZAR TELA
+========================================================= */
+
+function renderOrder(
+    order
+) {
+
+    document.getElementById(
+        "result-order-number"
+    ).textContent =
+        order.orderNumber;
+
+
+    document.getElementById(
+        "result-status"
+    ).textContent =
+        formatStatus(
+            order.status
+        );
+
+
+    updateTimeline(
+        order.status
+    );
+
+
+    document
+        .getElementById(
+            "tracking-result"
+        )
+        .classList.add(
+            "visible"
+        );
+
+}
+
+
+/* =========================================================
+   ACOMPANHAMENTO AUTOMÁTICO
+========================================================= */
+
+function startTracking() {
+
+    if (trackingInterval) {
+
+        clearInterval(
+            trackingInterval
+        );
+
+    }
+
+
+    trackingInterval =
+        setInterval(
+            async () => {
+
+                if (
+                    !currentOrderNumber ||
+                    !currentPhone
+                ) {
+
+                    return;
+
                 }
+
+
+                try {
+
+                    const data =
+                        await consultarPedido(
+                            currentOrderNumber,
+                            currentPhone
+                        );
+
+
+                    renderOrder(
+                        data.order
+                    );
+
+
+                    console.log(
+                        "Pedido atualizado automaticamente:",
+                        data.order.status
+                    );
+
+
+                } catch (error) {
+
+                    console.error(
+                        "Erro na atualização automática:",
+                        error
+                    );
+
+                }
+
+            },
+            5000
+        );
+
+}
+
+
+/* =========================================================
+   BOTÃO CONSULTAR
+========================================================= */
+
+document.addEventListener(
+    "DOMContentLoaded",
+    function () {
+
+        const button =
+            document.getElementById(
+                "track-button"
             );
 
-            const data = await response.json();
 
-            if (!response.ok) {
-                throw new Error(
-                    data.error || "Erro ao consultar pedido."
-                );
+        button.addEventListener(
+            "click",
+            async function () {
+
+                const orderNumber =
+                    document
+                        .getElementById(
+                            "order-number"
+                        )
+                        .value
+                        .trim();
+
+
+                const phone =
+                    document
+                        .getElementById(
+                            "customer-phone"
+                        )
+                        .value
+                        .trim();
+
+
+                if (
+                    !orderNumber ||
+                    !phone
+                ) {
+
+                    alert(
+                        "Informe o número do pedido e o celular."
+                    );
+
+                    return;
+
+                }
+
+
+                button.disabled =
+                    true;
+
+                button.textContent =
+                    "CONSULTANDO...";
+
+
+                try {
+
+                    const data =
+                        await consultarPedido(
+                            orderNumber,
+                            phone
+                        );
+
+
+                    /* -----------------------------------------
+                       GUARDAR DADOS PARA ATUALIZAÇÃO AUTOMÁTICA
+                    ----------------------------------------- */
+
+                    currentOrderNumber =
+                        orderNumber;
+
+                    currentPhone =
+                        phone;
+
+
+                    /* -----------------------------------------
+                       MOSTRAR PEDIDO
+                    ----------------------------------------- */
+
+                    renderOrder(
+                        data.order
+                    );
+
+
+                    /* -----------------------------------------
+                       INICIAR ATUALIZAÇÃO AUTOMÁTICA
+                    ----------------------------------------- */
+
+                    startTracking();
+
+
+                } catch (error) {
+
+                    console.error(
+                        error
+                    );
+
+                    alert(
+                        error.message
+                    );
+
+                } finally {
+
+                    button.disabled =
+                        false;
+
+                    button.textContent =
+                        "CONSULTAR PEDIDO";
+
+                }
+
             }
+        );
 
-            document.getElementById(
-                "result-order-number"
-            ).textContent =
-                data.order.orderNumber;
-
-            document.getElementById(
-                "result-status"
-            ).textContent =
-                formatStatus(data.order.status);
-            updateTimeline(data.order.status);
-
-            document
-                .getElementById("tracking-result")
-                .classList.add("visible");
-
-        } catch (error) {
-
-            console.error(error);
-            alert(error.message);
-
-        } finally {
-
-            button.disabled = false;
-            button.textContent = "CONSULTAR PEDIDO";
-
-        }
-
-    });
-
-});
+    }
+);
 
 
-function formatStatus(status) {
+/* =========================================================
+   STATUS
+========================================================= */
+
+function formatStatus(
+    status
+) {
 
     const statuses = {
-        aguardando_pagamento: "Aguardando pagamento",
-        pagamento_confirmado: "Pagamento confirmado",
-        em_preparacao: "Em preparação",
-        enviado: "Enviado",
-        concluido: "Concluído",
-        cancelado: "Cancelado"
+
+        aguardando_pagamento:
+            "Aguardando pagamento",
+
+        pagamento_confirmado:
+            "Pagamento confirmado",
+
+        em_preparacao:
+            "Em preparação",
+
+        enviado:
+            "Enviado",
+
+        concluido:
+            "Concluído",
+
+        cancelado:
+            "Cancelado"
+
     };
 
-    return statuses[status] || status;
+
+    return (
+        statuses[status] ||
+        status ||
+        "Aguardando pagamento"
+    );
+
 }
-    function updateTimeline(status) {
+
+
+/* =========================================================
+   TIMELINE
+========================================================= */
+
+function updateTimeline(
+    status
+) {
 
     const statusOrder = [
+
         "aguardando_pagamento",
-        "pago",
+
+        "pagamento_confirmado",
+
         "em_preparacao",
+
         "enviado",
+
         "concluido"
+
     ];
+
 
     const items =
         document.querySelectorAll(
             ".timeline-item"
         );
 
+
     const currentIndex =
-        statusOrder.indexOf(status);
-
-    items.forEach((item, index) => {
-
-        item.classList.remove(
-            "active",
-            "completed"
+        statusOrder.indexOf(
+            status
         );
 
-        if (
-            currentIndex >= 0 &&
-            index <= currentIndex
-        ) {
-            item.classList.add("active");
-        }
 
-    });
+    items.forEach(
+        (
+            item,
+            index
+        ) => {
+
+            item.classList.remove(
+                "active",
+                "completed"
+            );
+
+
+            if (
+                currentIndex >= 0 &&
+                index <= currentIndex
+            ) {
+
+                item.classList.add(
+                    "active"
+                );
+
+            }
+
+        }
+    );
+
 }
+
 </script>
 </body>
 </html>
