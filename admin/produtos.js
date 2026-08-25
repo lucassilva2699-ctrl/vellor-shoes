@@ -2601,7 +2601,27 @@ const finalImages =
                     sku,
 
                     description,
+    /* DADOS DE ENVIO */
 
+    weight:
+        Number(
+            $("product-weight")?.value || 0
+        ),
+
+    height:
+        Number(
+            $("product-height")?.value || 0
+        ),
+
+    width:
+        Number(
+            $("product-width")?.value || 0
+        ),
+
+    length:
+        Number(
+            $("product-length")?.value || 0
+        ),
 
                     menu: {
 
