@@ -90,7 +90,7 @@ function getStatusLabel(status) {
 
         aguardando_pagamento: "Aguardando pagamento",
 
-        pago: "Pago",
+        pago: "Pagamento confirmado",
 
         em_preparacao: "Em preparação",
 
@@ -101,7 +101,7 @@ function getStatusLabel(status) {
         cancelado: "Cancelado"
     };
 
-    return labels[status] || status || "Indefinido";
+    return labels[status] || "Indefinido";
 }
 
 
@@ -339,12 +339,44 @@ async function loadOrders() {
         );
 
 
-        orders = snapshot.docs.map(
-            document => ({
-                id: document.id,
-                ...document.data()
-            })
-        );
+      orders = snapshot.docs.map(
+    document => {
+
+        const data = document.data();
+
+        let status = data.status;
+
+        /*
+         * Se o pagamento já foi aprovado,
+         * mas o status operacional ainda não existe,
+         * consideramos o pedido como pago.
+         */
+        if (
+            !status &&
+            data.paymentStatus === "approved"
+        ) {
+            status = "pago";
+        }
+
+        /*
+         * Se ainda não existe status e o pagamento
+         * está pendente, mantemos como aguardando pagamento.
+         */
+        if (
+            !status &&
+            data.paymentStatus === "pending"
+        ) {
+            status = "aguardando_pagamento";
+        }
+
+        return {
+            id: document.id,
+            ...data,
+            status
+        };
+
+    }
+);
 
 
         orders.sort((a, b) => {
