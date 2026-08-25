@@ -4488,3 +4488,205 @@ body {
         flex-shrink: 0 !important;
     }
 }
+/* =========================================================
+   07 — INFORMAÇÕES DE ENVIO
+========================================================= */
+
+.shipping-section {
+    padding: 28px 27px 30px;
+    border-top: 1px solid #292d34;
+    border-bottom: 1px solid #292d34;
+    background: #101216;
+}
+
+.shipping-section-number {
+    display: block;
+    margin-bottom: 3px;
+
+    color: #ffffff;
+    font-size: 13px;
+    font-weight: 500;
+}
+
+.shipping-section h3 {
+    margin: 0 0 2px;
+
+    color: #ffffff;
+    font-size: 16px;
+    line-height: 1.3;
+    font-weight: 700;
+}
+
+.shipping-section-description {
+    margin: 0 0 4px;
+
+    color: #ffffff;
+    font-size: 13px;
+    line-height: 1.4;
+}
+
+
+/* =========================================================
+   CAMPOS
+========================================================= */
+
+.shipping-fields {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    column-gap: 24px;
+    row-gap: 14px;
+}
+
+.shipping-field {
+    display: flex;
+    align-items: center;
+    min-width: 0;
+}
+
+.shipping-field label {
+    flex-shrink: 0;
+
+    margin-right: 5px;
+
+    color: #ffffff;
+    font-size: 13px;
+    font-weight: 600;
+    white-space: nowrap;
+}
+
+.shipping-field input {
+    width: 100%;
+    height: 27px;
+
+    padding: 3px 7px;
+
+    background: #ffffff;
+    border: 1px solid #cfcfcf;
+    border-radius: 0;
+
+    color: #222222;
+    font-family: "Poppins", sans-serif;
+    font-size: 11px;
+
+    outline: none;
+}
+
+.shipping-field input:focus {
+    border-color: #007BFF;
+    box-shadow: 0 0 0 1px #007BFF;
+}
+
+.shipping-field input::placeholder {
+    color: #777777;
+}
+
+
+/* =========================================================
+   OBSERVAÇÃO
+========================================================= */
+
+.shipping-help {
+    margin-top: 5px;
+
+    color: #ffffff;
+    font-size: 11px;
+    line-height: 1.4;
+}
+
+
+/* =========================================================
+   RODAPÉ DO MODAL
+========================================================= */
+
+.shipping-footer {
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    gap: 10px;
+
+    padding: 18px 27px;
+
+    border-top: 1px solid #292d34;
+    background: #101216;
+}
+
+
+/* =========================================================
+   BOTÃO CANCELAR
+========================================================= */
+
+.shipping-cancel {
+    height: 39px;
+
+    padding: 0 17px;
+
+    border: 1px solid #30353d;
+    border-radius: 9px;
+
+    background: transparent;
+    color: #bfc3ca;
+
+    font-family: "Poppins", sans-serif;
+    font-size: 12px;
+    font-weight: 500;
+
+    cursor: pointer;
+
+    transition: .2s ease;
+}
+
+.shipping-cancel:hover {
+    border-color: #454b55;
+    background: #181b20;
+    color: #ffffff;
+}
+
+
+/* =========================================================
+   BOTÃO CONTINUAR
+========================================================= */
+
+.shipping-continue {
+    height: 39px;
+
+    padding: 0 19px;
+
+    border: 0;
+    border-radius: 9px;
+
+    background: #007BFF;
+    color: #ffffff;
+
+    font-family: "Poppins", sans-serif;
+    font-size: 12px;
+    font-weight: 700;
+
+    cursor: pointer;
+
+    transition: .2s ease;
+}
+
+.shipping-continue:hover {
+    background: #1688ff;
+}
+
+.shipping-continue:active {
+    transform: scale(.98);
+}
+
+
+/* =========================================================
+   RESPONSIVO
+========================================================= */
+
+@media (max-width: 650px) {
+
+    .shipping-fields {
+        grid-template-columns: 1fr;
+    }
+
+    .shipping-footer {
+        padding: 16px 20px;
+    }
+
+}
