@@ -571,61 +571,18 @@
                         </div>
 
 
-                        <div class="shipping-options">
+                        <div
+    class="shipping-options"
+    id="shipping-options"
+>
 
-    <label class="shipping-option">
+    <div class="shipping-loading" id="shipping-loading" hidden>
+        Calculando opções de frete...
+    </div>
 
-        <input
-            type="radio"
-            name="shipping"
-            value="standard"
-            checked
-        >
-
-        <div>
-
-            <strong>
-                Envio padrão
-            </strong>
-
-            <span>
-                Prazo calculado após informar o endereço
-            </span>
-
-        </div>
-
-        <strong id="standard-shipping-price">
-            A calcular
-        </strong>
-
-    </label>
-
-
-    <label class="shipping-option">
-
-        <input
-            type="radio"
-            name="shipping"
-            value="express"
-        >
-
-        <div>
-
-            <strong>
-                Envio expresso
-            </strong>
-
-            <span>
-                Disponibilidade e prazo serão calculados
-            </span>
-
-        </div>
-
-        <strong id="express-shipping-price">
-            A calcular
-        </strong>
-
-    </label>
+    <div class="shipping-message" id="shipping-message">
+        Informe seu CEP para calcular o frete.
+    </div>
 
 </div>
 
@@ -971,247 +928,497 @@ const cityInput =
 const complementInput =
     document.getElementById("customer-complement");
 
-    const standardShippingPrice =
-    document.getElementById("standard-shipping-price");
+  const shippingOptionsContainer =
+    document.getElementById("shipping-options");
 
-const expressShippingPrice =
-    document.getElementById("express-shipping-price");
+const shippingLoading =
+    document.getElementById("shipping-loading");
 
+const shippingMessage =
+    document.getElementById("shipping-message");
 
 /* ==================================================
-   FRETE
+   FRETE REAL — MELHOR ENVIO
 ================================================== */
 
 let currentShippingCost = null;
-
 let currentShippingLabel = "A calcular";
+let currentShippingOption = null;
 
 
 /* ==================================================
-   CALCULAR FRETE
+   MOSTRAR MENSAGEM DE FRETE
 ================================================== */
 
-function calculateShipping(cep, type) {
+function showShippingMessage(message) {
 
-    const cleanCep =
-        cep.replace(/\D/g, "");
+    shippingOptionsContainer.innerHTML = `
 
-    if (cleanCep.length !== 8) {
+        <div
+            class="shipping-message"
+            id="shipping-message"
+        >
+            ${message}
+        </div>
 
-        return null;
-
-    }
-
-
-    const cepNumber =
-        Number(cleanCep);
-
-
-    /*
-       Cálculo provisório por região.
-
-       Esses valores serão substituídos posteriormente
-       pela API de frete real.
-    */
-
-
-    let standard = 19.90;
-    let express = 34.90;
-
-
-    /*
-       Faixa aproximada para SP
-    */
-
-    if (
-        cepNumber >= 1000000 &&
-        cepNumber <= 19999999
-    ) {
-
-        standard = 14.90;
-        express = 24.90;
-
-    }
-
-
-    /*
-       Faixa aproximada para RJ
-    */
-
-    else if (
-        cepNumber >= 20000000 &&
-        cepNumber <= 28999999
-    ) {
-
-        standard = 24.90;
-        express = 39.90;
-
-    }
-
-
-    /*
-       Faixa aproximada para MG
-    */
-
-    else if (
-        cepNumber >= 30000000 &&
-        cepNumber <= 39999999
-    ) {
-
-        standard = 24.90;
-        express = 39.90;
-
-    }
-
-
-    /*
-       Faixa aproximada para PR
-    */
-
-    else if (
-        cepNumber >= 80000000 &&
-        cepNumber <= 87999999
-    ) {
-
-        standard = 29.90;
-        express = 44.90;
-
-    }
-
-
-    /*
-       Faixa aproximada para SC
-    */
-
-    else if (
-        cepNumber >= 88000000 &&
-        cepNumber <= 89999999
-    ) {
-
-        standard = 29.90;
-        express = 44.90;
-
-    }
-
-
-    /*
-       Faixa aproximada para RS
-    */
-
-    else if (
-        cepNumber >= 90000000 &&
-        cepNumber <= 99999999
-    ) {
-
-        standard = 34.90;
-        express = 49.90;
-
-    }
-
-
-    /*
-       Demais regiões
-    */
-
-    else {
-
-        standard = 34.90;
-        express = 54.90;
-
-    }
-
-
-    return type === "express"
-        ? express
-        : standard;
+    `;
 
 }
 
 
 /* ==================================================
-   ATUALIZAR FRETE E TOTAL
+   MOSTRAR CARREGAMENTO
 ================================================== */
-function updateShipping() {
+
+function showShippingLoading() {
+
+    shippingOptionsContainer.innerHTML = `
+
+        <div
+            class="shipping-loading"
+        >
+            Calculando opções de frete...
+        </div>
+
+    `;
+
+}
+
+
+/* ==================================================
+   CALCULAR FRETE REAL
+================================================== */
+
+async function calculateRealShipping() {
 
     const cart = getCart();
 
-    if (cart.length === 0) {
+    const cep =
+        cepInput.value.replace(/\D/g, "");
+
+
+    /* ==================================================
+       VALIDAR CARRINHO
+    ================================================== */
+
+    if (!cart.length) {
 
         currentShippingCost = null;
         currentShippingLabel = "A calcular";
+        currentShippingOption = null;
 
-        standardShippingPrice.textContent = "A calcular";
-        expressShippingPrice.textContent = "A calcular";
+        checkoutShipping.textContent =
+            "A calcular";
 
-        checkoutShipping.textContent = "A calcular";
-        checkoutTotal.textContent = formatPrice(0);
+        checkoutTotal.textContent =
+            formatPrice(0);
+
+        showShippingMessage(
+            "Seu carrinho está vazio."
+        );
 
         return;
+
     }
 
-    const cep = cepInput.value.replace(/\D/g, "");
+
+    /* ==================================================
+       VALIDAR CEP
+    ================================================== */
 
     if (cep.length !== 8) {
 
         currentShippingCost = null;
         currentShippingLabel = "A calcular";
+        currentShippingOption = null;
 
-        standardShippingPrice.textContent = "A calcular";
-        expressShippingPrice.textContent = "A calcular";
-
-        checkoutShipping.textContent = "A calcular";
-
-        const subtotal = calculateSubtotal();
+        checkoutShipping.textContent =
+            "A calcular";
 
         checkoutTotal.textContent =
-            formatPrice(subtotal);
+            formatPrice(
+                calculateSubtotal()
+            );
+
+        showShippingMessage(
+            "Informe seu CEP para calcular o frete."
+        );
 
         return;
+
     }
 
-    const standardCost =
-        calculateShipping(cep, "standard");
 
-    const expressCost =
-        calculateShipping(cep, "express");
+    /* ==================================================
+       ESTADO DE CARREGAMENTO
+    ================================================== */
 
-    standardShippingPrice.textContent =
-        formatPrice(standardCost);
-
-    expressShippingPrice.textContent =
-        formatPrice(expressCost);
-
-    const shippingType =
-        document.querySelector(
-            'input[name="shipping"]:checked'
-        )?.value || "standard";
-
-    const shippingCost =
-        shippingType === "express"
-            ? expressCost
-            : standardCost;
-
-    currentShippingCost =
-        shippingCost;
-
-    currentShippingLabel =
-        shippingType === "express"
-            ? "Envio expresso"
-            : "Envio padrão";
+    currentShippingCost = null;
+    currentShippingLabel = "Calculando...";
+    currentShippingOption = null;
 
     checkoutShipping.textContent =
-        formatPrice(shippingCost);
-
-    const subtotal =
-        calculateSubtotal();
-
-    const total =
-        subtotal + shippingCost;
+        "Calculando...";
 
     checkoutTotal.textContent =
-        formatPrice(total);
+        formatPrice(
+            calculateSubtotal()
+        );
+
+    showShippingLoading();
+
+
+    try {
+
+        /* ==================================================
+           PREPARAR PRODUTOS
+        ================================================== */
+
+        const items =
+            cart.map(item => ({
+
+                id:
+                    item.id,
+
+                quantity:
+                    Number(item.quantity || 1)
+
+            }));
+
+
+        /* ==================================================
+           CHAMAR API
+        ================================================== */
+
+        const response =
+            await fetch(
+                "/api/melhor-envio/cotar",
+                {
+
+                    method: "POST",
+
+                    headers: {
+
+                        "Content-Type":
+                            "application/json"
+
+                    },
+
+                    body:
+                        JSON.stringify({
+
+                            postalCode:
+                                cep,
+
+                            items:
+                                items
+
+                        })
+
+                }
+            );
+
+
+        const data =
+            await response.json();
+
+
+        /* ==================================================
+           ERRO
+        ================================================== */
+
+        if (
+            !response.ok ||
+            !data.success
+        ) {
+
+            console.error(
+                "Erro na cotação:",
+                data
+            );
+
+            throw new Error(
+                data.error ||
+                "Não foi possível calcular o frete."
+            );
+
+        }
+
+
+        /* ==================================================
+           OPÇÕES
+        ================================================== */
+
+        const options =
+            Array.isArray(data.options)
+                ? data.options
+                : [];
+
+
+        if (!options.length) {
+
+            currentShippingCost = null;
+            currentShippingLabel =
+                "Indisponível";
+            currentShippingOption = null;
+
+            checkoutShipping.textContent =
+                "Indisponível";
+
+            checkoutTotal.textContent =
+                formatPrice(
+                    calculateSubtotal()
+                );
+
+            showShippingMessage(
+                "Nenhuma opção de frete está disponível para este endereço."
+            );
+
+            return;
+
+        }
+
+
+        /* ==================================================
+           RENDERIZAR OPÇÕES
+        ================================================== */
+
+        shippingOptionsContainer.innerHTML =
+            options.map(
+                (option, index) => {
+
+                    const price =
+                        Number(
+                            option.price || 0
+                        );
+
+                    const deliveryTime =
+                        Number(
+                            option.deliveryTime || 0
+                        );
+
+                    const range =
+                        option.deliveryRange;
+
+
+                    let deliveryText =
+                        deliveryTime > 0
+                            ? `${deliveryTime} dias úteis`
+                            : "Prazo a calcular";
+
+
+                    if (
+                        range &&
+                        range.min &&
+                        range.max
+                    ) {
+
+                        deliveryText =
+                            `${range.min} a ${range.max} dias úteis`;
+
+                    }
+
+
+                    return `
+
+                        <label
+                            class="shipping-option"
+                        >
+
+                            <input
+                                type="radio"
+                                name="shipping"
+                                value="${option.id}"
+                                data-price="${price}"
+                                data-name="${String(
+                                    option.name || "Frete"
+                                ).replace(/"/g, "&quot;")}"
+                                ${index === 0 ? "checked" : ""}
+                            >
+
+                            <div>
+
+                                <strong>
+                                    ${option.name || "Frete"}
+                                </strong>
+
+                                <span>
+                                    ${
+                                        option.company
+                                            ? option.company + " • "
+                                            : ""
+                                    }
+                                    ${deliveryText}
+                                </span>
+
+                            </div>
+
+                            <strong>
+                                ${formatPrice(price)}
+                            </strong>
+
+                        </label>
+
+                    `;
+
+                }
+            ).join("");
+
+
+        /* ==================================================
+           SELECIONAR PRIMEIRA OPÇÃO
+        ================================================== */
+
+        const firstOption =
+            options[0];
+
+
+        currentShippingOption =
+            firstOption;
+
+
+        currentShippingCost =
+            Number(
+                firstOption.price || 0
+            );
+
+
+        currentShippingLabel =
+            firstOption.name ||
+            "Frete";
+
+
+        checkoutShipping.textContent =
+            formatPrice(
+                currentShippingCost
+            );
+
+
+        const subtotal =
+            calculateSubtotal();
+
+
+        checkoutTotal.textContent =
+            formatPrice(
+                subtotal +
+                currentShippingCost
+            );
+
+
+        /* ==================================================
+           EVENTOS DAS OPÇÕES
+        ================================================== */
+
+        shippingOptionsContainer
+            .querySelectorAll(
+                'input[name="shipping"]'
+            )
+            .forEach(radio => {
+
+                radio.addEventListener(
+                    "change",
+                    () => {
+
+                        const selectedId =
+                            String(
+                                radio.value
+                            );
+
+
+                        const selectedOption =
+                            options.find(
+                                option =>
+                                    String(
+                                        option.id
+                                    ) ===
+                                    selectedId
+                            );
+
+
+                        if (!selectedOption) {
+                            return;
+                        }
+
+
+                        currentShippingOption =
+                            selectedOption;
+
+
+                        currentShippingCost =
+                            Number(
+                                selectedOption.price || 0
+                            );
+
+
+                        currentShippingLabel =
+                            selectedOption.name ||
+                            "Frete";
+
+
+                        checkoutShipping.textContent =
+                            formatPrice(
+                                currentShippingCost
+                            );
+
+
+                        const subtotal =
+                            calculateSubtotal();
+
+
+                        checkoutTotal.textContent =
+                            formatPrice(
+                                subtotal +
+                                currentShippingCost
+                            );
+
+                    }
+                );
+
+            });
+
+
+    } catch (error) {
+
+        console.error(
+            "Erro ao calcular frete:",
+            error
+        );
+
+
+        currentShippingCost = null;
+        currentShippingLabel =
+            "A calcular";
+        currentShippingOption = null;
+
+
+        checkoutShipping.textContent =
+            "Não disponível";
+
+
+        checkoutTotal.textContent =
+            formatPrice(
+                calculateSubtotal()
+            );
+
+
+        showShippingMessage(
+            "Não foi possível calcular o frete. Tente novamente."
+        );
+
+    }
+
 }
 
+
+/* ==================================================
+   ATUALIZAR FRETE
+================================================== */
+
+function updateShipping() {
+
+    calculateRealShipping();
+
+}
 /* ==================================================
    CALCULAR SUBTOTAL
 ================================================== */
@@ -1914,34 +2121,55 @@ finishOrder.addEventListener(
         }
 
 
-        /* ==========================================
-           FRETE
-        ========================================== */
+      /* ==========================================
+   FRETE
+========================================== */
 
-        const shippingType =
-            document.querySelector(
-                'input[name="shipping"]:checked'
-            )?.value || "standard";
+if (
+    currentShippingCost === null ||
+    !currentShippingOption
+) {
+
+    alert(
+        "Selecione uma opção de frete antes de continuar."
+    );
+
+    return;
+
+}
 
 
-        const shippingCost =
-            calculateShipping(
-                cep,
-                shippingType
-            );
+const shippingCost =
+    Number(
+        currentShippingCost
+    );
 
 
-        if (shippingCost === null) {
+const shippingType =
+    String(
+        currentShippingOption.id || ""
+    );
 
-            alert(
-                "Não foi possível calcular o frete. Verifique o CEP."
-            );
 
-            cepInput.focus();
+const shippingLabel =
+    currentShippingOption.name ||
+    "Frete";
 
-            return;
 
-        }
+const shippingCompany =
+    currentShippingOption.company ||
+    "";
+
+
+const shippingDeliveryTime =
+    Number(
+        currentShippingOption.deliveryTime || 0
+    );
+
+
+const shippingDeliveryRange =
+    currentShippingOption.deliveryRange ||
+    null;
 
 
         /* ==========================================
@@ -1992,18 +2220,27 @@ finishOrder.addEventListener(
             },
 
 
-            shipping: {
+         shipping: {
 
-                type: shippingType,
+    type:
+        shippingType,
 
-                label:
-                    shippingType === "express"
-                        ? "Envio expresso"
-                        : "Envio padrão",
+    label:
+        shippingLabel,
 
-                cost: shippingCost
+    company:
+        shippingCompany,
 
-            },
+    cost:
+        shippingCost,
+
+    deliveryTime:
+        shippingDeliveryTime,
+
+    deliveryRange:
+        shippingDeliveryRange
+
+},
 
 
             cart: cart,
