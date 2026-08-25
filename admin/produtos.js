@@ -1994,7 +1994,7 @@ function createProductModal() {
 
 <div class="product-form-section">
 
-    <div class="product-form-section-header">
+    <div class="product-form-section-title">
 
         <div>
             <span class="product-form-section-number">
@@ -2017,8 +2017,7 @@ function createProductModal() {
 
         <!-- PESO -->
 
-        <div class="product-form-group">
-
+    <div class="product-form-field">
             <label for="product-weight">
                 Peso da embalagem (kg)
             </label>
@@ -2041,7 +2040,7 @@ function createProductModal() {
 
         <!-- ALTURA -->
 
-        <div class="product-form-group">
+       <div class="product-form-field">
 
             <label for="product-height">
                 Altura (cm)
@@ -2060,9 +2059,8 @@ function createProductModal() {
 
 
         <!-- LARGURA -->
-
-        <div class="product-form-group">
-
+        
+<div class="product-form-field">
             <label for="product-width">
                 Largura (cm)
             </label>
@@ -2081,7 +2079,7 @@ function createProductModal() {
 
         <!-- COMPRIMENTO -->
 
-        <div class="product-form-group">
+       <div class="product-form-field">
 
             <label for="product-length">
                 Comprimento (cm)
