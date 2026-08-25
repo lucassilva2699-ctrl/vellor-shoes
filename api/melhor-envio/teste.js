@@ -19,7 +19,7 @@ export default async function handler(req, res) {
 
                 body: JSON.stringify({
 
-                    postalCode: "04829410",
+                    postalCode: "01001000",
 
                     items: [
                         {
