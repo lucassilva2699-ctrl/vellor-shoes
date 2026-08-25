@@ -566,9 +566,11 @@ export default async function handler(req, res) {
         // =========================================================
 
         const results =
-            Array.isArray(shippingData)
-                ? shippingData
-                : [];
+    Array.isArray(shippingData)
+        ? shippingData
+        : shippingData && typeof shippingData === "object"
+            ? [shippingData]
+            : [];
 
 
         const shippingOptions =
