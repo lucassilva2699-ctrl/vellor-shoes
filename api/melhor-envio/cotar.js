@@ -638,7 +638,34 @@ export default async function handler(req, res) {
                 option.price > 0
         );
 
+if (shippingOptions.length === 0) {
 
+    console.error(
+        "Melhor Envio retornou:",
+        shippingData
+    );
+
+    return res.status(200).json({
+
+        success: false,
+
+        debug: true,
+
+        originPostalCode:
+            originPostalCode,
+
+        destinationPostalCode:
+            destinationPostalCode,
+
+        rawResponse:
+            shippingData,
+
+        options:
+            []
+
+    });
+
+}
         // =========================================================
         // RESPOSTA
         // =========================================================
