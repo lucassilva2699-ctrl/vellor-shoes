@@ -2852,6 +2852,7 @@ images:
 
 
                 await loadProducts();
+                editingProductId = null;
 
 
             } catch (error) {
@@ -3718,15 +3719,16 @@ if (newProductButton) {
         "click",
         () => {
 
+            // IMPORTANTE:
+            // garante que o formulário entre em modo
+            // "novo produto" e não em modo "edição".
+            editingProductId = null;
+
             createProductModal();
 
-
-            selectedProductImages =
-                [];
-
+            selectedProductImages = [];
 
             renderPhotoPreview();
-
 
             window.openProductModal();
 
