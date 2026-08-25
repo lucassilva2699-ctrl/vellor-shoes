@@ -1984,6 +1984,124 @@ function createProductModal() {
                 </div>
 
 
+        <!-- =========================================================
+             07 — INFORMAÇÕES DE ENVIO
+        ========================================================= -->
+
+<!-- =========================================================
+     07 — INFORMAÇÕES DE ENVIO
+========================================================= -->
+
+<div class="product-form-section">
+
+    <div class="product-form-section-header">
+
+        <div>
+            <span class="product-form-section-number">
+                07
+            </span>
+
+            <h3>
+                Informações de envio
+            </h3>
+
+            <p>
+                Dados da embalagem utilizados para calcular o frete.
+            </p>
+        </div>
+
+    </div>
+
+
+    <div class="product-form-grid">
+
+        <!-- PESO -->
+
+        <div class="product-form-group">
+
+            <label for="product-weight">
+                Peso da embalagem (kg)
+            </label>
+
+            <input
+                type="number"
+                id="product-weight"
+                name="weight"
+                min="0.01"
+                step="0.01"
+                placeholder="Ex.: 0.90"
+            >
+
+            <small>
+                Informe o peso aproximado do produto já embalado.
+            </small>
+
+        </div>
+
+
+        <!-- ALTURA -->
+
+        <div class="product-form-group">
+
+            <label for="product-height">
+                Altura (cm)
+            </label>
+
+            <input
+                type="number"
+                id="product-height"
+                name="height"
+                min="1"
+                step="0.1"
+                placeholder="Ex.: 15"
+            >
+
+        </div>
+
+
+        <!-- LARGURA -->
+
+        <div class="product-form-group">
+
+            <label for="product-width">
+                Largura (cm)
+            </label>
+
+            <input
+                type="number"
+                id="product-width"
+                name="width"
+                min="1"
+                step="0.1"
+                placeholder="Ex.: 25"
+            >
+
+        </div>
+
+
+        <!-- COMPRIMENTO -->
+
+        <div class="product-form-group">
+
+            <label for="product-length">
+                Comprimento (cm)
+            </label>
+
+            <input
+                type="number"
+                id="product-length"
+                name="length"
+                min="1"
+                step="0.1"
+                placeholder="Ex.: 35"
+            >
+
+        </div>
+
+    </div>
+
+</div>
+
                 <!-- RODAPÉ -->
 
                 <div class="product-form-footer">
