@@ -1,8 +1,8 @@
 export default async function handler(req, res) {
 
-    /* =========================================================
-       CORS
-    ========================================================= */
+    // =========================================================
+    // CORS
+    // =========================================================
 
     res.setHeader(
         "Access-Control-Allow-Origin",
@@ -20,9 +20,9 @@ export default async function handler(req, res) {
     );
 
 
-    /* =========================================================
-       PREFLIGHT
-    ========================================================= */
+    // =========================================================
+    // PREFLIGHT
+    // =========================================================
 
     if (req.method === "OPTIONS") {
 
@@ -33,9 +33,9 @@ export default async function handler(req, res) {
     }
 
 
-    /* =========================================================
-       SOMENTE POST
-    ========================================================= */
+    // =========================================================
+    // SOMENTE POST
+    // =========================================================
 
     if (req.method !== "POST") {
 
@@ -51,12 +51,12 @@ export default async function handler(req, res) {
 
     try {
 
-        /* =====================================================
-           DADOS RECEBIDOS
-        ===================================================== */
+        // =====================================================
+        // DADOS RECEBIDOS
+        // =====================================================
 
         const formData =
-            req.body;
+            req.body || {};
 
 
         if (
@@ -74,9 +74,9 @@ export default async function handler(req, res) {
         }
 
 
-        /* =====================================================
-           ACCESS TOKEN
-        ===================================================== */
+        // =====================================================
+        // ACCESS TOKEN
+        // =====================================================
 
         const accessToken =
             process.env.MERCADOPAGO_ACCESS_TOKEN;
@@ -98,9 +98,9 @@ export default async function handler(req, res) {
         }
 
 
-        /* =====================================================
-           DADOS PRINCIPAIS
-        ===================================================== */
+        // =====================================================
+        // DADOS PRINCIPAIS
+        // =====================================================
 
         const amount =
             Number(
@@ -108,19 +108,67 @@ export default async function handler(req, res) {
             );
 
         const paymentMethodId =
-            formData.payment_method_id;
+            String(
+                formData.payment_method_id || ""
+            ).trim();
+
+        const payer =
+            formData.payer || {};
 
         const payerEmail =
-            formData.payer?.email;
+            String(
+                payer.email || ""
+            ).trim();
 
         const externalReference =
             formData.external_reference ||
             null;
 
 
-        /* =====================================================
-           VALIDAÇÕES BÁSICAS
-        ===================================================== */
+        // =====================================================
+        // LOG DE DIAGNÓSTICO
+        // =====================================================
+
+        console.log(
+            "Dados recebidos do Payment Brick:",
+            {
+                transaction_amount:
+                    formData.transaction_amount,
+
+                payment_method_id:
+                    paymentMethodId,
+
+                payer_email:
+                    payerEmail,
+
+                has_identification:
+                    Boolean(
+                        payer.identification?.type &&
+                        payer.identification?.number
+                    ),
+
+                identification_type:
+                    payer.identification?.type ||
+                    null,
+
+                has_token:
+                    Boolean(
+                        formData.token
+                    ),
+
+                installments:
+                    formData.installments ||
+                    null,
+
+                external_reference:
+                    externalReference
+            }
+        );
+
+
+        // =====================================================
+        // VALIDAÇÃO DO VALOR
+        // =====================================================
 
         if (
             !Number.isFinite(amount) ||
@@ -137,9 +185,12 @@ export default async function handler(req, res) {
         }
 
 
+        // =====================================================
+        // VALIDAÇÃO DO MÉTODO
+        // =====================================================
+
         if (
-            !paymentMethodId ||
-            typeof paymentMethodId !== "string"
+            !paymentMethodId
         ) {
 
             return res
@@ -152,9 +203,12 @@ export default async function handler(req, res) {
         }
 
 
+        // =====================================================
+        // VALIDAÇÃO DO E-MAIL
+        // =====================================================
+
         if (
-            !payerEmail ||
-            typeof payerEmail !== "string"
+            !payerEmail
         ) {
 
             return res
@@ -167,14 +221,16 @@ export default async function handler(req, res) {
         }
 
 
-        /* =====================================================
-           CORPO DO PAGAMENTO
-        ===================================================== */
+        // =====================================================
+        // CORPO BASE DO PAGAMENTO
+        // =====================================================
 
         const paymentBody = {
 
             transaction_amount:
-                amount,
+                Number(
+                    amount.toFixed(2)
+                ),
 
             description:
                 formData.description ||
@@ -193,57 +249,67 @@ export default async function handler(req, res) {
         };
 
 
-        /* =====================================================
-           IDENTIFICAÇÃO DO PAGADOR
-        ===================================================== */
+        // =====================================================
+        // NOME DO PAGADOR
+        // =====================================================
 
         if (
-            formData.payer?.identification?.type &&
-            formData.payer?.identification?.number
+            payer.first_name
+        ) {
+
+            paymentBody.payer.first_name =
+                String(
+                    payer.first_name
+                );
+
+        }
+
+
+        if (
+            payer.last_name
+        ) {
+
+            paymentBody.payer.last_name =
+                String(
+                    payer.last_name
+                );
+
+        }
+
+
+        // =====================================================
+        // IDENTIFICAÇÃO DO PAGADOR
+        // =====================================================
+
+        if (
+            payer.identification?.type &&
+            payer.identification?.number
         ) {
 
             paymentBody.payer.identification = {
 
                 type:
-                    formData.payer.identification.type,
+                    String(
+                        payer.identification.type
+                    ),
 
                 number:
-                    formData.payer.identification.number
+                    String(
+                        payer.identification.number
+                    ).replace(/\D/g, "")
 
             };
 
         }
 
 
-        /* =====================================================
-           NOME DO PAGADOR
-        ===================================================== */
+        // =====================================================
+        // REFERÊNCIA EXTERNA
+        // =====================================================
 
         if (
-            formData.payer?.first_name
+            externalReference
         ) {
-
-            paymentBody.payer.first_name =
-                formData.payer.first_name;
-
-        }
-
-
-        if (
-            formData.payer?.last_name
-        ) {
-
-            paymentBody.payer.last_name =
-                formData.payer.last_name;
-
-        }
-
-
-        /* =====================================================
-           REFERÊNCIA DO PEDIDO
-        ===================================================== */
-
-        if (externalReference) {
 
             paymentBody.external_reference =
                 String(
@@ -253,25 +319,21 @@ export default async function handler(req, res) {
         }
 
 
-        /* =====================================================
-           CARTÃO
-        ===================================================== */
+        // =====================================================
+        // CARTÃO
+        // =====================================================
 
         const isCard =
             Boolean(
                 formData.token
-            ) ||
-            (
-                paymentMethodId !== "pix" &&
-                Boolean(
-                    formData.installments
-                )
             );
 
 
         if (isCard) {
 
-            if (!formData.token) {
+            if (
+                !formData.token
+            ) {
 
                 return res
                     .status(400)
@@ -314,7 +376,9 @@ export default async function handler(req, res) {
 
 
             if (
-                formData.issuer_id
+                formData.issuer_id !== undefined &&
+                formData.issuer_id !== null &&
+                formData.issuer_id !== ""
             ) {
 
                 paymentBody.issuer_id =
@@ -327,29 +391,31 @@ export default async function handler(req, res) {
         }
 
 
-        /* =====================================================
-           PIX
-        ===================================================== */
+        // =====================================================
+        // PIX
+        // =====================================================
 
         if (
             paymentMethodId === "pix"
         ) {
 
             /*
-             * Para Pix não enviamos token,
-             * installments ou issuer_id.
+             * Para Pix não enviamos:
              *
-             * O Mercado Pago gera os dados
-             * do QR Code na resposta.
+             * token
+             * installments
+             * issuer_id
+             *
+             * O Mercado Pago gera o QR Code
+             * na resposta do pagamento.
              */
 
         }
 
 
-        /* =====================================================
-           LOG
-           Não registramos token do cartão.
-        ===================================================== */
+        // =====================================================
+        // LOG DO PAGAMENTO
+        // =====================================================
 
         console.log(
             "Enviando pagamento ao Mercado Pago:",
@@ -361,19 +427,25 @@ export default async function handler(req, res) {
                     paymentBody.payment_method_id,
 
                 external_reference:
-                    paymentBody.external_reference || null,
+                    paymentBody.external_reference ||
+                    null,
 
                 has_token:
                     Boolean(
                         paymentBody.token
+                    ),
+
+                has_identification:
+                    Boolean(
+                        paymentBody.payer?.identification
                     )
             }
         );
 
 
-        /* =====================================================
-           CRIAR PAGAMENTO
-        ===================================================== */
+        // =====================================================
+        // CRIAR PAGAMENTO
+        // =====================================================
 
         const response =
             await fetch(
@@ -408,6 +480,10 @@ export default async function handler(req, res) {
             );
 
 
+        // =====================================================
+        // LER RESPOSTA
+        // =====================================================
+
         const responseText =
             await response.text();
 
@@ -437,31 +513,98 @@ export default async function handler(req, res) {
         }
 
 
-        /* =====================================================
-           LOG DA RESPOSTA
-        ===================================================== */
+        // =====================================================
+        // LOG COMPLETO DO MERCADO PAGO
+        // =====================================================
+
+        console.log(
+            "Resposta completa do Mercado Pago:",
+            data
+        );
+
+
+        // =====================================================
+        // LOG RESUMIDO
+        // =====================================================
 
         console.log(
             "Mercado Pago:",
             {
+
                 statusCode:
                     response.status,
 
                 paymentId:
-                    data.id || null,
+                    data.id ||
+                    null,
 
                 paymentStatus:
-                    data.status || null,
+                    data.status ||
+                    null,
 
                 statusDetail:
-                    data.status_detail || null
+                    data.status_detail ||
+                    null,
+
+                error:
+                    data.error ||
+                    null,
+
+                message:
+                    data.message ||
+                    null,
+
+                cause:
+                    data.cause ||
+                    null
+
             }
         );
 
 
-        /* =====================================================
-           DEVOLVER RESPOSTA ORIGINAL
-        ===================================================== */
+        // =====================================================
+        // ERRO
+        // =====================================================
+
+        if (
+            !response.ok
+        ) {
+
+            return res
+                .status(
+                    response.status
+                )
+                .json({
+
+                    error:
+                        data.message ||
+                        data.error ||
+                        "Erro ao processar pagamento.",
+
+                    message:
+                        data.message ||
+                        null,
+
+                    cause:
+                        data.cause ||
+                        null,
+
+                    status:
+                        data.status ||
+                        null,
+
+                    status_detail:
+                        data.status_detail ||
+                        null
+
+                });
+
+        }
+
+
+        // =====================================================
+        // SUCESSO
+        // =====================================================
 
         return res
             .status(
@@ -475,7 +618,7 @@ export default async function handler(req, res) {
     } catch (error) {
 
         console.error(
-            "Erro ao processar pagamento:",
+            "Erro interno ao processar pagamento:",
             error
         );
 
