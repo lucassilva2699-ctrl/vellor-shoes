@@ -620,25 +620,7 @@ export default async function handler(req, res) {
                     option =>
                         option.price > 0
                 );
-        const shippingOptions =
-    results
-        .filter(
-            option =>
-                option &&
-                (
-                    option.custom_price !== undefined ||
-                    option.price !== undefined
-                )
-        )
-        .map(option => ({
-            // ...
-        }))
-        .filter(
-            option =>
-                option.price > 0
-        );
-
-if (shippingOptions.length === 0) {
+       if (shippingOptions.length === 0) {
 
     console.error(
         "Melhor Envio retornou:",
