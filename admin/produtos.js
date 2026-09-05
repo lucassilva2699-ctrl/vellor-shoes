@@ -556,18 +556,29 @@ function renderProducts() {
                 </td>
 
 
-                <td>
+               <td>
+    <div class="product-actions">
 
-                   <button
-    type="button"
-    class="product-more-button"
-    title="Editar produto"
-    data-product-id="${product.id}"
->
-    ✏️
-</button>
+        <button
+            type="button"
+            class="product-more-button"
+            title="Editar produto"
+            data-product-id="${product.id}"
+        >
+            ✏️
+        </button>
 
-                </td>
+        <button
+            type="button"
+            class="product-delete-button"
+            title="Excluir produto"
+            data-delete-product-id="${product.id}"
+        >
+            🗑️
+        </button>
+
+    </div>
+</td>
 
             `;
 
