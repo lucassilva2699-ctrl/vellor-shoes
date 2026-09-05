@@ -3714,6 +3714,90 @@ document.addEventListener("click", async (event) => {
                 );
             });
     }
+    /* =========================================================
+   EXCLUIR PRODUTO
+   ========================================================= */
+
+document.addEventListener("click", async (event) => {
+
+    const deleteButton =
+        event.target.closest(".product-delete-button");
+
+    if (!deleteButton) {
+        return;
+    }
+
+    const productId =
+        deleteButton.dataset.deleteProductId;
+
+    if (!productId) {
+        return;
+    }
+
+    const product =
+        products.find(
+            item => item.id === productId
+        );
+
+    if (!product) {
+        return;
+    }
+
+    const confirmed =
+        confirm(
+            `Tem certeza que deseja excluir o produto "${product.name || "este produto"}"?\n\nEssa ação não poderá ser desfeita.`
+        );
+
+    if (!confirmed) {
+        return;
+    }
+
+    try {
+
+        deleteButton.disabled = true;
+        deleteButton.textContent = "…";
+
+        await deleteDoc(
+            doc(
+                db,
+                "products",
+                productId
+            )
+        );
+
+        /*
+         * Remove também da lista local
+         */
+        products =
+            products.filter(
+                item => item.id !== productId
+            );
+
+        /*
+         * Atualiza a tabela
+         */
+        renderProducts();
+
+        alert(
+            "Produto excluído com sucesso."
+        );
+
+    } catch (error) {
+
+        console.error(
+            "Erro ao excluir produto:",
+            error
+        );
+
+        alert(
+            "Não foi possível excluir o produto."
+        );
+
+        deleteButton.disabled = false;
+        deleteButton.textContent = "🗑️";
+    }
+
+});
 
     /*
      * ABRE O MODAL POR ÚLTIMO
