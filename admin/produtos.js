@@ -556,29 +556,31 @@ function renderProducts() {
                 </td>
 
 
-               <td>
-    <div class="product-actions">
+                <td>
 
-        <button
-            type="button"
-            class="product-more-button"
-            title="Editar produto"
-            data-product-id="${product.id}"
-        >
-            ✏️
-        </button>
+                    <div class="product-actions">
 
-        <button
-            type="button"
-            class="product-delete-button"
-            title="Excluir produto"
-            data-delete-product-id="${product.id}"
-        >
-            🗑️
-        </button>
+                        <button
+                            type="button"
+                            class="product-more-button"
+                            title="Editar produto"
+                            data-product-id="${product.id}"
+                        >
+                            ✏️
+                        </button>
 
-    </div>
-</td>
+                        <button
+                            type="button"
+                            class="product-delete-button"
+                            title="Excluir produto"
+                            data-delete-product-id="${product.id}"
+                        >
+                            🗑️
+                        </button>
+
+                    </div>
+
+                </td>
 
             `;
 
@@ -1996,121 +1998,122 @@ function createProductModal() {
                 </div>
 
 
-        <!-- =========================================================
-             07 — INFORMAÇÕES DE ENVIO
-        ========================================================= -->
+                <!-- =========================================================
+                     07 — INFORMAÇÕES DE ENVIO
+                ========================================================= -->
 
-<!-- =========================================================
-     07 — INFORMAÇÕES DE ENVIO
-========================================================= -->
+                <div class="product-form-section">
 
-<div class="product-form-section">
+                    <div class="product-form-section-title">
 
-    <div class="product-form-section-title">
+                        <div>
 
-        <div>
-            <span class="product-form-section-number">
-                07
-            </span>
+                            <span class="product-form-section-number">
+                                07
+                            </span>
 
-            <h3>
-                Informações de envio
-            </h3>
+                            <h3>
+                                Informações de envio
+                            </h3>
 
-            <p>
-                Dados da embalagem utilizados para calcular o frete.
-            </p>
-        </div>
+                            <p>
+                                Dados da embalagem utilizados para calcular o frete.
+                            </p>
 
-    </div>
+                        </div>
+
+                    </div>
 
 
-    <div class="product-form-grid">
+                    <div class="product-form-grid">
 
-        <!-- PESO -->
+                        <!-- PESO -->
 
-    <div class="product-form-field">
-            <label for="product-weight">
-                Peso da embalagem (kg)
-            </label>
+                        <div class="product-form-field">
 
-            <input
-                type="number"
-                id="product-weight"
-                name="weight"
-                min="0.01"
-                step="0.01"
-                placeholder="Ex.: 0.90"
-            >
+                            <label for="product-weight">
+                                Peso da embalagem (kg)
+                            </label>
 
-            <small>
-                Informe o peso aproximado do produto já embalado.
-            </small>
+                            <input
+                                type="number"
+                                id="product-weight"
+                                name="weight"
+                                min="0.01"
+                                step="0.01"
+                                placeholder="Ex.: 0.90"
+                            >
 
-        </div>
+                            <small>
+                                Informe o peso aproximado do produto já embalado.
+                            </small>
 
-
-        <!-- ALTURA -->
-
-       <div class="product-form-field">
-
-            <label for="product-height">
-                Altura (cm)
-            </label>
-
-            <input
-                type="number"
-                id="product-height"
-                name="height"
-                min="1"
-                step="0.1"
-                placeholder="Ex.: 15"
-            >
-
-        </div>
+                        </div>
 
 
-        <!-- LARGURA -->
-        
-<div class="product-form-field">
-            <label for="product-width">
-                Largura (cm)
-            </label>
+                        <!-- ALTURA -->
 
-            <input
-                type="number"
-                id="product-width"
-                name="width"
-                min="1"
-                step="0.1"
-                placeholder="Ex.: 25"
-            >
+                        <div class="product-form-field">
 
-        </div>
+                            <label for="product-height">
+                                Altura (cm)
+                            </label>
+
+                            <input
+                                type="number"
+                                id="product-height"
+                                name="height"
+                                min="1"
+                                step="0.1"
+                                placeholder="Ex.: 15"
+                            >
+
+                        </div>
 
 
-        <!-- COMPRIMENTO -->
+                        <!-- LARGURA -->
 
-       <div class="product-form-field">
+                        <div class="product-form-field">
 
-            <label for="product-length">
-                Comprimento (cm)
-            </label>
+                            <label for="product-width">
+                                Largura (cm)
+                            </label>
 
-            <input
-                type="number"
-                id="product-length"
-                name="length"
-                min="1"
-                step="0.1"
-                placeholder="Ex.: 35"
-            >
+                            <input
+                                type="number"
+                                id="product-width"
+                                name="width"
+                                min="1"
+                                step="0.1"
+                                placeholder="Ex.: 25"
+                            >
 
-        </div>
+                        </div>
 
-    </div>
 
-</div>
+                        <!-- COMPRIMENTO -->
+
+                        <div class="product-form-field">
+
+                            <label for="product-length">
+                                Comprimento (cm)
+                            </label>
+
+                            <input
+                                type="number"
+                                id="product-length"
+                                name="length"
+                                min="1"
+                                step="0.1"
+                                placeholder="Ex.: 35"
+                            >
+
+                        </div>
+
+                    </div>
+
+                </div>
+
 
                 <!-- RODAPÉ -->
 
@@ -2473,15 +2476,17 @@ function setupProductModal() {
 
 
             if (
-    !editingProductId &&
-    !selectedProductImages.length
-) {
-    alert(
-        "Adicione pelo menos uma foto do produto."
-    );
+                !editingProductId &&
+                !selectedProductImages.length
+            ) {
 
-    return;
-}
+                alert(
+                    "Adicione pelo menos uma foto do produto."
+                );
+
+                return;
+
+            }
 
 
             const sizes =
@@ -2575,12 +2580,20 @@ function setupProductModal() {
 
                         }
                     );
-const finalImages =
-    editingProductId && !selectedProductImages.length
-        ? products.find(
-            product => product.id === editingProductId
-        )?.images || []
-        : uploadedImages;
+
+
+                const finalImages =
+                    editingProductId &&
+                    !selectedProductImages.length
+
+                        ? products.find(
+                            product =>
+                                product.id ===
+                                editingProductId
+                        )?.images || []
+
+                        : uploadedImages;
+
 
                 const mainImage =
                     finalImages.find(
@@ -2611,27 +2624,34 @@ const finalImages =
                     sku,
 
                     description,
-    /* DADOS DE ENVIO */
 
-    weight:
-        Number(
-            $("product-weight")?.value || 0
-        ),
 
-    height:
-        Number(
-            $("product-height")?.value || 0
-        ),
+                    /* DADOS DE ENVIO */
 
-    width:
-        Number(
-            $("product-width")?.value || 0
-        ),
+                    weight:
+                        Number(
+                            $("product-weight")?.value ||
+                            0
+                        ),
 
-    length:
-        Number(
-            $("product-length")?.value || 0
-        ),
+                    height:
+                        Number(
+                            $("product-height")?.value ||
+                            0
+                        ),
+
+                    width:
+                        Number(
+                            $("product-width")?.value ||
+                            0
+                        ),
+
+                    length:
+                        Number(
+                            $("product-length")?.value ||
+                            0
+                        ),
+
 
                     menu: {
 
@@ -2685,8 +2705,10 @@ const finalImages =
 
                     sizes,
 
-images:
-    finalImages,
+
+                    images:
+                        finalImages,
+
 
                     /* FOTO PRINCIPAL */
 
@@ -2730,28 +2752,38 @@ images:
                    FIRESTORE
                    ================================================= */
 
-               if (editingProductId) {
+                if (editingProductId) {
 
-    await updateDoc(
-        doc(db, "products", editingProductId),
-        {
-            ...productData,
-            updatedAt: serverTimestamp()
-        }
-    );
+                    await updateDoc(
+                        doc(
+                            db,
+                            "products",
+                            editingProductId
+                        ),
+                        {
+                            ...productData,
+                            updatedAt:
+                                serverTimestamp()
+                        }
+                    );
 
-} else {
+                } else {
 
-    await addDoc(
-        collection(db, "products"),
-        productData
-    );
+                    await addDoc(
+                        collection(
+                            db,
+                            "products"
+                        ),
+                        productData
+                    );
 
-}
+                }
 
 
                 alert(
-                    "Produto cadastrado com sucesso! As fotos foram enviadas ao Cloudinary e os dados foram salvos no Firebase."
+                    editingProductId
+                        ? "Produto atualizado com sucesso!"
+                        : "Produto cadastrado com sucesso! As fotos foram enviadas ao Cloudinary e os dados foram salvos no Firebase."
                 );
 
 
@@ -2864,7 +2896,9 @@ images:
 
 
                 await loadProducts();
-                editingProductId = null;
+
+                editingProductId =
+                    null;
 
 
             } catch (error) {
@@ -2930,7 +2964,8 @@ async function uploadProductImages(
         `https://api.cloudinary.com/v1_1/${cloudName}/image/upload`;
 
 
-    const uploaded = [];
+    const uploaded =
+        [];
 
 
     for (
@@ -3482,329 +3517,520 @@ function renderPhotoPreview() {
 
 }
 
-document.addEventListener("click", async (event) => {
 
-    const editButton =
-        event.target.closest(".product-more-button");
+/* =========================================================
+   EDITAR PRODUTO
+   ========================================================= */
 
-    if (!editButton) {
-        return;
-    }
+document.addEventListener(
+    "click",
+    async (event) => {
 
-    const productId =
-        editButton.dataset.productId;
+        const editButton =
+            event.target.closest(
+                ".product-more-button"
+            );
 
-    const product =
-        products.find(
-            item => item.id === productId
-        );
 
-    if (!product) {
-        return;
-    }
+        if (!editButton) {
+            return;
+        }
 
-    editingProductId =
-        product.id;
 
-    /*
-     * CRIA O MODAL
-     */
-    createProductModal();
+        const productId =
+            editButton.dataset.productId;
 
-    /*
-     * GARANTE QUE O MENU ESTEJA
-     * CARREGADO ANTES DE PREENCHER
-     */
-    await loadStoreMenu();
 
-    const menu =
-        product.menu || {};
+        const product =
+            products.find(
+                item =>
+                    item.id === productId
+            );
 
-    const gender =
+
+        if (!product) {
+            return;
+        }
+
+
+        editingProductId =
+            product.id;
+
+
+        /*
+         * CRIA O MODAL
+         */
+
+        createProductModal();
+
+
+        /*
+         * GARANTE QUE O MENU ESTEJA
+         * CARREGADO ANTES DE PREENCHER
+         */
+
+        await loadStoreMenu();
+
+
+        const menu =
+            product.menu ||
+            {};
+
+
+        const gender =
+            document.querySelector(
+                "#product-gender"
+            );
+
+
+        const category =
+            document.querySelector(
+                "#product-category"
+            );
+
+
+        const subcategory =
+            document.querySelector(
+                "#product-subcategory"
+            );
+
+
+        const leaf =
+            document.querySelector(
+                "#product-leaf"
+            );
+
+
+        /*
+         * DADOS BÁSICOS
+         */
+
         document.querySelector(
-            "#product-gender"
-        );
+            "#product-name"
+        ).value =
+            product.name ||
+            "";
 
-    const category =
+
         document.querySelector(
-            "#product-category"
-        );
+            "#product-brand"
+        ).value =
+            product.brand ||
+            "";
 
-    const subcategory =
+
         document.querySelector(
-            "#product-subcategory"
-        );
+            "#product-sku"
+        ).value =
+            product.sku ||
+            "";
 
-    const leaf =
+
         document.querySelector(
-            "#product-leaf"
-        );
+            "#product-description"
+        ).value =
+            product.description ||
+            "";
 
-    /*
-     * DADOS BÁSICOS
-     */
-    document.querySelector(
-        "#product-name"
-    ).value =
-        product.name || "";
 
-    document.querySelector(
-        "#product-brand"
-    ).value =
-        product.brand || "";
-
-    document.querySelector(
-        "#product-sku"
-    ).value =
-        product.sku || "";
-
-    document.querySelector(
-        "#product-description"
-    ).value =
-        product.description || "";
-
-    document.querySelector(
-        "#product-price"
-    ).value =
-        product.price || "";
-
-    /*
-     * PROMOÇÃO
-     */
-    const promotion =
         document.querySelector(
-            "#product-promotion"
-        );
+            "#product-price"
+        ).value =
+            product.price ||
+            "";
 
-    const promotionalPrice =
+
+        /*
+         * DADOS DE ENVIO
+         */
+
         document.querySelector(
-            "#product-promotional-price"
-        );
+            "#product-weight"
+        ).value =
+            product.weight ||
+            "";
 
-    const promotionalField =
+
         document.querySelector(
-            "#promotional-price-field"
-        );
+            "#product-height"
+        ).value =
+            product.height ||
+            "";
 
-    promotion.checked =
-        product.promotion === true;
 
-    promotionalPrice.value =
-        product.promotionalPrice || "";
-
-    promotionalField.style.display =
-        promotion.checked
-            ? "block"
-            : "none";
-
-    /*
-     * STATUS
-     */
-    document.querySelector(
-        "#product-active"
-    ).checked =
-        product.active !== false;
-
-    document.querySelector(
-        "#product-featured"
-    ).checked =
-        product.featured === true;
-
-    document.querySelector(
-        "#product-best-seller"
-    ).checked =
-        product.bestSeller === true;
-
-    /*
-     * CLASSIFICAÇÃO
-     */
-
-    if (gender) {
-
-        gender.value =
-            menu.genderId || "";
-
-        populateCategorySelect(
-            menu.genderId || ""
-        );
-    }
-
-    if (category) {
-
-        category.value =
-            menu.categoryId || "";
-
-        populateSubcategorySelect(
-            menu.categoryId || ""
-        );
-    }
-
-    if (subcategory) {
-
-        subcategory.value =
-            menu.subcategoryId || "";
-
-        populateLeafSelect(
-            menu.subcategoryId || ""
-        );
-    }
-
-    if (leaf) {
-
-        leaf.value =
-            menu.leafId || "";
-    }
-
-    /*
-     * TAMANHOS E ESTOQUE
-     */
-    const sizesList =
         document.querySelector(
-            "#product-sizes-list"
-        );
+            "#product-width"
+        ).value =
+            product.width ||
+            "";
 
-    if (sizesList) {
 
-        sizesList.innerHTML = "";
+        document.querySelector(
+            "#product-length"
+        ).value =
+            product.length ||
+            "";
 
-        (product.sizes || [])
-            .forEach(item => {
 
-                const row =
-                    document.createElement(
-                        "div"
-                    );
+        /*
+         * PROMOÇÃO
+         */
 
-                row.className =
-                    "product-size-row";
+        const promotion =
+            document.querySelector(
+                "#product-promotion"
+            );
 
-                row.innerHTML = `
-                    <input
-                        type="text"
-                        placeholder="Tamanho"
-                        class="product-size-input"
-                        value="${item.size || ""}"
-                    >
 
-                    <input
-                        type="number"
-                        placeholder="Quantidade"
-                        class="product-stock-input"
-                        min="0"
-                        value="${Number(item.stock || 0)}"
-                    >
+        const promotionalPrice =
+            document.querySelector(
+                "#product-promotional-price"
+            );
 
-                    <button
-                        type="button"
-                        class="product-size-remove"
-                    >
-                        ×
-                    </button>
-                `;
 
-                row.querySelector(
-                    ".product-size-remove"
-                ).addEventListener(
-                    "click",
-                    () => row.remove()
+        const promotionalField =
+            document.querySelector(
+                "#promotional-price-field"
+            );
+
+
+        promotion.checked =
+            product.promotion === true;
+
+
+        promotionalPrice.value =
+            product.promotionalPrice ||
+            "";
+
+
+        promotionalField.style.display =
+            promotion.checked
+                ? "block"
+                : "none";
+
+
+        /*
+         * STATUS
+         */
+
+        document.querySelector(
+            "#product-active"
+        ).checked =
+            product.active !== false;
+
+
+        document.querySelector(
+            "#product-featured"
+        ).checked =
+            product.featured === true;
+
+
+        document.querySelector(
+            "#product-best-seller"
+        ).checked =
+            product.bestSeller === true;
+
+
+        /*
+         * CLASSIFICAÇÃO
+         */
+
+        if (gender) {
+
+            gender.value =
+                menu.genderId ||
+                "";
+
+
+            populateCategorySelect(
+                menu.genderId ||
+                ""
+            );
+
+        }
+
+
+        if (category) {
+
+            category.value =
+                menu.categoryId ||
+                "";
+
+
+            populateSubcategorySelect(
+                menu.categoryId ||
+                ""
+            );
+
+        }
+
+
+        if (subcategory) {
+
+            subcategory.value =
+                menu.subcategoryId ||
+                "";
+
+
+            populateLeafSelect(
+                menu.subcategoryId ||
+                ""
+            );
+
+        }
+
+
+        if (leaf) {
+
+            leaf.value =
+                menu.leafId ||
+                "";
+
+        }
+
+
+        /*
+         * TAMANHOS E ESTOQUE
+         */
+
+        const sizesList =
+            document.querySelector(
+                "#product-sizes-list"
+            );
+
+
+        if (sizesList) {
+
+            sizesList.innerHTML =
+                "";
+
+
+            (product.sizes || [])
+                .forEach(
+                    (item) => {
+
+                        const row =
+                            document.createElement(
+                                "div"
+                            );
+
+
+                        row.className =
+                            "product-size-row";
+
+
+                        row.innerHTML = `
+
+                            <input
+                                type="text"
+                                placeholder="Tamanho"
+                                class="product-size-input"
+                                value="${escapeHtml(
+                                    item.size ||
+                                    ""
+                                )}"
+                            >
+
+                            <input
+                                type="number"
+                                placeholder="Quantidade"
+                                class="product-stock-input"
+                                min="0"
+                                value="${Number(
+                                    item.stock ||
+                                    0
+                                )}"
+                            >
+
+                            <button
+                                type="button"
+                                class="product-size-remove"
+                            >
+                                ×
+                            </button>
+
+                        `;
+
+
+                        row.querySelector(
+                            ".product-size-remove"
+                        ).addEventListener(
+                            "click",
+                            () =>
+                                row.remove()
+                        );
+
+
+                        sizesList.appendChild(
+                            row
+                        );
+
+                    }
                 );
 
-                sizesList.appendChild(
-                    row
-                );
-            });
+        }
+
+
+        /*
+         * ABRE O MODAL POR ÚLTIMO
+         */
+
+        window.openProductModal();
+
     }
-    /* =========================================================
+);
+
+
+/* =========================================================
    EXCLUIR PRODUTO
    ========================================================= */
 
-document.addEventListener("click", async (event) => {
+document.addEventListener(
+    "click",
+    async (event) => {
 
-    const deleteButton =
-        event.target.closest(".product-delete-button");
-
-    if (!deleteButton) {
-        return;
-    }
-
-    const productId =
-        deleteButton.dataset.deleteProductId;
-
-    if (!productId) {
-        return;
-    }
-
-    const product =
-        products.find(
-            item => item.id === productId
-        );
-
-    if (!product) {
-        return;
-    }
-
-    const confirmed =
-        confirm(
-            `Tem certeza que deseja excluir o produto "${product.name || "este produto"}"?\n\nEssa ação não poderá ser desfeita.`
-        );
-
-    if (!confirmed) {
-        return;
-    }
-
-    try {
-
-        deleteButton.disabled = true;
-        deleteButton.textContent = "…";
-
-        await deleteDoc(
-            doc(
-                db,
-                "products",
-                productId
-            )
-        );
-
-        /*
-         * Remove também da lista local
-         */
-        products =
-            products.filter(
-                item => item.id !== productId
+        const deleteButton =
+            event.target.closest(
+                ".product-delete-button"
             );
 
-        /*
-         * Atualiza a tabela
-         */
-        renderProducts();
 
-        alert(
-            "Produto excluído com sucesso."
-        );
+        if (!deleteButton) {
+            return;
+        }
 
-    } catch (error) {
 
-        console.error(
-            "Erro ao excluir produto:",
-            error
-        );
+        const productId =
+            deleteButton.dataset
+                .deleteProductId;
 
-        alert(
-            "Não foi possível excluir o produto."
-        );
 
-        deleteButton.disabled = false;
-        deleteButton.textContent = "🗑️";
+        if (!productId) {
+
+            console.error(
+                "ID do produto não encontrado no botão de exclusão."
+            );
+
+            return;
+
+        }
+
+
+        const product =
+            products.find(
+                item =>
+                    item.id === productId
+            );
+
+
+        if (!product) {
+
+            alert(
+                "Produto não encontrado."
+            );
+
+            return;
+
+        }
+
+
+        const confirmed =
+            confirm(
+                `Tem certeza que deseja excluir o produto "${product.name || "este produto"}"?\n\nEssa ação não poderá ser desfeita.`
+            );
+
+
+        if (!confirmed) {
+            return;
+        }
+
+
+        try {
+
+            deleteButton.disabled =
+                true;
+
+
+            deleteButton.textContent =
+                "…";
+
+
+            await deleteDoc(
+                doc(
+                    db,
+                    "products",
+                    productId
+                )
+            );
+
+
+            products =
+                products.filter(
+                    item =>
+                        item.id !==
+                        productId
+                );
+
+
+            renderProducts();
+
+
+            if (loadingLabel) {
+
+                loadingLabel.textContent =
+                    `${products.length} produto${
+                        products.length === 1
+                            ? ""
+                            : "s"
+                    }`;
+
+            }
+
+
+            alert(
+                "Produto excluído com sucesso."
+            );
+
+
+        } catch (error) {
+
+            console.error(
+                "Erro ao excluir produto:",
+                error
+            );
+
+
+            if (
+                error?.code ===
+                "permission-denied"
+            ) {
+
+                alert(
+                    "O Firebase recusou a exclusão do produto. Precisamos liberar a exclusão nas regras do Firestore."
+                );
+
+            } else {
+
+                alert(
+                    "Não foi possível excluir o produto."
+                );
+
+            }
+
+
+            deleteButton.disabled =
+                false;
+
+
+            deleteButton.textContent =
+                "🗑️";
+
+        }
+
     }
+);
 
-});
 
-    /*
-     * ABRE O MODAL POR ÚLTIMO
-     */
-    window.openProductModal();
-
-});
 /* =========================================================
    NOVO PRODUTO
    ========================================================= */
@@ -3815,16 +4041,112 @@ if (newProductButton) {
         "click",
         () => {
 
-            // IMPORTANTE:
-            // garante que o formulário entre em modo
-            // "novo produto" e não em modo "edição".
-            editingProductId = null;
+            /*
+             * GARANTE QUE NÃO ESTÁ
+             * EDITANDO UM PRODUTO
+             */
+
+            editingProductId =
+                null;
+
 
             createProductModal();
 
-            selectedProductImages = [];
+
+            const form =
+                $("new-product-form");
+
+
+            if (form) {
+
+                form.reset();
+
+            }
+
+
+            selectedProductImages =
+                [];
+
 
             renderPhotoPreview();
+
+
+            const promotionField =
+                $(
+                    "promotional-price-field"
+                );
+
+
+            if (promotionField) {
+
+                promotionField.style.display =
+                    "none";
+
+            }
+
+
+            const sizesList =
+                $(
+                    "product-sizes-list"
+                );
+
+
+            if (sizesList) {
+
+                sizesList.innerHTML = `
+
+                    <div class="product-size-row">
+
+                        <input
+                            type="text"
+                            placeholder="Tamanho"
+                            class="product-size-input"
+                        >
+
+                        <input
+                            type="number"
+                            placeholder="Quantidade"
+                            class="product-stock-input"
+                            min="0"
+                        >
+
+                        <button
+                            type="button"
+                            class="product-size-remove"
+                        >
+                            ×
+                        </button>
+
+                    </div>
+
+                `;
+
+
+                const removeButton =
+                    sizesList.querySelector(
+                        ".product-size-remove"
+                    );
+
+
+                if (removeButton) {
+
+                    removeButton.addEventListener(
+                        "click",
+                        () => {
+
+                            removeButton
+                                .closest(
+                                    ".product-size-row"
+                                )
+                                ?.remove();
+
+                        }
+                    );
+
+                }
+
+            }
+
 
             window.openProductModal();
 
