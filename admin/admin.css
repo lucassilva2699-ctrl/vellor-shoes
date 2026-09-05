@@ -1828,6 +1828,39 @@ body {
     cursor: pointer;
     transition: background .2s, color .2s, border-color .2s;
 }
+/* =========================================================
+   AÇÕES DO PRODUTO
+   ========================================================= */
+
+.product-actions {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.product-delete-button {
+    width: 34px;
+    height: 34px;
+    border: 1px solid #3a2529;
+    border-radius: 8px;
+    background: #17191e;
+    color: #ff6b6b;
+    font-size: 16px;
+    line-height: 1;
+    cursor: pointer;
+    transition:
+        background .2s,
+        color .2s,
+        border-color .2s,
+        transform .2s;
+}
+
+.product-delete-button:hover {
+    background: rgba(220, 53, 69, .12);
+    border-color: #d94b58;
+    color: #ff8585;
+    transform: translateY(-1px);
+}
 
 
 .product-more-button:hover {
